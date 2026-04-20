@@ -3,12 +3,14 @@ import 'session_exercise.dart';
 class WorkoutSession {
   const WorkoutSession({
     required this.id,
+    required this.title,
     required this.startedAt,
     required this.endedAt,
     required this.exercises,
   });
 
   final String id;
+  final String title;
   final DateTime startedAt;
   final DateTime? endedAt;
   final List<SessionExercise> exercises;
@@ -25,13 +27,20 @@ class WorkoutSession {
         (total, exercise) => total + exercise.totalVolume,
       );
 
+  Duration get duration {
+    final end = endedAt ?? DateTime.now().toUtc();
+    return end.difference(startedAt);
+  }
+
   WorkoutSession copyWith({
+    String? title,
     DateTime? endedAt,
     bool keepEndedAt = true,
     List<SessionExercise>? exercises,
   }) {
     return WorkoutSession(
       id: id,
+      title: title ?? this.title,
       startedAt: startedAt,
       endedAt: keepEndedAt ? endedAt ?? this.endedAt : null,
       exercises: exercises ?? this.exercises,
@@ -41,6 +50,7 @@ class WorkoutSession {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'title': title,
       'startedAt': startedAt.toIso8601String(),
       'endedAt': endedAt?.toIso8601String(),
       'exercises': exercises
@@ -53,6 +63,7 @@ class WorkoutSession {
     final rawExercises = map['exercises'] as List<dynamic>? ?? const [];
     return WorkoutSession(
       id: map['id'] as String,
+      title: map['title'] as String? ?? 'Entrenamiento',
       startedAt: DateTime.parse(map['startedAt'] as String),
       endedAt: map['endedAt'] == null
           ? null

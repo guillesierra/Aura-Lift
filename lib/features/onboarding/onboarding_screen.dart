@@ -29,12 +29,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   bool _isSubmitting = false;
 
   @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_refreshFormState);
+    _heightController.addListener(_refreshFormState);
+    _weightController.addListener(_refreshFormState);
+  }
+
+  @override
   void dispose() {
+    _nameController.removeListener(_refreshFormState);
+    _heightController.removeListener(_refreshFormState);
+    _weightController.removeListener(_refreshFormState);
     _pageController.dispose();
     _nameController.dispose();
     _heightController.dispose();
     _weightController.dispose();
     super.dispose();
+  }
+
+  void _refreshFormState() {
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
   }
 
   bool get _canContinue {
@@ -176,11 +194,6 @@ class _ProgressHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Semana 1',
-          style: theme.textTheme.bodyMedium,
-        ),
-        const SizedBox(height: 8),
         Text(
           'Configura tu base',
           style: theme.textTheme.displayLarge,
@@ -356,7 +369,7 @@ class _BodyTypeTile extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
       onTap: onTap,
-      child: AnimatedContainer(
+        child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
@@ -371,10 +384,22 @@ class _BodyTypeTile extends StatelessWidget {
           ),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Text(type.title, style: theme.textTheme.titleMedium),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(type.title, style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 6),
+                  Text(
+                    type.description,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(width: 12),
             Icon(
               isSelected ? Icons.check_circle : Icons.circle_outlined,
               color: isSelected

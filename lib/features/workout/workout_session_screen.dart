@@ -58,9 +58,16 @@ class WorkoutSessionScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
                       child: _WorkoutHeader(
+                        title: active.title,
                         startedAt: active.startedAt,
                         totalExercises: active.exercises.length,
                         totalSets: active.totalSets,
+                        onRename: (title) {
+                          return appState.renameWorkoutSession(
+                            sessionId: active.id,
+                            title: title,
+                          );
+                        },
                         onBack: () => Navigator.of(context).pop(),
                         onFinish: () async {
                           await appState.finishActiveWorkoutSession();
@@ -117,6 +124,35 @@ class WorkoutSessionScreen extends StatelessWidget {
                               },
                             );
                           },
+                          onDeleteExercise: () async {
+                            final confirmed = await _confirmDelete(
+                              context,
+                              title: 'Eliminar ejercicio',
+                              message:
+                                  'Se borrara "${
+                                      exercise.exerciseName
+                                    }" y todas sus series registradas en esta sesion.',
+                            );
+                            if (confirmed == true) {
+                              await appState.deleteExerciseFromActiveSession(
+                                exercise.id,
+                              );
+                            }
+                          },
+                          onDeleteSet: (setId) async {
+                            final confirmed = await _confirmDelete(
+                              context,
+                              title: 'Eliminar serie',
+                              message:
+                                  'Se borrara esta serie del ejercicio "${exercise.exerciseName}".',
+                            );
+                            if (confirmed == true) {
+                              await appState.deleteSetFromExercise(
+                                sessionExerciseId: exercise.id,
+                                setId: setId,
+                              );
+                            }
+                          },
                         );
                       },
                       separatorBuilder: (context, index) =>
@@ -147,16 +183,20 @@ class WorkoutSessionScreen extends StatelessWidget {
 
 class _WorkoutHeader extends StatelessWidget {
   const _WorkoutHeader({
+    required this.title,
     required this.startedAt,
     required this.totalExercises,
     required this.totalSets,
+    required this.onRename,
     required this.onBack,
     required this.onFinish,
   });
 
+  final String title;
   final DateTime startedAt;
   final int totalExercises;
   final int totalSets;
+  final Future<void> Function(String title) onRename;
   final VoidCallback onBack;
   final Future<void> Function() onFinish;
 
@@ -174,9 +214,32 @@ class _WorkoutHeader extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new),
               ),
               Expanded(
-                child: Text(
-                  'Sesion en curso',
-                  style: theme.textTheme.headlineMedium,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 2),
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: const Size(0, 28),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        alignment: Alignment.centerLeft,
+                      ),
+                      onPressed: () async {
+                        await _showRenameWorkoutDialog(
+                          context,
+                          initialTitle: title,
+                          onSave: onRename,
+                        );
+                      },
+                      icon: const Icon(Icons.edit_outlined, size: 16),
+                      label: const Text('Editar nombre'),
+                    ),
+                  ],
                 ),
               ),
               TextButton(
@@ -222,6 +285,45 @@ class _WorkoutHeader extends StatelessWidget {
   }
 }
 
+Future<void> _showRenameWorkoutDialog(
+  BuildContext context, {
+  required String initialTitle,
+  required Future<void> Function(String title) onSave,
+}) async {
+  final controller = TextEditingController(text: initialTitle);
+
+  await showDialog<void>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Nombre del entrenamiento'),
+        content: TextField(
+          controller: controller,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: const InputDecoration(
+            labelText: 'Titulo',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () async {
+              await onSave(controller.text);
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text('Guardar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class _HeaderMetric extends StatelessWidget {
   const _HeaderMetric({
     required this.label,
@@ -257,11 +359,15 @@ class _SessionExerciseCard extends StatelessWidget {
     required this.exercise,
     required this.lastSnapshot,
     required this.onAddSet,
+    required this.onDeleteExercise,
+    required this.onDeleteSet,
   });
 
   final SessionExercise exercise;
   final ExerciseHistorySnapshot? lastSnapshot;
   final Future<void> Function() onAddSet;
+  final Future<void> Function() onDeleteExercise;
+  final Future<void> Function(String setId) onDeleteSet;
 
   @override
   Widget build(BuildContext context) {
@@ -288,6 +394,13 @@ class _SessionExerciseCard extends StatelessWidget {
                   ],
                 ),
               ),
+              IconButton(
+                tooltip: 'Eliminar ejercicio',
+                onPressed: () async {
+                  await onDeleteExercise();
+                },
+                icon: const Icon(Icons.delete_outline),
+              ),
               FilledButton.tonalIcon(
                 onPressed: onAddSet,
                 icon: const Icon(Icons.add),
@@ -308,9 +421,11 @@ class _SessionExerciseCard extends StatelessWidget {
               (entry) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: _SetRow(
+                  setId: entry.value.id,
                   index: entry.key + 1,
                   reps: entry.value.reps,
                   weightKg: entry.value.weightKg,
+                  onDelete: onDeleteSet,
                 ),
               ),
             ),
@@ -369,14 +484,18 @@ class _LastTimeStrip extends StatelessWidget {
 
 class _SetRow extends StatelessWidget {
   const _SetRow({
+    required this.setId,
     required this.index,
     required this.reps,
     required this.weightKg,
+    required this.onDelete,
   });
 
+  final String setId;
   final int index;
   final int reps;
   final double weightKg;
+  final Future<void> Function(String setId) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -398,10 +517,48 @@ class _SetRow extends StatelessWidget {
           Text('$reps reps', style: theme.textTheme.bodyLarge),
           const SizedBox(width: 16),
           Text('$weight kg', style: theme.textTheme.bodyLarge),
+          const SizedBox(width: 8),
+          IconButton(
+            tooltip: 'Eliminar serie',
+            visualDensity: VisualDensity.compact,
+            onPressed: () async {
+              await onDelete(setId);
+            },
+            icon: Icon(
+              Icons.close,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+Future<bool?> _confirmDelete(
+  BuildContext context, {
+  required String title,
+  required String message,
+}) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Eliminar'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 Future<void> _showAddSetDialog(

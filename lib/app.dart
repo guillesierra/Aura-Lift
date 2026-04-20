@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'core/design_system/app_theme.dart';
 import 'core/repositories/local_exercise_repository.dart';
 import 'core/repositories/local_profile_repository.dart';
+import 'core/repositories/local_settings_repository.dart';
 import 'core/repositories/local_workout_repository.dart';
 import 'core/state/app_state.dart';
-import 'features/home/home_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
+import 'features/shell/main_shell.dart';
 
 class AuraLiftApp extends StatefulWidget {
   const AuraLiftApp({super.key});
@@ -25,6 +26,7 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
       profileRepository: LocalProfileRepository(),
       exerciseRepository: LocalExerciseRepository(),
       workoutRepository: LocalWorkoutRepository(),
+      settingsRepository: LocalSettingsRepository(),
     );
     _appState.bootstrap();
   }
@@ -44,7 +46,7 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Aura Lift',
-            themeMode: ThemeMode.system,
+            themeMode: _appState.themeMode,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             home: const _BootstrapScreen(),
@@ -54,7 +56,7 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Aura Lift',
-          themeMode: ThemeMode.system,
+          themeMode: _appState.themeMode,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           home: AnimatedSwitcher(
@@ -76,7 +78,7 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
                     key: const ValueKey('onboarding'),
                     onCompleted: _appState.completeOnboarding,
                   )
-                : HomeScreen(
+                : MainShell(
                     key: const ValueKey('home'),
                     appState: _appState,
                   ),
