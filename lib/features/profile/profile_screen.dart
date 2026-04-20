@@ -4,7 +4,10 @@ import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/models/body_type.dart';
 import '../../core/state/app_state.dart';
+import '../progress/exercise_progress_list_screen.dart';
+import 'measurements_screen.dart';
 import '../home/home_screen.dart';
+import '../workout/workout_summary_detail_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({
@@ -84,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                                   Expanded(
                                     child: _TopStat(
                                       label: strings.volume,
-                                      value: '${totalVolume.toStringAsFixed(0)}',
+                                      value: totalVolume.toStringAsFixed(0),
                                     ),
                                   ),
                                   Expanded(
@@ -114,14 +117,41 @@ class ProfileScreen extends StatelessWidget {
                         _ActionTile(
                           title: strings.stats,
                           icon: Icons.insights_outlined,
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => ExerciseProgressListScreen(
+                                  appState: appState,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         _ActionTile(
                           title: strings.exercises,
                           icon: Icons.fitness_center_outlined,
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => ExerciseProgressListScreen(
+                                  appState: appState,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         _ActionTile(
                           title: strings.measurements,
                           icon: Icons.accessibility_new_outlined,
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => MeasurementsScreen(
+                                  profile: profile,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         _ActionTile(
                           title: strings.calendar,
@@ -146,10 +176,25 @@ class ProfileScreen extends StatelessWidget {
                             authorName: profile.name,
                             authorHandle: profile.name.toLowerCase(),
                             highlightColor: theme.colorScheme.primary,
+                            onTap: () async {
+                              await Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) => WorkoutSummaryDetailScreen(
+                                    session: session,
+                                    authorName: profile.name,
+                                  ),
+                                ),
+                              );
+                            },
                             onRename: (title) {
                               return appState.renameWorkoutSession(
                                 sessionId: session.id,
                                 title: title,
+                              );
+                            },
+                            onDelete: () {
+                              return appState.deleteWorkoutSession(
+                                session.id,
                               );
                             },
                           ),
@@ -193,28 +238,34 @@ class _ActionTile extends StatelessWidget {
   const _ActionTile({
     required this.title,
     required this.icon,
+    this.onTap,
   });
 
   final String title;
   final IconData icon;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.colorScheme.outline),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: theme.colorScheme.primary),
-          const Spacer(),
-          Text(title, style: theme.textTheme.titleMedium),
-        ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: theme.colorScheme.outline),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: theme.colorScheme.primary),
+            const Spacer(),
+            Text(title, style: theme.textTheme.titleMedium),
+          ],
+        ),
       ),
     );
   }

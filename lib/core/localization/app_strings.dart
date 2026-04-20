@@ -75,6 +75,150 @@ class AppStrings {
   String get spanish => isEnglish ? 'Spanish' : 'Espanol';
   String get english => isEnglish ? 'English' : 'Ingles';
   String get close => isEnglish ? 'Close' : 'Cerrar';
+  String get time => isEnglish ? 'Time' : 'Tiempo';
+  String get sets => isEnglish ? 'Sets' : 'Series';
+  String get heartRateShort => isEnglish ? 'HR' : 'FC';
+  String get rename => isEnglish ? 'Rename' : 'Renombrar';
+  String get deleteWorkout => isEnglish
+      ? 'Delete workout'
+      : 'Eliminar entrenamiento';
+  String get renameWorkout => isEnglish
+      ? 'Rename workout'
+      : 'Renombrar entrenamiento';
+  String get title => 'Titulo';
+  String get cancel => isEnglish ? 'Cancel' : 'Cancelar';
+  String get save => isEnglish ? 'Save' : 'Guardar';
+  String deleteWorkoutMessage(String title) => isEnglish
+      ? '"$title" will be removed from history. This action cannot be undone.'
+      : 'Se eliminara "$title" del historial. Esta accion no se puede deshacer.';
+  String get saveChanges => isEnglish ? 'Save changes' : 'Guardar cambios';
+  String get socialDemo => isEnglish ? 'Friends · demo' : 'Amigos · demo';
+  String get socialDemoSubtitle => isEnglish ? 'Social demo' : 'Demo social';
+  String get workoutSessionEmptyTitle => isEnglish
+      ? 'There is no active session'
+      : 'No hay una sesion activa';
+  String get workoutSessionEmptyCopy => isEnglish
+      ? 'Go back home and create a new workout.'
+      : 'Vuelve a inicio y crea un entreno nuevo.';
+  String get startWithExercise => isEnglish
+      ? 'Start with one exercise'
+      : 'Empieza por un ejercicio';
+  String get startWithExerciseCopy => isEnglish
+      ? 'Add exercises from the catalog and log your sets with weight and reps.'
+      : 'Anade ejercicios desde el catalogo y registra tus series con peso y repeticiones.';
+  String get addExercise => isEnglish ? 'Add exercise' : 'Anadir ejercicio';
+  String get heartRate => isEnglish ? 'Heart rate' : 'Frecuencia cardiaca';
+  String get noHeartRateSamplesYet => isEnglish
+      ? 'No samples yet'
+      : 'Sin muestras todavia';
+  String selectedExerciseForHeartRate(String exerciseName) => isEnglish
+      ? 'Samples linked to $exerciseName'
+      : 'Muestras vinculadas a $exerciseName';
+  String heartRateBaseline(int baseline, int threshold) => isEnglish
+      ? 'Baseline $baseline bpm · back-to-work cue at $threshold bpm'
+      : 'Base $baseline lpm · aviso de vuelta $threshold lpm';
+  String get recentSamples => isEnglish ? 'Recent samples' : 'Muestras recientes';
+  String get editName => isEnglish ? 'Edit name' : 'Editar nombre';
+  String get finish => isEnglish ? 'Finish' : 'Finalizar';
+  String workoutStartTime(String time) =>
+      isEnglish ? 'Start $time' : 'Inicio $time';
+  String get workoutName => isEnglish
+      ? 'Workout name'
+      : 'Nombre del entrenamiento';
+  String get selectedExerciseForHeartRateBadge => isEnglish
+      ? 'Selected exercise for HR'
+      : 'Ejercicio seleccionado para FC';
+  String get deleteExercise => isEnglish
+      ? 'Delete exercise'
+      : 'Eliminar ejercicio';
+  String get set => isEnglish ? 'Set' : 'Serie';
+  String get noSetsYet => isEnglish
+      ? 'No sets logged yet.'
+      : 'Sin series registradas todavia.';
+  String get noHistoryForExercise => isEnglish
+      ? 'No history'
+      : 'Sin historial';
+  String get lastTime => isEnglish ? 'Last time' : 'Ultima vez';
+  String get noRecordsForExercise => isEnglish
+      ? 'This exercise has no records yet.'
+      : 'Este ejercicio aun no tiene registros.';
+  String setLabel(int index) => isEnglish ? 'Set $index' : 'Serie $index';
+  String repsLabel(int reps) => isEnglish ? '$reps reps' : '$reps reps';
+  String get deleteSet => isEnglish ? 'Delete set' : 'Eliminar serie';
+  String get delete => isEnglish ? 'Delete' : 'Eliminar';
+  String get logSet => isEnglish ? 'Log set' : 'Registrar serie';
+  String get reps => isEnglish ? 'Reps' : 'Repeticiones';
+  String get weightKgLabel => isEnglish ? 'Weight (kg)' : 'Peso (kg)';
+  String get pickExercise => isEnglish ? 'Add exercise' : 'Anadir ejercicio';
+  String get pickExerciseCopy => isEnglish
+      ? 'Pick one from the catalog or create a new one for this session.'
+      : 'Selecciona del catalogo o crea uno nuevo para esta sesion.';
+  String get searchExercise => isEnglish ? 'Search exercise' : 'Buscar ejercicio';
+  String get noExerciseMatches => isEnglish
+      ? 'No exercises match that name.'
+      : 'No hay ejercicios con ese nombre.';
+  String get customExercise => isEnglish
+      ? 'Custom exercise'
+      : 'Ejercicio personalizado';
+  String get exerciseName => isEnglish
+      ? 'Exercise name'
+      : 'Nombre del ejercicio';
+  String get muscleGroup => isEnglish ? 'Muscle group' : 'Grupo muscular';
+  String get createExercise => isEnglish ? 'Create exercise' : 'Crear ejercicio';
+  String get measurementsTitle => isEnglish ? 'Measurements' : 'Medidas';
+  String get exerciseProgress => isEnglish
+      ? 'Exercise progress'
+      : 'Progreso por ejercicio';
+  String exerciseHistoryCount(int count) => isEnglish
+      ? '$count exercises with tracked history.'
+      : '$count ejercicios con historico registrado.';
+  String get notEnoughExerciseHistory => isEnglish
+      ? 'There is not enough history yet.'
+      : 'Todavia no hay historico suficiente.';
+  String get progressEmptyCopy => isEnglish
+      ? 'Finish workouts and save sets to see progress here.'
+      : 'Finaliza entrenamientos y guarda series para ver progreso aqui.';
+  String get summary => isEnglish ? 'Summary' : 'Resumen';
+  String get sessions => isEnglish ? 'Sessions' : 'Sesiones';
+  String get bestWeight => isEnglish ? 'Best weight' : 'Mejor peso';
+  String get totalVolume => isEnglish ? 'Total volume' : 'Volumen total';
+  String get latestVolume => isEnglish ? 'Latest volume' : 'Ultimo volumen';
+  String get volumeEvolution => isEnglish
+      ? 'Volume evolution'
+      : 'Evolucion de volumen';
+  String get latestSessions => isEnglish
+      ? 'Latest sessions'
+      : 'Ultimas sesiones';
+  String get noDataForExercise => isEnglish
+      ? 'No data for this exercise.'
+      : 'Sin datos para este ejercicio.';
+  String get exercisesLabelShort => isEnglish ? 'Exercises' : 'Ejercicios';
+  String get average => isEnglish ? 'Average' : 'Media';
+  String get maximum => isEnglish ? 'Maximum' : 'Maxima';
+  String heartRateSampleCount(int count) => isEnglish
+      ? '$count samples recorded during this session.'
+      : '$count muestras registradas durante la sesion.';
+  String get noHeartRateSamplesInWorkout => isEnglish
+      ? 'There are no heart rate samples in this workout.'
+      : 'No hay muestras de frecuencia cardiaca en este entrenamiento.';
+  String get maxWeightShort => isEnglish ? 'Max weight' : 'Peso max.';
+  String get averageHeartRateLabel => isEnglish ? 'Avg. HR' : 'FC media';
+  String get maxHeartRateLabel => isEnglish ? 'Max. HR' : 'FC max.';
+  String get samples => isEnglish ? 'Samples' : 'Muestras';
+  String exerciseSetDetail(int index, int reps, String weight) => isEnglish
+      ? 'Set $index · $reps reps · $weight kg'
+      : 'Serie $index · $reps reps · $weight kg';
+  String get name => isEnglish ? 'Name' : 'Nombre';
+  String get deleteExerciseTitle => isEnglish
+      ? 'Delete exercise'
+      : 'Eliminar ejercicio';
+  String deleteExerciseMessage(String name) => isEnglish
+      ? '"$name" and all its logged sets in this session will be removed.'
+      : 'Se borrara "$name" y todas sus series registradas en esta sesion.';
+  String get deleteSetTitle => isEnglish ? 'Delete set' : 'Eliminar serie';
+  String deleteSetMessage(String name) => isEnglish
+      ? 'This set from "$name" will be removed.'
+      : 'Se borrara esta serie del ejercicio "$name".';
 }
 
 extension ThemeModeLabel on ThemeMode {

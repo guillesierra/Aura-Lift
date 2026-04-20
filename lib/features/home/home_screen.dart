@@ -7,6 +7,7 @@ import '../../core/localization/app_strings.dart';
 import '../../core/models/body_type.dart';
 import '../../core/models/workout_session.dart';
 import '../../core/state/app_state.dart';
+import '../workout/workout_summary_detail_screen.dart';
 import '../workout/workout_session_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -164,19 +165,34 @@ class HomeScreen extends StatelessWidget {
                                 authorName: profile.name,
                                 authorHandle: profile.name.toLowerCase(),
                                 highlightColor: theme.colorScheme.primary,
+                                onTap: () async {
+                                  await Navigator.of(context).push(
+                                    MaterialPageRoute<void>(
+                                      builder: (_) => WorkoutSummaryDetailScreen(
+                                        session: session,
+                                        authorName: profile.name,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 onRename: (title) {
                                   return appState.renameWorkoutSession(
                                     sessionId: session.id,
                                     title: title,
                                   );
                                 },
+                                onDelete: () {
+                                  return appState.deleteWorkoutSession(
+                                    session.id,
+                                  );
+                                },
                               ),
                             ),
                           ),
                     const SizedBox(height: 10),
-                    Text('Amigos · demo', style: theme.textTheme.titleLarge),
+                    Text(strings.socialDemo, style: theme.textTheme.titleLarge),
                     const SizedBox(height: 14),
-                    ..._buildDemoFriendCards(theme).map(
+                    ..._buildDemoFriendCards(theme, strings).map(
                       (card) => Padding(
                         padding: const EdgeInsets.only(bottom: 14),
                         child: card,
@@ -201,6 +217,8 @@ class WorkoutSummaryCard extends StatelessWidget {
     required this.authorHandle,
     required this.highlightColor,
     this.onRename,
+    this.onDelete,
+    this.onTap,
   });
 
   final WorkoutSession session;
@@ -208,19 +226,26 @@ class WorkoutSummaryCard extends StatelessWidget {
   final String authorHandle;
   final Color highlightColor;
   final Future<void> Function(String title)? onRename;
+  final Future<void> Function()? onDelete;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
     final local = session.startedAt.toLocal();
     final date =
         '${local.day.toString().padLeft(2, '0')}/${local.month.toString().padLeft(2, '0')}/${local.year}';
     final durationMinutes = session.duration.inMinutes;
     final volume = session.totalVolume.toStringAsFixed(0);
+    final averageHeartRate = session.averageHeartRate;
 
-    return AuraCard(
-      padding: const EdgeInsets.all(22),
-      child: Column(
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(28),
+      child: AuraCard(
+        padding: const EdgeInsets.all(22),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -252,12 +277,27 @@ class WorkoutSummaryCard extends StatelessWidget {
                       initialTitle: session.title,
                       onSave: onRename!,
                     );
+                    return;
+                  }
+
+                  if (value == 'delete' && onDelete != null) {
+                    final confirmed = await _showDeleteSummaryDialog(
+                      context,
+                      title: session.title,
+                    );
+                    if (confirmed == true) {
+                      await onDelete!();
+                    }
                   }
                 },
-                itemBuilder: (context) => const [
+                itemBuilder: (context) => [
                   PopupMenuItem<String>(
                     value: 'rename',
-                    child: Text('Renombrar'),
+                    child: Text(strings.rename),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Text(strings.deleteWorkout),
                   ),
                 ],
               ),
@@ -273,20 +313,28 @@ class WorkoutSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _WorkoutMetric(
-                  label: 'Tiempo',
+                  label: strings.time,
                   value: '${durationMinutes}min',
                 ),
               ),
               Expanded(
                 child: _WorkoutMetric(
-                  label: 'Volumen',
+                  label: strings.volume,
                   value: '$volume kg',
                 ),
               ),
               Expanded(
                 child: _WorkoutMetric(
-                  label: 'Series',
+                  label: strings.sets,
                   value: '${session.totalSets}',
+                ),
+              ),
+              Expanded(
+                child: _WorkoutMetric(
+                  label: strings.heartRateShort,
+                  value: averageHeartRate == null ? '--' : '$averageHeartRate',
+                  trailingIcon: Icons.favorite,
+                  trailingColor: Colors.red,
                 ),
               ),
             ],
@@ -297,13 +345,14 @@ class WorkoutSummaryCard extends StatelessWidget {
               (exercise) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  '${exercise.sets.length} series · ${exercise.exerciseName}',
+                  '${exercise.sets.length} ${strings.sets.toLowerCase()} · ${exercise.exerciseName}',
                   style: theme.textTheme.bodyLarge,
                 ),
               ),
             ),
           ],
         ],
+        ),
       ),
     );
   }
@@ -313,10 +362,14 @@ class _WorkoutMetric extends StatelessWidget {
   const _WorkoutMetric({
     required this.label,
     required this.value,
+    this.trailingIcon,
+    this.trailingColor,
   });
 
   final String label;
   final String value;
+  final IconData? trailingIcon;
+  final Color? trailingColor;
 
   @override
   Widget build(BuildContext context) {
@@ -326,13 +379,26 @@ class _WorkoutMetric extends StatelessWidget {
       children: [
         Text(label, style: theme.textTheme.bodyMedium),
         const SizedBox(height: 6),
-        Text(value, style: theme.textTheme.titleMedium),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(value, style: theme.textTheme.titleMedium),
+            if (trailingIcon != null) ...[
+              const SizedBox(width: 4),
+              Icon(
+                trailingIcon,
+                size: 16,
+                color: trailingColor ?? theme.colorScheme.primary,
+              ),
+            ],
+          ],
+        ),
       ],
     );
   }
 }
 
-List<Widget> _buildDemoFriendCards(ThemeData theme) {
+List<Widget> _buildDemoFriendCards(ThemeData theme, AppStrings strings) {
   return [
     AuraCard(
       padding: const EdgeInsets.all(22),
@@ -353,7 +419,7 @@ List<Widget> _buildDemoFriendCards(ThemeData theme) {
                   children: [
                     Text('albitadinamita', style: theme.textTheme.titleMedium),
                     const SizedBox(height: 2),
-                    Text('Demo social', style: theme.textTheme.bodyMedium),
+                    Text(strings.socialDemoSubtitle, style: theme.textTheme.bodyMedium),
                   ],
                 ),
               ),
@@ -363,10 +429,18 @@ List<Widget> _buildDemoFriendCards(ThemeData theme) {
           Text('Biceps + pecho + hombro', style: theme.textTheme.headlineMedium),
           const SizedBox(height: 18),
           Row(
-            children: const [
-              Expanded(child: _WorkoutMetric(label: 'Tiempo', value: '53min')),
-              Expanded(child: _WorkoutMetric(label: 'Volumen', value: '4230 kg')),
-              Expanded(child: _WorkoutMetric(label: 'Series', value: '12')),
+            children: [
+              Expanded(child: _WorkoutMetric(label: strings.time, value: '53min')),
+              Expanded(child: _WorkoutMetric(label: strings.volume, value: '4230 kg')),
+              Expanded(child: _WorkoutMetric(label: strings.sets, value: '12')),
+              Expanded(
+                child: _WorkoutMetric(
+                  label: strings.heartRateShort,
+                  value: '133',
+                  trailingIcon: Icons.favorite,
+                  trailingColor: Colors.red,
+                ),
+              ),
             ],
           ),
         ],
@@ -381,19 +455,20 @@ Future<void> _showRenameSummaryDialog(
   required Future<void> Function(String title) onSave,
 }) async {
   final controller = TextEditingController(text: initialTitle);
+  final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
   await showDialog<void>(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Renombrar entrenamiento'),
+        title: Text(strings.renameWorkout),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(labelText: 'Titulo'),
+          decoration: InputDecoration(labelText: strings.title),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text(strings.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -402,7 +477,33 @@ Future<void> _showRenameSummaryDialog(
                 Navigator.of(context).pop();
               }
             },
-            child: const Text('Guardar'),
+            child: Text(strings.save),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<bool?> _showDeleteSummaryDialog(
+  BuildContext context, {
+  required String title,
+}) {
+  final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(strings.deleteWorkout),
+        content: Text(strings.deleteWorkoutMessage(title)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(strings.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(strings.delete),
           ),
         ],
       );
@@ -445,7 +546,7 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                   const SizedBox(height: 12),
                   TextField(
                     controller: nameController,
-                    decoration: const InputDecoration(labelText: 'Nombre'),
+                    decoration: InputDecoration(labelText: strings.name),
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -456,7 +557,7 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(labelText: 'Altura'),
+                          decoration: InputDecoration(labelText: strings.height),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -466,14 +567,14 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(labelText: 'Peso'),
+                          decoration: InputDecoration(labelText: strings.weight),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<BodyType>(
-                    value: selectedBodyType,
+                    initialValue: selectedBodyType,
                     items: BodyType.values
                         .map(
                           (item) => DropdownMenuItem(
@@ -488,7 +589,7 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                       }
                       setModalState(() => selectedBodyType = value);
                     },
-                    decoration: const InputDecoration(labelText: 'Tipo de cuerpo'),
+                    decoration: InputDecoration(labelText: strings.bodyType),
                   ),
                   const SizedBox(height: 20),
                   Text(strings.appearance, style: theme.textTheme.titleLarge),
@@ -529,7 +630,7 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                   ),
                   const SizedBox(height: 20),
                   PrimaryButton(
-                    label: 'Guardar cambios',
+                    label: strings.saveChanges,
                     onPressed: () async {
                       final height = double.tryParse(heightController.text);
                       final weight = double.tryParse(weightController.text);

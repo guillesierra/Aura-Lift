@@ -5,10 +5,14 @@ class AuraCard extends StatelessWidget {
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(24),
+    this.borderColor,
+    this.borderWidth = 1,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
+  final Color? borderColor;
+  final double borderWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,10 @@ class AuraCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: theme.colorScheme.outline),
+        border: Border.all(
+          color: borderColor ?? theme.colorScheme.outline,
+          width: borderWidth,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),

@@ -1,15 +1,31 @@
 # Semana 1 Flutter
 
-## Alcance implementado
-- Arquitectura modular en `lib/core` y `lib/features`.
-- Tema claro y oscuro con una direccion visual sobria y premium.
-- Onboarding de perfil con tres pasos.
-- Persistencia local de perfil y catalogo.
-- Seed inicial de 100 ejercicios.
-- Semana 2 iniciada: sesiones, ejercicios activos, series y referencia de ultima vez.
+## Base implementada
 
-## Pendiente de validacion local
-- Generar plataforma `android/`, `ios/`, `macos/` con `flutter create .` si todavia no existen.
-- Ejecutar `flutter pub get`.
-- Ejecutar `flutter analyze`.
-- Ejecutar `flutter run`.
+- arquitectura modular en `lib/core` y `lib/features`
+- tema claro y oscuro
+- onboarding de perfil con nombre, altura, peso y tipo de cuerpo
+- persistencia local de perfil, ejercicios, entrenamientos y ajustes
+- catalogo seed de ejercicios
+
+## Evolucion posterior ya integrada
+
+El proyecto ya no esta en una base de Semana 1 pura. Sobre esta estructura se han implementado ademas:
+
+- sesiones de entrenamiento y series
+- historial de entrenamientos
+- renombrado y borrado de entrenamientos
+- progreso por ejercicio
+- detalle de entrenamiento
+- frecuencia cardiaca por sesion y por ejercicio
+- seleccion explicita de ejercicio para asociar nuevas muestras de FC
+- coaching por audio basado en FC
+
+## Validacion recomendada
+
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run
+```

@@ -1,14 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../../core/audio/voice_coach.dart';
 import '../../core/design_system/widgets/aura_card.dart';
 import '../../core/design_system/widgets/primary_button.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
-import '../../core/models/exercise.dart';
+import '../../core/localization/app_strings.dart';
 import '../../core/models/exercise_history_snapshot.dart';
+import '../../core/models/heart_rate_coach_cue.dart';
+import '../../core/models/heart_rate_status.dart';
 import '../../core/models/session_exercise.dart';
 import '../../core/state/app_state.dart';
 
-class WorkoutSessionScreen extends StatelessWidget {
+class WorkoutSessionScreen extends StatefulWidget {
   const WorkoutSessionScreen({
     super.key,
     required this.appState,
@@ -17,9 +22,52 @@ class WorkoutSessionScreen extends StatelessWidget {
   final AppState appState;
 
   @override
+  State<WorkoutSessionScreen> createState() => _WorkoutSessionScreenState();
+}
+
+class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
+  late final VoiceCoach _voiceCoach;
+
+  @override
+  void initState() {
+    super.initState();
+    _voiceCoach = VoiceCoach();
+    widget.appState.addListener(_handleAppStateChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant WorkoutSessionScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.appState == widget.appState) {
+      return;
+    }
+
+    oldWidget.appState.removeListener(_handleAppStateChanged);
+    widget.appState.addListener(_handleAppStateChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.appState.removeListener(_handleAppStateChanged);
+    unawaited(_voiceCoach.dispose());
+    super.dispose();
+  }
+
+  void _handleAppStateChanged() {
+    final cue = widget.appState.consumePendingHeartRateCoachCue();
+    if (cue == null) {
+      return;
+    }
+
+    unawaited(_voiceCoach.speak(cue.audioMessage));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final appState = widget.appState;
     final session = appState.activeSession;
     final theme = Theme.of(context);
+    final strings = AppStrings.of(appState.languageCode);
 
     return Scaffold(
       body: TintedBackground(
@@ -37,12 +85,12 @@ class WorkoutSessionScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'No hay una sesion activa',
+                            strings.workoutSessionEmptyTitle,
                             style: theme.textTheme.headlineMedium,
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'Vuelve a inicio y crea un entreno nuevo.',
+                            strings.workoutSessionEmptyCopy,
                             style: theme.textTheme.bodyMedium,
                           ),
                         ],
@@ -71,11 +119,18 @@ class WorkoutSessionScreen extends StatelessWidget {
                         onBack: () => Navigator.of(context).pop(),
                         onFinish: () async {
                           await appState.finishActiveWorkoutSession();
+                          unawaited(_voiceCoach.stop());
                           if (context.mounted) {
                             Navigator.of(context).pop();
                           }
                         },
                       ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                      child: _HeartRatePanel(appState: appState),
                     ),
                   ),
                   if (active.exercises.isEmpty)
@@ -87,12 +142,12 @@ class WorkoutSessionScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Empieza por un ejercicio',
+                                strings.startWithExercise,
                                 style: theme.textTheme.titleLarge,
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                'Anade ejercicios desde el catalogo y registra tus series con peso y repeticiones.',
+                                strings.startWithExerciseCopy,
                                 style: theme.textTheme.bodyMedium,
                               ),
                             ],
@@ -111,7 +166,14 @@ class WorkoutSessionScreen extends StatelessWidget {
                         );
                         return _SessionExerciseCard(
                           exercise: exercise,
+                          isSelected:
+                              active.selectedExerciseId == exercise.exerciseId,
                           lastSnapshot: lastSnapshot,
+                          onSelect: () {
+                            return appState.selectHeartRateExercise(
+                              exercise.exerciseId,
+                            );
+                          },
                           onAddSet: () async {
                             await _showAddSetDialog(
                               context,
@@ -127,11 +189,10 @@ class WorkoutSessionScreen extends StatelessWidget {
                           onDeleteExercise: () async {
                             final confirmed = await _confirmDelete(
                               context,
-                              title: 'Eliminar ejercicio',
-                              message:
-                                  'Se borrara "${
-                                      exercise.exerciseName
-                                    }" y todas sus series registradas en esta sesion.',
+                              title: strings.deleteExerciseTitle,
+                              message: strings.deleteExerciseMessage(
+                                exercise.exerciseName,
+                              ),
                             );
                             if (confirmed == true) {
                               await appState.deleteExerciseFromActiveSession(
@@ -142,9 +203,10 @@ class WorkoutSessionScreen extends StatelessWidget {
                           onDeleteSet: (setId) async {
                             final confirmed = await _confirmDelete(
                               context,
-                              title: 'Eliminar serie',
-                              message:
-                                  'Se borrara esta serie del ejercicio "${exercise.exerciseName}".',
+                              title: strings.deleteSetTitle,
+                              message: strings.deleteSetMessage(
+                                exercise.exerciseName,
+                              ),
                             );
                             if (confirmed == true) {
                               await appState.deleteSetFromExercise(
@@ -174,9 +236,170 @@ class WorkoutSessionScreen extends StatelessWidget {
             activeSessionId: session?.id,
           );
         },
-        label: const Text('Anadir ejercicio'),
+        label: Text(strings.addExercise),
         icon: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class _HeartRatePanel extends StatelessWidget {
+  const _HeartRatePanel({
+    required this.appState,
+  });
+
+  final AppState appState;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final strings = AppStrings.of(appState.languageCode);
+    final samples = appState.recentHeartRateSamples();
+    final currentStatus = appState.currentHeartRateStatus();
+    final currentBpm = samples.isEmpty ? null : samples.last.bpm;
+    final baseline = appState.currentHeartRateBaseline();
+    final threshold = baseline == null ? null : (baseline * 1.15).round();
+    final trackedExerciseName = appState.currentHeartRateExerciseName();
+    final trackedExerciseId = appState.currentHeartRateExerciseId();
+
+    return AuraCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      strings.heartRate,
+                      style: theme.textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      currentBpm == null
+                          ? strings.noHeartRateSamplesYet
+                          : '$currentBpm lpm · ${currentStatus.title}',
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Text(
+                  currentBpm == null ? '--' : '$currentBpm',
+                  style: theme.textTheme.titleLarge,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            currentStatus.description,
+            style: theme.textTheme.bodyMedium,
+          ),
+          if (trackedExerciseName != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              strings.selectedExerciseForHeartRate(trackedExerciseName),
+              style: theme.textTheme.bodySmall,
+            ),
+          ],
+          if (baseline != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              strings.heartRateBaseline(baseline, threshold ?? baseline),
+              style: theme.textTheme.bodySmall,
+            ),
+          ],
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _HeartRateQuickButton(
+                label: '95',
+                onTap: () => appState.recordHeartRateSample(
+                  bpm: 95,
+                  exerciseId: trackedExerciseId,
+                ),
+              ),
+              _HeartRateQuickButton(
+                label: '110',
+                onTap: () => appState.recordHeartRateSample(
+                  bpm: 110,
+                  exerciseId: trackedExerciseId,
+                ),
+              ),
+              _HeartRateQuickButton(
+                label: '130',
+                onTap: () => appState.recordHeartRateSample(
+                  bpm: 130,
+                  exerciseId: trackedExerciseId,
+                ),
+              ),
+              _HeartRateQuickButton(
+                label: '150',
+                onTap: () => appState.recordHeartRateSample(
+                  bpm: 150,
+                  exerciseId: trackedExerciseId,
+                ),
+              ),
+            ],
+          ),
+          if (samples.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Text(strings.recentSamples, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: samples
+                  .map(
+                    (sample) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        '${sample.bpm} lpm',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                  )
+                  .toList(growable: false),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _HeartRateQuickButton extends StatelessWidget {
+  const _HeartRateQuickButton({
+    required this.label,
+    required this.onTap,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      label: Text('$label lpm'),
+      onPressed: onTap,
     );
   }
 }
@@ -203,6 +426,7 @@ class _WorkoutHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
     return AuraCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +461,7 @@ class _WorkoutHeader extends StatelessWidget {
                         );
                       },
                       icon: const Icon(Icons.edit_outlined, size: 16),
-                      label: const Text('Editar nombre'),
+                      label: Text(strings.editName),
                     ),
                   ],
                 ),
@@ -246,13 +470,13 @@ class _WorkoutHeader extends StatelessWidget {
                 onPressed: () async {
                   await onFinish();
                 },
-                child: const Text('Finalizar'),
+                child: Text(strings.finish),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Text(
-            'Inicio ${_formatTime(startedAt)}',
+            strings.workoutStartTime(_formatTime(startedAt)),
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 18),
@@ -260,14 +484,14 @@ class _WorkoutHeader extends StatelessWidget {
             children: [
               Expanded(
                 child: _HeaderMetric(
-                  label: 'Ejercicios',
+                  label: strings.exercisesLabel,
                   value: '$totalExercises',
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _HeaderMetric(
-                  label: 'Series',
+                  label: strings.sets,
                   value: '$totalSets',
                 ),
               ),
@@ -291,23 +515,24 @@ Future<void> _showRenameWorkoutDialog(
   required Future<void> Function(String title) onSave,
 }) async {
   final controller = TextEditingController(text: initialTitle);
+  final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
 
   await showDialog<void>(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Nombre del entrenamiento'),
+        title: Text(strings.workoutName),
         content: TextField(
           controller: controller,
           textCapitalization: TextCapitalization.sentences,
-          decoration: const InputDecoration(
-            labelText: 'Titulo',
+          decoration: InputDecoration(
+            labelText: strings.title,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text(strings.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -316,7 +541,7 @@ Future<void> _showRenameWorkoutDialog(
                 Navigator.of(context).pop();
               }
             },
-            child: const Text('Guardar'),
+            child: Text(strings.save),
           ),
         ],
       );
@@ -357,14 +582,18 @@ class _HeaderMetric extends StatelessWidget {
 class _SessionExerciseCard extends StatelessWidget {
   const _SessionExerciseCard({
     required this.exercise,
+    required this.isSelected,
     required this.lastSnapshot,
+    required this.onSelect,
     required this.onAddSet,
     required this.onDeleteExercise,
     required this.onDeleteSet,
   });
 
   final SessionExercise exercise;
+  final bool isSelected;
   final ExerciseHistorySnapshot? lastSnapshot;
+  final Future<void> Function() onSelect;
   final Future<void> Function() onAddSet;
   final Future<void> Function() onDeleteExercise;
   final Future<void> Function(String setId) onDeleteSet;
@@ -372,64 +601,92 @@ class _SessionExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AuraCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      exercise.exerciseName,
-                      style: theme.textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      exercise.muscleGroup,
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                  ],
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
+    return InkWell(
+      borderRadius: BorderRadius.circular(28),
+      onTap: () async {
+        await onSelect();
+      },
+      child: AuraCard(
+        borderColor: isSelected
+            ? theme.colorScheme.primary
+            : theme.colorScheme.outline.withValues(alpha: 0.4),
+        borderWidth: isSelected ? 2 : 1,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        exercise.exerciseName,
+                        style: theme.textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        exercise.muscleGroup,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      if (isSelected) ...[
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            strings.selectedExerciseForHeartRateBadge,
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
-              ),
-              IconButton(
-                tooltip: 'Eliminar ejercicio',
-                onPressed: () async {
-                  await onDeleteExercise();
-                },
-                icon: const Icon(Icons.delete_outline),
-              ),
-              FilledButton.tonalIcon(
-                onPressed: onAddSet,
-                icon: const Icon(Icons.add),
-                label: const Text('Serie'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          _LastTimeStrip(snapshot: lastSnapshot),
-          const SizedBox(height: 18),
-          if (exercise.sets.isEmpty)
-            Text(
-              'Sin series registradas todavia.',
-              style: theme.textTheme.bodyMedium,
-            )
-          else
-            ...exercise.sets.asMap().entries.map(
-              (entry) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _SetRow(
-                  setId: entry.value.id,
-                  index: entry.key + 1,
-                  reps: entry.value.reps,
-                  weightKg: entry.value.weightKg,
-                  onDelete: onDeleteSet,
+                IconButton(
+                  tooltip: strings.deleteExercise,
+                  onPressed: () async {
+                    await onDeleteExercise();
+                  },
+                  icon: const Icon(Icons.delete_outline),
                 ),
-              ),
+                FilledButton.tonalIcon(
+                  onPressed: onAddSet,
+                  icon: const Icon(Icons.add),
+                  label: Text(strings.set),
+                ),
+              ],
             ),
-        ],
+            const SizedBox(height: 18),
+            _LastTimeStrip(snapshot: lastSnapshot),
+            const SizedBox(height: 18),
+            if (exercise.sets.isEmpty)
+              Text(
+                strings.noSetsYet,
+                style: theme.textTheme.bodyMedium,
+              )
+            else
+              ...exercise.sets.asMap().entries.map(
+                (entry) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _SetRow(
+                    setId: entry.value.id,
+                    index: entry.key + 1,
+                    reps: entry.value.reps,
+                    weightKg: entry.value.weightKg,
+                    onDelete: onDeleteSet,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -443,10 +700,11 @@ class _LastTimeStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
     final hasData = snapshot != null;
     final dateText = hasData
         ? _formatDate(snapshot!.sessionDate)
-        : 'Sin historial';
+        : strings.noHistoryForExercise;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -458,14 +716,14 @@ class _LastTimeStrip extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ultima vez',
+            strings.lastTime,
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 6),
           Text(dateText, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
           Text(
-            hasData ? snapshot!.summary : 'Este ejercicio aun no tiene registros.',
+            hasData ? snapshot!.summary : strings.noRecordsForExercise,
             style: theme.textTheme.bodyLarge,
           ),
         ],
@@ -500,6 +758,7 @@ class _SetRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
     final weight = weightKg % 1 == 0
         ? weightKg.toStringAsFixed(0)
         : weightKg.toStringAsFixed(1);
@@ -512,14 +771,14 @@ class _SetRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text('Serie $index', style: theme.textTheme.titleMedium),
+          Text(strings.setLabel(index), style: theme.textTheme.titleMedium),
           const Spacer(),
-          Text('$reps reps', style: theme.textTheme.bodyLarge),
+          Text(strings.repsLabel(reps), style: theme.textTheme.bodyLarge),
           const SizedBox(width: 16),
           Text('$weight kg', style: theme.textTheme.bodyLarge),
           const SizedBox(width: 8),
           IconButton(
-            tooltip: 'Eliminar serie',
+            tooltip: strings.deleteSet,
             visualDensity: VisualDensity.compact,
             onPressed: () async {
               await onDelete(setId);
@@ -540,6 +799,7 @@ Future<bool?> _confirmDelete(
   required String title,
   required String message,
 }) {
+  final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
   return showDialog<bool>(
     context: context,
     builder: (context) {
@@ -549,11 +809,11 @@ Future<bool?> _confirmDelete(
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(strings.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Eliminar'),
+            child: Text(strings.delete),
           ),
         ],
       );
@@ -567,32 +827,33 @@ Future<void> _showAddSetDialog(
 }) async {
   final repsController = TextEditingController();
   final weightController = TextEditingController();
+  final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
 
   await showDialog<void>(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Registrar serie'),
+        title: Text(strings.logSet),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: repsController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Repeticiones'),
+              decoration: InputDecoration(labelText: strings.reps),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: weightController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Peso (kg)'),
+              decoration: InputDecoration(labelText: strings.weightKgLabel),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text(strings.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -606,7 +867,7 @@ Future<void> _showAddSetDialog(
                 Navigator.of(context).pop();
               }
             },
-            child: const Text('Guardar'),
+            child: Text(strings.save),
           ),
         ],
       );
@@ -619,8 +880,10 @@ Future<void> _showExercisePickerSheet(
   required AppState appState,
   required String? activeSessionId,
 }) async {
+  final searchController = TextEditingController();
   final nameController = TextEditingController();
   final muscleController = TextEditingController();
+  final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
 
   await showModalBottomSheet<void>(
     context: context,
@@ -628,107 +891,138 @@ Future<void> _showExercisePickerSheet(
     showDragHandle: true,
     builder: (context) {
       final theme = Theme.of(context);
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-          20,
-          12,
-          20,
-          20 + MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: AnimatedBuilder(
-          animation: appState,
-          builder: (context, _) {
-            final activeIds = appState.activeSession?.exercises
-                    .map((item) => item.exerciseId)
-                    .toSet() ??
-                <String>{};
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Anadir ejercicio', style: theme.textTheme.headlineMedium),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Selecciona del catalogo o crea uno nuevo para esta sesion.',
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 18),
-                  ...appState.exercises.map(
-                    (exercise) {
-                      final disabled = activeIds.contains(exercise.id);
-                      final lastSnapshot = appState.lastPerformanceForExercise(
-                        exercise.id,
-                        excludingSessionId: activeSessionId,
-                      );
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            side: BorderSide(color: theme.colorScheme.outline),
-                          ),
-                          tileColor: theme.colorScheme.surface,
-                          title: Text(exercise.name),
-                          subtitle: Text(
-                            lastSnapshot == null
-                                ? exercise.muscleGroup
-                                : '${exercise.muscleGroup} · ${lastSnapshot.summary}',
-                          ),
-                          trailing: Icon(
-                            disabled ? Icons.check_circle : Icons.add_circle,
-                          ),
-                          onTap: disabled
-                              ? null
-                              : () async {
-                                  await appState.addExerciseToActiveSession(
-                                    exercise,
-                                  );
-                                  if (context.mounted) {
-                                    Navigator.of(context).pop();
-                                  }
-                                },
+      return StatefulBuilder(
+        builder: (context, setModalState) {
+          return Padding(
+            padding: EdgeInsets.fromLTRB(
+              20,
+              12,
+              20,
+              20 + MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: AnimatedBuilder(
+              animation: appState,
+              builder: (context, _) {
+                final activeIds = appState.activeSession?.exercises
+                        .map((item) => item.exerciseId)
+                        .toSet() ??
+                    <String>{};
+                final query = searchController.text.trim().toLowerCase();
+                final filteredExercises = appState.exercises.where((exercise) {
+                  if (query.isEmpty) {
+                    return true;
+                  }
+                  return exercise.name.toLowerCase().contains(query);
+                }).toList(growable: false);
+
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(strings.pickExercise, style: theme.textTheme.headlineMedium),
+                      const SizedBox(height: 8),
+                      Text(
+                        strings.pickExerciseCopy,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 18),
+                      TextField(
+                        controller: searchController,
+                        onChanged: (_) {
+                          setModalState(() {});
+                        },
+                        decoration: InputDecoration(
+                          labelText: strings.searchExercise,
+                          prefixIcon: const Icon(Icons.search),
                         ),
-                      );
-                    },
+                      ),
+                      const SizedBox(height: 14),
+                      if (filteredExercises.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Text(
+                            strings.noExerciseMatches,
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ),
+                      ...filteredExercises.map(
+                        (exercise) {
+                          final disabled = activeIds.contains(exercise.id);
+                          final lastSnapshot = appState.lastPerformanceForExercise(
+                            exercise.id,
+                            excludingSessionId: activeSessionId,
+                          );
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                side: BorderSide(color: theme.colorScheme.outline),
+                              ),
+                              tileColor: theme.colorScheme.surface,
+                              title: Text(exercise.name),
+                              subtitle: Text(
+                                lastSnapshot == null
+                                    ? exercise.muscleGroup
+                                    : '${exercise.muscleGroup} · ${lastSnapshot.summary}',
+                              ),
+                              trailing: Icon(
+                                disabled ? Icons.check_circle : Icons.add_circle,
+                              ),
+                              onTap: disabled
+                                  ? null
+                                  : () async {
+                                      await appState.addExerciseToActiveSession(
+                                        exercise,
+                                      );
+                                      if (context.mounted) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 18),
+                      Text(strings.customExercise, style: theme.textTheme.titleLarge),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          labelText: strings.exerciseName,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: muscleController,
+                        decoration: InputDecoration(
+                          labelText: strings.muscleGroup,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      PrimaryButton(
+                        label: strings.createExercise,
+                        onPressed: () async {
+                          if (nameController.text.trim().isEmpty ||
+                              muscleController.text.trim().isEmpty) {
+                            return;
+                          }
+                          await appState.addCustomExercise(
+                            name: nameController.text,
+                            muscleGroup: muscleController.text,
+                          );
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 18),
-                  Text('Ejercicio personalizado', style: theme.textTheme.titleLarge),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nombre del ejercicio',
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: muscleController,
-                    decoration: const InputDecoration(
-                      labelText: 'Grupo muscular',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  PrimaryButton(
-                    label: 'Crear ejercicio',
-                    onPressed: () async {
-                      if (nameController.text.trim().isEmpty ||
-                          muscleController.text.trim().isEmpty) {
-                        return;
-                      }
-                      await appState.addCustomExercise(
-                        name: nameController.text,
-                        muscleGroup: muscleController.text,
-                      );
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          );
+        },
       );
     },
   );
