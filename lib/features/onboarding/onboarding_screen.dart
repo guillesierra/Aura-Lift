@@ -1,0 +1,389 @@
+import 'package:flutter/material.dart';
+
+import '../../core/design_system/widgets/aura_card.dart';
+import '../../core/design_system/widgets/primary_button.dart';
+import '../../core/design_system/widgets/tinted_background.dart';
+import '../../core/models/body_type.dart';
+import '../../core/models/user_profile.dart';
+
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({
+    super.key,
+    required this.onCompleted,
+  });
+
+  final Future<void> Function(UserProfile profile) onCompleted;
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final _pageController = PageController();
+  final _nameController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
+
+  int _step = 0;
+  BodyType _bodyType = BodyType.undefined;
+  bool _isSubmitting = false;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _nameController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
+    super.dispose();
+  }
+
+  bool get _canContinue {
+    switch (_step) {
+      case 0:
+        return _nameController.text.trim().isNotEmpty;
+      case 1:
+        return double.tryParse(_heightController.text) != null &&
+            double.tryParse(_weightController.text) != null;
+      case 2:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  Future<void> _next() async {
+    if (_step < 2) {
+      setState(() => _step += 1);
+      await _pageController.animateToPage(
+        _step,
+        duration: const Duration(milliseconds: 320),
+        curve: Curves.easeOutCubic,
+      );
+      return;
+    }
+
+    final height = double.tryParse(_heightController.text);
+    final weight = double.tryParse(_weightController.text);
+    if (height == null || weight == null) {
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    final profile = UserProfile(
+      id: DateTime.now().microsecondsSinceEpoch.toString(),
+      name: _nameController.text.trim(),
+      heightCm: height,
+      weightKg: weight,
+      bodyType: _bodyType,
+      createdAt: DateTime.now().toUtc(),
+      updatedAt: DateTime.now().toUtc(),
+    );
+    await widget.onCompleted(profile);
+    if (mounted) {
+      setState(() => _isSubmitting = false);
+    }
+  }
+
+  Future<void> _back() async {
+    if (_step == 0) {
+      return;
+    }
+    setState(() => _step -= 1);
+    await _pageController.animateToPage(
+      _step,
+      duration: const Duration(milliseconds: 280),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      body: TintedBackground(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+            child: Column(
+              children: [
+                _ProgressHeader(step: _step),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      _IntroStep(nameController: _nameController),
+                      _MetricsStep(
+                        heightController: _heightController,
+                        weightController: _weightController,
+                      ),
+                      _BodyTypeStep(
+                        selected: _bodyType,
+                        onSelected: (value) {
+                          setState(() => _bodyType = value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    if (_step > 0)
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: _isSubmitting ? null : _back,
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(58),
+                            side: BorderSide(color: theme.colorScheme.outline),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: const Text('Atras'),
+                        ),
+                      ),
+                    if (_step > 0) const SizedBox(width: 12),
+                    Expanded(
+                      flex: 2,
+                      child: PrimaryButton(
+                        label: _step == 2 ? 'Empezar' : 'Continuar',
+                        onPressed: (_canContinue && !_isSubmitting) ? _next : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProgressHeader extends StatelessWidget {
+  const _ProgressHeader({required this.step});
+
+  final int step;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Semana 1',
+          style: theme.textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Configura tu base',
+          style: theme.textTheme.displayLarge,
+        ),
+        const SizedBox(height: 14),
+        Row(
+          children: List.generate(
+            3,
+            (index) => Expanded(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 240),
+                margin: EdgeInsets.only(right: index == 2 ? 0 : 8),
+                height: 6,
+                decoration: BoxDecoration(
+                  color: index <= step
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _IntroStep extends StatelessWidget {
+  const _IntroStep({required this.nameController});
+
+  final TextEditingController nameController;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: AuraCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Aura Lift', style: theme.textTheme.headlineMedium),
+            const SizedBox(height: 12),
+            Text(
+              'Un companion de entrenamiento sobrio, rapido y preciso. Empezamos por tu perfil.',
+              style: theme.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 28),
+            Text('Nombre', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 10),
+            TextField(
+              controller: nameController,
+              textCapitalization: TextCapitalization.words,
+              decoration: const InputDecoration(
+                hintText: 'Como quieres que te llame',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MetricsStep extends StatelessWidget {
+  const _MetricsStep({
+    required this.heightController,
+    required this.weightController,
+  });
+
+  final TextEditingController heightController;
+  final TextEditingController weightController;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: AuraCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Tus metricas', style: theme.textTheme.headlineMedium),
+            const SizedBox(height: 12),
+            Text(
+              'Estas medidas se usaran para personalizar estimaciones y progreso.',
+              style: theme.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 24),
+            Text('Altura (cm)', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 10),
+            TextField(
+              controller: heightController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(hintText: '180'),
+            ),
+            const SizedBox(height: 18),
+            Text('Peso (kg)', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 10),
+            TextField(
+              controller: weightController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(hintText: '78'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BodyTypeStep extends StatelessWidget {
+  const _BodyTypeStep({
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final BodyType selected;
+  final ValueChanged<BodyType> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: AuraCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Tipo de cuerpo', style: theme.textTheme.headlineMedium),
+            const SizedBox(height: 12),
+            Text(
+              'Es una referencia inicial. La app ira ajustando el coaching con uso real.',
+              style: theme.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 24),
+            ...BodyType.values.map(
+              (type) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _BodyTypeTile(
+                  type: type,
+                  isSelected: type == selected,
+                  onTap: () => onSelected(type),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BodyTypeTile extends StatelessWidget {
+  const _BodyTypeTile({
+    required this.type,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final BodyType type;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? theme.colorScheme.primaryContainer
+              : theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.outline,
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(type.title, style: theme.textTheme.titleMedium),
+            ),
+            Icon(
+              isSelected ? Icons.check_circle : Icons.circle_outlined,
+              color: isSelected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
