@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_system/widgets/aura_card.dart';
+import '../../core/design_system/widgets/muscle_group_icon.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
+import '../../core/metrics/calorie_estimator.dart';
 import '../../core/models/workout_session.dart';
 
 class WorkoutSummaryDetailScreen extends StatelessWidget {
@@ -10,10 +12,12 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
     super.key,
     required this.session,
     required this.authorName,
+    required this.bodyWeightKg,
   });
 
   final WorkoutSession session;
   final String authorName;
+  final double bodyWeightKg;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,10 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
         '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
     final averageHeartRate = session.averageHeartRate;
     final maxHeartRate = session.maxHeartRate;
+    final estimatedCalories = CalorieEstimator.estimateWorkoutCalories(
+      session: session,
+      bodyWeightKg: bodyWeightKg,
+    );
 
     return Scaffold(
       body: TintedBackground(
@@ -85,9 +93,12 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: _DetailMetric(
-                                label: strings.volume,
+                                label: strings.estimatedCalories,
                                 value:
-                                    '${session.totalVolume.toStringAsFixed(0)} kg',
+                                    '$estimatedCalories ${strings.caloriesUnit}',
+                                trailingIcon:
+                                    Icons.local_fire_department_rounded,
+                                trailingColor: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -97,16 +108,29 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: _DetailMetric(
+                                label: strings.volume,
+                                value:
+                                    '${session.totalVolume.toStringAsFixed(0)} kg',
+                              ),
+                            ),
+                            Expanded(
+                              child: _DetailMetric(
                                 label: strings.sets,
                                 value: '${session.totalSets}',
                               ),
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        Row(
+                          children: [
                             Expanded(
                               child: _DetailMetric(
                                 label: strings.exercisesLabel,
                                 value: '${session.exercises.length}',
                               ),
                             ),
+                            const Spacer(),
                           ],
                         ),
                       ],
@@ -191,20 +215,42 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                     final sampleCount = session.heartRateSampleCountForExercise(
                       exercise.exerciseId,
                     );
+                    final estimatedCalories =
+                        CalorieEstimator.estimateExerciseCalories(
+                      session: session,
+                      exercise: exercise,
+                      bodyWeightKg: bodyWeightKg,
+                    );
 
                     return AuraCard(
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            exercise.exerciseName,
-                            style: theme.textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            exercise.muscleGroup,
-                            style: theme.textTheme.bodyMedium,
+                          Row(
+                            children: [
+                              MuscleGroupIcon(
+                                muscleGroup: exercise.muscleGroup,
+                                size: 58,
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      exercise.exerciseName,
+                                      style: theme.textTheme.titleLarge,
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      exercise.muscleGroup,
+                                      style: theme.textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 16),
                           Row(
@@ -229,6 +275,13 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                                 ),
                               ),
                             ],
+                          ),
+                          const SizedBox(height: 14),
+                          _DetailMetric(
+                            label: strings.estimatedCalories,
+                            value: '$estimatedCalories ${strings.caloriesUnit}',
+                            trailingIcon: Icons.local_fire_department_rounded,
+                            trailingColor: theme.colorScheme.primary,
                           ),
                           const SizedBox(height: 14),
                           Row(

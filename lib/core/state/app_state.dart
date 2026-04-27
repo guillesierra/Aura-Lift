@@ -7,6 +7,7 @@ import '../models/exercise_progress_point.dart';
 import '../models/exercise_progress_summary.dart';
 import '../models/exercise_set.dart';
 import '../models/exercise.dart';
+import '../models/external_heart_rate_reading.dart';
 import '../models/heart_rate_coach_cue.dart';
 import '../models/heart_rate_sample.dart';
 import '../models/heart_rate_status.dart';
@@ -106,7 +107,9 @@ class AppState extends ChangeNotifier {
 
     final session = WorkoutSession(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
-      title: 'Entrenamiento ${_sessions.where((item) => !item.isActive).length + 1}',
+      title: _settings.languageCode == 'en'
+          ? 'Workout ${_sessions.where((item) => !item.isActive).length + 1}'
+          : 'Entrenamiento ${_sessions.where((item) => !item.isActive).length + 1}',
       startedAt: DateTime.now().toUtc(),
       endedAt: null,
       selectedExerciseId: null,
@@ -161,7 +164,7 @@ class AppState extends ChangeNotifier {
     await _updateSession(
       current.copyWith(
         exercises: [...current.exercises, sessionExercise],
-        selectedExerciseId: current.selectedExerciseId ?? exercise.id,
+        selectedExerciseId: exercise.id,
       ),
     );
   }
@@ -320,25 +323,109 @@ class AppState extends ChangeNotifier {
     required int bpm,
     String source = 'manual',
     String? exerciseId,
+    DateTime? timestamp,
   }) async {
     final current = activeSession;
     if (current == null) {
       return;
     }
 
-    final sample = HeartRateSample(
-      id: DateTime.now().microsecondsSinceEpoch.toString(),
+    final sampleTimestamp = (timestamp ?? DateTime.now()).toUtc();
+    final targetExerciseId = exerciseId ?? current.selectedExerciseId;
+    final sampleKey = _heartRateSampleKey(
       bpm: bpm,
-      timestamp: DateTime.now().toUtc(),
-      exerciseId: exerciseId ?? current.selectedExerciseId,
+      timestamp: sampleTimestamp,
+      source: source,
+      exerciseId: targetExerciseId,
+    );
+    final alreadyRecorded = current.heartRateSamples.any(
+      (sample) =>
+          _heartRateSampleKey(
+            bpm: sample.bpm,
+            timestamp: sample.timestamp,
+            source: sample.source,
+            exerciseId: sample.exerciseId,
+          ) ==
+          sampleKey,
+    );
+    if (alreadyRecorded) {
+      return;
+    }
+
+    final sample = HeartRateSample(
+      id: sampleTimestamp.microsecondsSinceEpoch.toString(),
+      bpm: bpm,
+      timestamp: sampleTimestamp,
+      exerciseId: targetExerciseId,
       source: source,
     );
+    final samples = [...current.heartRateSamples, sample]
+      ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
     final updatedSession = current.copyWith(
-      heartRateSamples: [...current.heartRateSamples, sample],
+      heartRateSamples: samples,
     );
     _evaluateHeartRateCoaching(updatedSession);
     await _updateSession(updatedSession);
+  }
+
+  Future<int> importHeartRateReadings({
+    required List<ExternalHeartRateReading> readings,
+    String? exerciseId,
+  }) async {
+    final current = activeSession;
+    if (current == null || readings.isEmpty) {
+      return 0;
+    }
+
+    final targetExerciseId = exerciseId ?? current.selectedExerciseId;
+    final existingKeys = current.heartRateSamples
+        .map(
+          (sample) => _heartRateSampleKey(
+            bpm: sample.bpm,
+            timestamp: sample.timestamp,
+            source: sample.source,
+            exerciseId: sample.exerciseId,
+          ),
+        )
+        .toSet();
+    final importedSamples = <HeartRateSample>[];
+
+    for (final reading in readings) {
+      final timestamp = reading.timestamp.toUtc();
+      final source = reading.source.isEmpty ? 'external' : reading.source;
+      final key = _heartRateSampleKey(
+        bpm: reading.bpm,
+        timestamp: timestamp,
+        source: source,
+        exerciseId: targetExerciseId,
+      );
+      if (existingKeys.contains(key)) {
+        continue;
+      }
+
+      existingKeys.add(key);
+      importedSamples.add(
+        HeartRateSample(
+          id: '${source.hashCode}-${timestamp.microsecondsSinceEpoch}',
+          bpm: reading.bpm,
+          timestamp: timestamp,
+          exerciseId: targetExerciseId,
+          source: source,
+        ),
+      );
+    }
+
+    if (importedSamples.isEmpty) {
+      return 0;
+    }
+
+    final samples = [...current.heartRateSamples, ...importedSamples]
+      ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+    final updatedSession = current.copyWith(heartRateSamples: samples);
+    _evaluateHeartRateCoaching(updatedSession);
+    await _updateSession(updatedSession);
+    return importedSamples.length;
   }
 
   List<HeartRateSample> recentHeartRateSamples({int limit = 8}) {
@@ -542,7 +629,10 @@ class AppState extends ChangeNotifier {
           final weight = set.weightKg % 1 == 0
               ? set.weightKg.toStringAsFixed(0)
               : set.weightKg.toStringAsFixed(1);
-          return 'S${entry.key + 1}: ${set.reps} x $weight kg';
+          final setLabel = _settings.languageCode == 'en'
+              ? 'Set ${entry.key + 1}'
+              : 'S${entry.key + 1}';
+          return '$setLabel: ${set.reps} x $weight kg';
         }).toList(growable: false);
 
         history.add(
@@ -627,6 +717,20 @@ class AppState extends ChangeNotifier {
   void _resetHeartRateCoaching() {
     _pendingHeartRateCoachCue = null;
     _effortCueTriggered = false;
+  }
+
+  String _heartRateSampleKey({
+    required int bpm,
+    required DateTime timestamp,
+    required String source,
+    required String? exerciseId,
+  }) {
+    return [
+      timestamp.toUtc().toIso8601String(),
+      bpm,
+      source,
+      exerciseId ?? '',
+    ].join('|');
   }
 }
 

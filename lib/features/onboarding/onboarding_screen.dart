@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import '../../core/design_system/widgets/aura_card.dart';
 import '../../core/design_system/widgets/primary_button.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
+import '../../core/localization/app_strings.dart';
 import '../../core/models/body_type.dart';
 import '../../core/models/user_profile.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({
     super.key,
+    required this.languageCode,
     required this.onCompleted,
   });
 
+  final String languageCode;
   final Future<void> Function(UserProfile profile) onCompleted;
 
   @override
@@ -117,6 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = AppStrings.of(widget.languageCode);
 
     return Scaffold(
       body: TintedBackground(
@@ -125,20 +129,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
             child: Column(
               children: [
-                _ProgressHeader(step: _step),
+                _ProgressHeader(step: _step, strings: strings),
                 const SizedBox(height: 24),
                 Expanded(
                   child: PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      _IntroStep(nameController: _nameController),
+                      _IntroStep(
+                        nameController: _nameController,
+                        strings: strings,
+                      ),
                       _MetricsStep(
                         heightController: _heightController,
                         weightController: _weightController,
+                        strings: strings,
                       ),
                       _BodyTypeStep(
                         selected: _bodyType,
+                        strings: strings,
                         onSelected: (value) {
                           setState(() => _bodyType = value);
                         },
@@ -160,14 +169,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          child: const Text('Atras'),
+                          child: Text(strings.back),
                         ),
                       ),
                     if (_step > 0) const SizedBox(width: 12),
                     Expanded(
                       flex: 2,
                       child: PrimaryButton(
-                        label: _step == 2 ? 'Empezar' : 'Continuar',
+                        label: _step == 2 ? strings.begin : strings.continueLabel,
                         onPressed: (_canContinue && !_isSubmitting) ? _next : null,
                       ),
                     ),
@@ -183,9 +192,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 }
 
 class _ProgressHeader extends StatelessWidget {
-  const _ProgressHeader({required this.step});
+  const _ProgressHeader({
+    required this.step,
+    required this.strings,
+  });
 
   final int step;
+  final AppStrings strings;
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +208,7 @@ class _ProgressHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Configura tu base',
+          strings.onboardingTitle,
           style: theme.textTheme.displayLarge,
         ),
         const SizedBox(height: 14),
@@ -223,9 +236,13 @@ class _ProgressHeader extends StatelessWidget {
 }
 
 class _IntroStep extends StatelessWidget {
-  const _IntroStep({required this.nameController});
+  const _IntroStep({
+    required this.nameController,
+    required this.strings,
+  });
 
   final TextEditingController nameController;
+  final AppStrings strings;
 
   @override
   Widget build(BuildContext context) {
@@ -237,20 +254,20 @@ class _IntroStep extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Aura Lift', style: theme.textTheme.headlineMedium),
+            Text(strings.appName, style: theme.textTheme.headlineMedium),
             const SizedBox(height: 12),
             Text(
-              'Un companion de entrenamiento sobrio, rapido y preciso. Empezamos por tu perfil.',
+              strings.onboardingIntroCopy,
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 28),
-            Text('Nombre', style: theme.textTheme.titleMedium),
+            Text(strings.name, style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             TextField(
               controller: nameController,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                hintText: 'Como quieres que te llame',
+              decoration: InputDecoration(
+                hintText: strings.nameHint,
               ),
             ),
           ],
@@ -264,10 +281,12 @@ class _MetricsStep extends StatelessWidget {
   const _MetricsStep({
     required this.heightController,
     required this.weightController,
+    required this.strings,
   });
 
   final TextEditingController heightController;
   final TextEditingController weightController;
+  final AppStrings strings;
 
   @override
   Widget build(BuildContext context) {
@@ -279,14 +298,14 @@ class _MetricsStep extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Tus metricas', style: theme.textTheme.headlineMedium),
+            Text(strings.yourMetrics, style: theme.textTheme.headlineMedium),
             const SizedBox(height: 12),
             Text(
-              'Estas medidas se usaran para personalizar estimaciones y progreso.',
+              strings.metricsCopy,
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 24),
-            Text('Altura (cm)', style: theme.textTheme.titleMedium),
+            Text(strings.heightCm, style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             TextField(
               controller: heightController,
@@ -294,7 +313,7 @@ class _MetricsStep extends StatelessWidget {
               decoration: const InputDecoration(hintText: '180'),
             ),
             const SizedBox(height: 18),
-            Text('Peso (kg)', style: theme.textTheme.titleMedium),
+            Text(strings.weightKg, style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             TextField(
               controller: weightController,
@@ -311,10 +330,12 @@ class _MetricsStep extends StatelessWidget {
 class _BodyTypeStep extends StatelessWidget {
   const _BodyTypeStep({
     required this.selected,
+    required this.strings,
     required this.onSelected,
   });
 
   final BodyType selected;
+  final AppStrings strings;
   final ValueChanged<BodyType> onSelected;
 
   @override
@@ -327,10 +348,10 @@ class _BodyTypeStep extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Tipo de cuerpo', style: theme.textTheme.headlineMedium),
+            Text(strings.bodyType, style: theme.textTheme.headlineMedium),
             const SizedBox(height: 12),
             Text(
-              'Es una referencia inicial. La app ira ajustando el coaching con uso real.',
+              strings.bodyTypeCopy,
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 24),
@@ -339,6 +360,7 @@ class _BodyTypeStep extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: _BodyTypeTile(
                   type: type,
+                  strings: strings,
                   isSelected: type == selected,
                   onTap: () => onSelected(type),
                 ),
@@ -354,11 +376,13 @@ class _BodyTypeStep extends StatelessWidget {
 class _BodyTypeTile extends StatelessWidget {
   const _BodyTypeTile({
     required this.type,
+    required this.strings,
     required this.isSelected,
     required this.onTap,
   });
 
   final BodyType type;
+  final AppStrings strings;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -390,10 +414,13 @@ class _BodyTypeTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(type.title, style: theme.textTheme.titleMedium),
+                  Text(
+                    type.titleFor(strings.languageCode),
+                    style: theme.textTheme.titleMedium,
+                  ),
                   const SizedBox(height: 6),
                   Text(
-                    type.description,
+                    type.descriptionFor(strings.languageCode),
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],

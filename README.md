@@ -23,13 +23,15 @@ Base ya implementada:
 - detalle de entrenamiento con volumen, tiempo, FC media, FC maxima y desglose
 - progreso por ejercicio con historial y resumen
 - seleccion explicita del ejercicio activo para asociar nuevas muestras de FC
+- estimacion basica de kcal por entrenamiento y por ejercicio
+- lectura de FC desde Apple Health / HealthKit para muestras registradas por Apple Watch o dispositivos Apple compatibles
 
 Pendiente de producto:
 
-- integracion real con Apple Watch / AirPods / HealthKit
+- captura en tiempo real directa desde Apple Watch / AirPods sin pasar por Apple Health
 - integracion real con musica en reproduccion
 - social real y backend
-- calculo avanzado de kcal y patrones
+- calculo avanzado de kcal y patrones con sensores reales
 
 ## Estructura
 

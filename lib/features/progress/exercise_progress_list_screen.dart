@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_system/widgets/aura_card.dart';
+import '../../core/design_system/widgets/muscle_group_icon.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/models/exercise_progress_summary.dart';
@@ -105,6 +106,8 @@ class _ProgressExerciseCard extends StatelessWidget {
           children: [
             Row(
               children: [
+                MuscleGroupIcon(muscleGroup: entry.muscleGroup, size: 58),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

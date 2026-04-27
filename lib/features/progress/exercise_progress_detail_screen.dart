@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_system/widgets/aura_card.dart';
+import '../../core/design_system/widgets/muscle_group_icon.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/models/exercise_progress_point.dart';
@@ -59,15 +60,29 @@ class ExerciseProgressDetailScreen extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back_ios_new),
                   ),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        Text(
-                          latest.exerciseName,
-                          style: theme.textTheme.headlineMedium,
+                        MuscleGroupIcon(
+                          muscleGroup: latest.muscleGroup,
+                          size: 58,
                         ),
-                        const SizedBox(height: 4),
-                        Text(latest.muscleGroup, style: theme.textTheme.bodyMedium),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                latest.exerciseName,
+                                style: theme.textTheme.headlineMedium,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                latest.muscleGroup,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

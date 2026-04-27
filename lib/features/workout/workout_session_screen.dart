@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/audio/voice_coach.dart';
 import '../../core/design_system/widgets/aura_card.dart';
+import '../../core/design_system/widgets/muscle_group_icon.dart';
 import '../../core/design_system/widgets/primary_button.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
+import '../../core/health/apple_health_heart_rate_service.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/models/exercise_history_snapshot.dart';
 import '../../core/models/heart_rate_coach_cue.dart';
@@ -59,7 +61,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       return;
     }
 
-    unawaited(_voiceCoach.speak(cue.audioMessage));
+    unawaited(_voiceCoach.speak(cue.audioMessageFor(widget.appState.languageCode)));
   }
 
   @override
@@ -243,7 +245,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
   }
 }
 
-class _HeartRatePanel extends StatelessWidget {
+class _HeartRatePanel extends StatefulWidget {
   const _HeartRatePanel({
     required this.appState,
   });
@@ -251,7 +253,65 @@ class _HeartRatePanel extends StatelessWidget {
   final AppState appState;
 
   @override
+  State<_HeartRatePanel> createState() => _HeartRatePanelState();
+}
+
+class _HeartRatePanelState extends State<_HeartRatePanel> {
+  final AppleHealthHeartRateService _appleHealthHeartRateService =
+      AppleHealthHeartRateService();
+  bool _isSyncingAppleHealth = false;
+  String? _appleHealthMessage;
+
+  Future<void> _syncAppleHealthHeartRate() async {
+    final activeSession = widget.appState.activeSession;
+    if (_isSyncingAppleHealth || activeSession == null) {
+      return;
+    }
+
+    setState(() {
+      _isSyncingAppleHealth = true;
+      _appleHealthMessage = null;
+    });
+
+    final strings = AppStrings.of(widget.appState.languageCode);
+    final result = await _appleHealthHeartRateService.fetchHeartRateReadings(
+      startTime: activeSession.startedAt.toLocal(),
+      endTime: DateTime.now(),
+    );
+    if (!mounted) {
+      return;
+    }
+
+    var message = switch (result.status) {
+      AppleHealthHeartRateStatus.unsupported => strings.appleHealthUnsupported,
+      AppleHealthHeartRateStatus.denied => strings.appleHealthDenied,
+      AppleHealthHeartRateStatus.failed => strings.appleHealthSyncFailed,
+      AppleHealthHeartRateStatus.success => null,
+    };
+
+    if (result.status == AppleHealthHeartRateStatus.success) {
+      final imported = await widget.appState.importHeartRateReadings(
+        readings: result.readings,
+        exerciseId: widget.appState.currentHeartRateExerciseId(),
+      );
+      message = imported == 0
+          ? strings.appleHealthNoSamples
+          : strings.appleHealthImported(imported);
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isSyncingAppleHealth = false;
+      _appleHealthMessage = message;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final appState = widget.appState;
     final theme = Theme.of(context);
     final strings = AppStrings.of(appState.languageCode);
     final samples = appState.recentHeartRateSamples();
@@ -280,7 +340,7 @@ class _HeartRatePanel extends StatelessWidget {
                     Text(
                       currentBpm == null
                           ? strings.noHeartRateSamplesYet
-                          : '$currentBpm lpm · ${currentStatus.title}',
+                          : '$currentBpm ${strings.heartRateUnit} · ${currentStatus.titleFor(appState.languageCode)}',
                       style: theme.textTheme.bodyLarge,
                     ),
                   ],
@@ -301,7 +361,7 @@ class _HeartRatePanel extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            currentStatus.description,
+            currentStatus.descriptionFor(appState.languageCode),
             style: theme.textTheme.bodyMedium,
           ),
           if (trackedExerciseName != null) ...[
@@ -315,6 +375,38 @@ class _HeartRatePanel extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               strings.heartRateBaseline(baseline, threshold ?? baseline),
+              style: theme.textTheme.bodySmall,
+            ),
+          ],
+          const SizedBox(height: 16),
+          Text(
+            strings.appleHealthHeartRateCopy,
+            style: theme.textTheme.bodySmall,
+          ),
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed:
+                _isSyncingAppleHealth ? null : _syncAppleHealthHeartRate,
+            icon: _isSyncingAppleHealth
+                ? SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: theme.colorScheme.primary,
+                    ),
+                  )
+                : const Icon(Icons.watch_outlined),
+            label: Text(
+              _isSyncingAppleHealth
+                  ? strings.appleHealthSyncing
+                  : strings.syncAppleHealth,
+            ),
+          ),
+          if (_appleHealthMessage != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              _appleHealthMessage!,
               style: theme.textTheme.bodySmall,
             ),
           ],
@@ -372,7 +464,7 @@ class _HeartRatePanel extends StatelessWidget {
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Text(
-                        '${sample.bpm} lpm',
+                        '${sample.bpm} ${strings.heartRateUnit}',
                         style: theme.textTheme.bodyMedium,
                       ),
                     ),
@@ -397,8 +489,9 @@ class _HeartRateQuickButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
     return ActionChip(
-      label: Text('$label lpm'),
+      label: Text('$label ${strings.heartRateUnit}'),
       onPressed: onTap,
     );
   }
@@ -617,6 +710,8 @@ class _SessionExerciseCard extends StatelessWidget {
           children: [
             Row(
               children: [
+                MuscleGroupIcon(muscleGroup: exercise.muscleGroup, size: 62),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -912,7 +1007,8 @@ Future<void> _showExercisePickerSheet(
                   if (query.isEmpty) {
                     return true;
                   }
-                  return exercise.name.toLowerCase().contains(query);
+                  return exercise.name.toLowerCase().contains(query) ||
+                      exercise.muscleGroup.toLowerCase().contains(query);
                 }).toList(growable: false);
 
                 return SingleChildScrollView(
@@ -960,11 +1056,15 @@ Future<void> _showExercisePickerSheet(
                                 side: BorderSide(color: theme.colorScheme.outline),
                               ),
                               tileColor: theme.colorScheme.surface,
+                              leading: MuscleGroupIcon(
+                                muscleGroup: exercise.muscleGroup,
+                                size: 50,
+                              ),
                               title: Text(exercise.name),
                               subtitle: Text(
                                 lastSnapshot == null
                                     ? exercise.muscleGroup
-                                    : '${exercise.muscleGroup} · ${lastSnapshot.summary}',
+                                    : '${exercise.muscleGroup} · ${lastSnapshot.summaryFor(appState.languageCode)}',
                               ),
                               trailing: Icon(
                                 disabled ? Icons.check_circle : Icons.add_circle,

@@ -10,6 +10,25 @@ class AppStrings {
   static AppStrings of(String languageCode) => AppStrings._(languageCode);
 
   String get appName => 'Aura Lift';
+  String get onboardingTitle => isEnglish ? 'Set your base' : 'Configura tu base';
+  String get back => isEnglish ? 'Back' : 'Atras';
+  String get continueLabel => isEnglish ? 'Continue' : 'Continuar';
+  String get begin => isEnglish ? 'Start' : 'Empezar';
+  String get onboardingIntroCopy => isEnglish
+      ? 'A sober, fast and precise training companion. We start with your profile.'
+      : 'Un companion de entrenamiento sobrio, rapido y preciso. Empezamos por tu perfil.';
+  String get nameHint => isEnglish
+      ? 'How do you want me to call you'
+      : 'Como quieres que te llame';
+  String get yourMetrics => isEnglish ? 'Your metrics' : 'Tus metricas';
+  String get metricsCopy => isEnglish
+      ? 'These measurements will personalize estimates and progress.'
+      : 'Estas medidas se usaran para personalizar estimaciones y progreso.';
+  String get heightCm => isEnglish ? 'Height (cm)' : 'Altura (cm)';
+  String get weightKg => isEnglish ? 'Weight (kg)' : 'Peso (kg)';
+  String get bodyTypeCopy => isEnglish
+      ? 'This is an initial reference. The app will adjust coaching with real use.'
+      : 'Es una referencia inicial. La app ira ajustando el coaching con uso real.';
   String get home => isEnglish ? 'Home' : 'Inicio';
   String get training => isEnglish ? 'Training' : 'Entrenamiento';
   String get profile => isEnglish ? 'Profile' : 'Perfil';
@@ -35,6 +54,7 @@ class AppStrings {
   String get weight => isEnglish ? 'Weight' : 'Peso';
   String get bodyType => isEnglish ? 'Body type' : 'Tipo de cuerpo';
   String get recentHistory => isEnglish ? 'Recent history' : 'Historial reciente';
+  String get homeInsights => isEnglish ? 'Training insights' : 'Resumen de entreno';
   String get noClosedSessions => isEnglish
       ? 'There are no finished sessions yet.'
       : 'Todavia no hay sesiones cerradas.';
@@ -62,9 +82,44 @@ class AppStrings {
   String get workouts => isEnglish ? 'Workouts' : 'Entrenos';
   String get duration => isEnglish ? 'Duration' : 'Duracion';
   String get stats => isEnglish ? 'Stats' : 'Estadisticas';
+  String get personalStatsTitle => isEnglish
+      ? 'Personal stats'
+      : 'Estadisticas personales';
+  String personalStatsCopy(int count) => isEnglish
+      ? '$count finished workouts included in these numbers.'
+      : '$count entrenos terminados incluidos en estos numeros.';
+  String get personalStatsEmpty => isEnglish
+      ? 'Finish workouts to unlock your training stats.'
+      : 'Finaliza entrenos para desbloquear tus estadisticas.';
+  String get activeDays => isEnglish ? 'Active days' : 'Dias activos';
+  String get averageSession => isEnglish
+      ? 'Average session'
+      : 'Sesion media';
+  String get totalSetsLabel => isEnglish ? 'Total sets' : 'Series totales';
+  String get averageHeartRate => isEnglish ? 'Average HR' : 'FC media';
+  String get estimatedCalories => isEnglish ? 'Estimated kcal' : 'Kcal estimadas';
+  String get totalCalories => isEnglish ? 'Total kcal' : 'Kcal totales';
+  String get caloriesUnit => 'kcal';
+  String get topExercise => isEnglish ? 'Top exercise' : 'Ejercicio top';
+  String get heaviestLift => isEnglish ? 'Heaviest lift' : 'Mayor carga';
+  String get noExerciseData => isEnglish
+      ? 'No exercise data yet.'
+      : 'Aun no hay datos de ejercicios.';
   String get exercises => isEnglish ? 'Exercises' : 'Ejercicios';
   String get measurements => isEnglish ? 'Measurements' : 'Medidas';
   String get calendar => isEnglish ? 'Calendar' : 'Calendario';
+  String get workoutCalendarTitle => isEnglish
+      ? 'Workout calendar'
+      : 'Calendario de entrenos';
+  String workoutCalendarCopy(int count) => isEnglish
+      ? '$count finished workouts grouped by day.'
+      : '$count entrenos terminados agrupados por dia.';
+  String get workoutCalendarEmpty => isEnglish
+      ? 'Finish workouts to see them grouped by date here.'
+      : 'Finaliza entrenos para verlos aqui agrupados por fecha.';
+  String dayWorkoutCount(int count) => isEnglish
+      ? '$count workouts'
+      : '$count entrenos';
   String get info => isEnglish ? 'Information' : 'Informacion';
   String get settings => isEnglish ? 'Settings' : 'Configuracion';
   String get appearance => isEnglish ? 'Appearance' : 'Apariencia';
@@ -78,6 +133,7 @@ class AppStrings {
   String get time => isEnglish ? 'Time' : 'Tiempo';
   String get sets => isEnglish ? 'Sets' : 'Series';
   String get heartRateShort => isEnglish ? 'HR' : 'FC';
+  String get heartRateUnit => isEnglish ? 'bpm' : 'lpm';
   String get rename => isEnglish ? 'Rename' : 'Renombrar';
   String get deleteWorkout => isEnglish
       ? 'Delete workout'
@@ -85,15 +141,13 @@ class AppStrings {
   String get renameWorkout => isEnglish
       ? 'Rename workout'
       : 'Renombrar entrenamiento';
-  String get title => 'Titulo';
+  String get title => isEnglish ? 'Title' : 'Titulo';
   String get cancel => isEnglish ? 'Cancel' : 'Cancelar';
   String get save => isEnglish ? 'Save' : 'Guardar';
   String deleteWorkoutMessage(String title) => isEnglish
       ? '"$title" will be removed from history. This action cannot be undone.'
       : 'Se eliminara "$title" del historial. Esta accion no se puede deshacer.';
   String get saveChanges => isEnglish ? 'Save changes' : 'Guardar cambios';
-  String get socialDemo => isEnglish ? 'Friends · demo' : 'Amigos · demo';
-  String get socialDemoSubtitle => isEnglish ? 'Social demo' : 'Demo social';
   String get workoutSessionEmptyTitle => isEnglish
       ? 'There is no active session'
       : 'No hay una sesion activa';
@@ -108,6 +162,30 @@ class AppStrings {
       : 'Anade ejercicios desde el catalogo y registra tus series con peso y repeticiones.';
   String get addExercise => isEnglish ? 'Add exercise' : 'Anadir ejercicio';
   String get heartRate => isEnglish ? 'Heart rate' : 'Frecuencia cardiaca';
+  String get syncAppleHealth => isEnglish
+      ? 'Sync Apple Health'
+      : 'Sincronizar Apple Health';
+  String get appleHealthHeartRateCopy => isEnglish
+      ? 'Imports heart-rate samples written in Apple Health by Apple Watch or compatible Apple devices.'
+      : 'Importa muestras de frecuencia cardiaca guardadas en Apple Health por Apple Watch o dispositivos Apple compatibles.';
+  String get appleHealthSyncing => isEnglish
+      ? 'Reading Apple Health...'
+      : 'Leyendo Apple Health...';
+  String get appleHealthUnsupported => isEnglish
+      ? 'Apple Health sync is available on iPhone.'
+      : 'La sincronizacion con Apple Health esta disponible en iPhone.';
+  String get appleHealthDenied => isEnglish
+      ? 'Heart-rate permission was not granted in Apple Health.'
+      : 'No se concedio permiso de frecuencia cardiaca en Apple Health.';
+  String appleHealthImported(int count) => isEnglish
+      ? '$count heart-rate samples imported.'
+      : '$count muestras de frecuencia cardiaca importadas.';
+  String get appleHealthNoSamples => isEnglish
+      ? 'No Apple Health heart-rate samples found for this workout.'
+      : 'No se encontraron muestras de frecuencia cardiaca en Apple Health para este entreno.';
+  String get appleHealthSyncFailed => isEnglish
+      ? 'Apple Health sync failed.'
+      : 'No se pudo sincronizar Apple Health.';
   String get noHeartRateSamplesYet => isEnglish
       ? 'No samples yet'
       : 'Sin muestras todavia';

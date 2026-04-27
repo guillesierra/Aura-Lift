@@ -18,6 +18,10 @@
 	<string>aura_lift</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Aura Lift reads heart-rate samples from Apple Health to attach Apple Watch and compatible Apple device data to your workouts.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Aura Lift can sync workout data with Apple Health when HealthKit features are enabled.</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>

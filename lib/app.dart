@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/design_system/app_theme.dart';
 import 'core/repositories/local_exercise_repository.dart';
@@ -46,6 +47,13 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Aura Lift',
+            locale: Locale(_appState.languageCode),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('es'), Locale('en')],
             themeMode: _appState.themeMode,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
@@ -56,6 +64,13 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Aura Lift',
+          locale: Locale(_appState.languageCode),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('es'), Locale('en')],
           themeMode: _appState.themeMode,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
@@ -76,6 +91,7 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
             child: _appState.profile == null
                 ? OnboardingScreen(
                     key: const ValueKey('onboarding'),
+                    languageCode: _appState.languageCode,
                     onCompleted: _appState.completeOnboarding,
                   )
                 : MainShell(
@@ -94,9 +110,38 @@ class _BootstrapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: const Color(0xFF4C4C4E),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: const Alignment(0, -0.12),
+                radius: 1.1,
+                colors: [
+                  theme.colorScheme.surface.withValues(alpha: 0.16),
+                  const Color(0xFF4C4C4E),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 520),
+                child: Image.asset(
+                  'assets/branding/aura_lift_opening.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

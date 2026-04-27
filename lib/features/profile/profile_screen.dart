@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
+import '../../core/metrics/calorie_estimator.dart';
 import '../../core/models/body_type.dart';
 import '../../core/state/app_state.dart';
 import '../progress/exercise_progress_list_screen.dart';
 import 'measurements_screen.dart';
+import 'personal_stats_screen.dart';
+import 'workout_calendar_screen.dart';
 import '../home/home_screen.dart';
 import '../workout/workout_summary_detail_screen.dart';
 
@@ -42,40 +45,39 @@ class ProfileScreen extends StatelessWidget {
           body: TintedBackground(
             child: SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      profile.name.toLowerCase(),
-                      style: theme.textTheme.displayLarge,
-                    ),
-                    const SizedBox(height: 24),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          radius: 58,
+                          radius: 50,
                           backgroundColor:
                               theme.colorScheme.primary.withValues(alpha: 0.18),
                           child: Text(
                             profile.name.isNotEmpty
                                 ? profile.name[0].toUpperCase()
                                 : 'A',
-                            style: theme.textTheme.displayLarge,
+                            style: theme.textTheme.headlineLarge,
                           ),
                         ),
-                        const SizedBox(width: 20),
+                        const SizedBox(width: 16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(profile.name, style: theme.textTheme.headlineMedium),
-                              const SizedBox(height: 8),
                               Text(
-                                '${profile.heightCm.toStringAsFixed(0)} cm · ${profile.weightKg.toStringAsFixed(0)} kg · ${profile.bodyType.title}',
+                                profile.name,
+                                style: theme.textTheme.headlineMedium,
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                '${profile.heightCm.toStringAsFixed(0)} cm · ${profile.weightKg.toStringAsFixed(0)} kg · ${profile.bodyType.titleFor(appState.languageCode)}',
                                 style: theme.textTheme.bodyMedium,
                               ),
-                              const SizedBox(height: 18),
+                              const SizedBox(height: 14),
                               Row(
                                 children: [
                                   Expanded(
@@ -120,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                           onTap: () async {
                             await Navigator.of(context).push(
                               MaterialPageRoute<void>(
-                                builder: (_) => ExerciseProgressListScreen(
+                                builder: (_) => PersonalStatsScreen(
                                   appState: appState,
                                 ),
                               ),
@@ -148,6 +150,7 @@ class ProfileScreen extends StatelessWidget {
                               MaterialPageRoute<void>(
                                 builder: (_) => MeasurementsScreen(
                                   profile: profile,
+                                  languageCode: appState.languageCode,
                                 ),
                               ),
                             );
@@ -156,6 +159,15 @@ class ProfileScreen extends StatelessWidget {
                         _ActionTile(
                           title: strings.calendar,
                           icon: Icons.calendar_today_outlined,
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => WorkoutCalendarScreen(
+                                  appState: appState,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -176,12 +188,18 @@ class ProfileScreen extends StatelessWidget {
                             authorName: profile.name,
                             authorHandle: profile.name.toLowerCase(),
                             highlightColor: theme.colorScheme.primary,
+                            estimatedCalories:
+                                CalorieEstimator.estimateWorkoutCalories(
+                              session: session,
+                              bodyWeightKg: profile.weightKg,
+                            ),
                             onTap: () async {
                               await Navigator.of(context).push(
                                 MaterialPageRoute<void>(
                                   builder: (_) => WorkoutSummaryDetailScreen(
                                     session: session,
                                     authorName: profile.name,
+                                    bodyWeightKg: profile.weightKg,
                                   ),
                                 ),
                               );
@@ -226,9 +244,9 @@ class _TopStat extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium),
-        const SizedBox(height: 4),
-        Text(value, style: theme.textTheme.titleLarge),
+        Text(label, style: theme.textTheme.labelMedium),
+        const SizedBox(height: 2),
+        Text(value, style: theme.textTheme.titleMedium),
       ],
     );
   }

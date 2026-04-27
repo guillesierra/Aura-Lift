@@ -4,6 +4,7 @@ import '../../core/design_system/widgets/aura_card.dart';
 import '../../core/design_system/widgets/primary_button.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
+import '../../core/metrics/calorie_estimator.dart';
 import '../../core/models/body_type.dart';
 import '../../core/models/workout_session.dart';
 import '../../core/state/app_state.dart';
@@ -31,6 +32,7 @@ class HomeScreen extends StatelessWidget {
             .where((item) => !item.isActive)
             .toList()
           ..sort((a, b) => b.startedAt.compareTo(a.startedAt));
+        final homeInsight = _HomeInsight.fromSessions(completedSessions);
 
         return Scaffold(
           body: TintedBackground(
@@ -165,12 +167,18 @@ class HomeScreen extends StatelessWidget {
                                 authorName: profile.name,
                                 authorHandle: profile.name.toLowerCase(),
                                 highlightColor: theme.colorScheme.primary,
+                                estimatedCalories:
+                                    CalorieEstimator.estimateWorkoutCalories(
+                                  session: session,
+                                  bodyWeightKg: profile.weightKg,
+                                ),
                                 onTap: () async {
                                   await Navigator.of(context).push(
                                     MaterialPageRoute<void>(
                                       builder: (_) => WorkoutSummaryDetailScreen(
                                         session: session,
                                         authorName: profile.name,
+                                        bodyWeightKg: profile.weightKg,
                                       ),
                                     ),
                                   );
@@ -189,15 +197,15 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                    const SizedBox(height: 10),
-                    Text(strings.socialDemo, style: theme.textTheme.titleLarge),
-                    const SizedBox(height: 14),
-                    ..._buildDemoFriendCards(theme, strings).map(
-                      (card) => Padding(
-                        padding: const EdgeInsets.only(bottom: 14),
-                        child: card,
+                    if (completedSessions.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Text(
+                        strings.homeInsights,
+                        style: theme.textTheme.titleLarge,
                       ),
-                    ),
+                      const SizedBox(height: 14),
+                      _HomeInsightCard(insight: homeInsight),
+                    ],
                   ],
                 ),
               ),
@@ -209,6 +217,116 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+class _HomeInsightCard extends StatelessWidget {
+  const _HomeInsightCard({
+    required this.insight,
+  });
+
+  final _HomeInsight insight;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
+
+    return AuraCard(
+      padding: const EdgeInsets.all(22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(insight.lastTitle, style: theme.textTheme.headlineMedium),
+          const SizedBox(height: 6),
+          Text(strings.lastSession, style: theme.textTheme.bodyMedium),
+          const SizedBox(height: 18),
+          Row(
+            children: [
+              Expanded(
+                child: _WorkoutMetric(
+                  label: strings.averageSession,
+                  value: '${insight.averageSessionMinutes}m',
+                ),
+              ),
+              Expanded(
+                child: _WorkoutMetric(
+                  label: strings.totalVolume,
+                  value: '${insight.totalVolume.toStringAsFixed(0)} kg',
+                ),
+              ),
+              Expanded(
+                child: _WorkoutMetric(
+                  label: strings.sets,
+                  value: '${insight.totalSets}',
+                ),
+              ),
+              Expanded(
+                child: _WorkoutMetric(
+                  label: strings.averageHeartRate,
+                  value: insight.averageHeartRate == null
+                      ? '--'
+                      : '${insight.averageHeartRate}',
+                  trailingIcon: Icons.favorite,
+                  trailingColor: Colors.red,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeInsight {
+  const _HomeInsight({
+    required this.lastTitle,
+    required this.averageSessionMinutes,
+    required this.totalVolume,
+    required this.totalSets,
+    required this.averageHeartRate,
+  });
+
+  final String lastTitle;
+  final int averageSessionMinutes;
+  final double totalVolume;
+  final int totalSets;
+  final int? averageHeartRate;
+
+  static _HomeInsight fromSessions(List<WorkoutSession> sessions) {
+    final totalMinutes = sessions.fold<int>(
+      0,
+      (sum, session) => sum + session.duration.inMinutes,
+    );
+    final totalVolume = sessions.fold<double>(
+      0,
+      (sum, session) => sum + session.totalVolume,
+    );
+    final totalSets = sessions.fold<int>(
+      0,
+      (sum, session) => sum + session.totalSets,
+    );
+    final heartRateSamples = sessions
+        .expand((session) => session.heartRateSamples)
+        .toList(growable: false);
+    final averageHeartRate = heartRateSamples.isEmpty
+        ? null
+        : (heartRateSamples.fold<int>(
+                  0,
+                  (sum, sample) => sum + sample.bpm,
+                ) /
+                heartRateSamples.length)
+            .round();
+
+    return _HomeInsight(
+      lastTitle: sessions.isEmpty ? '' : sessions.first.title,
+      averageSessionMinutes:
+          sessions.isEmpty ? 0 : (totalMinutes / sessions.length).round(),
+      totalVolume: totalVolume,
+      totalSets: totalSets,
+      averageHeartRate: averageHeartRate,
+    );
+  }
+}
+
 class WorkoutSummaryCard extends StatelessWidget {
   const WorkoutSummaryCard({
     super.key,
@@ -216,6 +334,7 @@ class WorkoutSummaryCard extends StatelessWidget {
     required this.authorName,
     required this.authorHandle,
     required this.highlightColor,
+    this.estimatedCalories,
     this.onRename,
     this.onDelete,
     this.onTap,
@@ -225,6 +344,7 @@ class WorkoutSummaryCard extends StatelessWidget {
   final String authorName;
   final String authorHandle;
   final Color highlightColor;
+  final int? estimatedCalories;
   final Future<void> Function(String title)? onRename;
   final Future<void> Function()? onDelete;
   final VoidCallback? onTap;
@@ -246,112 +366,143 @@ class WorkoutSummaryCard extends StatelessWidget {
       child: AuraCard(
         padding: const EdgeInsets.all(22),
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: highlightColor.withValues(alpha: 0.18),
-                child: Text(
-                  authorName.isNotEmpty ? authorName[0].toUpperCase() : 'A',
-                  style: theme.textTheme.titleMedium,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 22,
+                  backgroundColor: highlightColor.withValues(alpha: 0.18),
+                  child: Text(
+                    authorName.isNotEmpty ? authorName[0].toUpperCase() : 'A',
+                    style: theme.textTheme.titleMedium,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(authorHandle, style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 2),
+                      Text(date, style: theme.textTheme.bodyMedium),
+                    ],
+                  ),
+                ),
+                PopupMenuButton<String>(
+                  onSelected: (value) async {
+                    if (value == 'rename' && onRename != null) {
+                      await _showRenameSummaryDialog(
+                        context,
+                        initialTitle: session.title,
+                        onSave: onRename!,
+                      );
+                      return;
+                    }
+
+                    if (value == 'delete' && onDelete != null) {
+                      final confirmed = await _showDeleteSummaryDialog(
+                        context,
+                        title: session.title,
+                      );
+                      if (confirmed == true) {
+                        await onDelete!();
+                      }
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem<String>(
+                      value: 'rename',
+                      child: Text(strings.rename),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text(strings.deleteWorkout),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            Text(
+              session.title,
+              style: theme.textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 18),
+            Row(
+              children: [
+                Expanded(
+                  child: _WorkoutMetric(
+                    label: strings.time,
+                    value: '${durationMinutes}min',
+                  ),
+                ),
+                Expanded(
+                  child: _WorkoutMetric(
+                    label: strings.volume,
+                    value: '$volume kg',
+                  ),
+                ),
+                Expanded(
+                  child: _WorkoutMetric(
+                    label: strings.sets,
+                    value: '${session.totalSets}',
+                  ),
+                ),
+                Expanded(
+                  child: _WorkoutMetric(
+                    label: strings.heartRateShort,
+                    value: averageHeartRate == null ? '--' : '$averageHeartRate',
+                    trailingIcon: Icons.favorite,
+                    trailingColor: Colors.red,
+                  ),
+                ),
+              ],
+            ),
+            if (estimatedCalories != null) ...[
+              const SizedBox(height: 14),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.09),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
                   children: [
-                    Text(authorHandle, style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 2),
-                    Text(date, style: theme.textTheme.bodyMedium),
+                    Icon(
+                      Icons.local_fire_department_rounded,
+                      size: 18,
+                      color: theme.colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        strings.estimatedCalories,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                    Text(
+                      '$estimatedCalories ${strings.caloriesUnit}',
+                      style: theme.textTheme.titleMedium,
+                    ),
                   ],
                 ),
               ),
-              PopupMenuButton<String>(
-                onSelected: (value) async {
-                  if (value == 'rename' && onRename != null) {
-                    await _showRenameSummaryDialog(
-                      context,
-                      initialTitle: session.title,
-                      onSave: onRename!,
-                    );
-                    return;
-                  }
-
-                  if (value == 'delete' && onDelete != null) {
-                    final confirmed = await _showDeleteSummaryDialog(
-                      context,
-                      title: session.title,
-                    );
-                    if (confirmed == true) {
-                      await onDelete!();
-                    }
-                  }
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem<String>(
-                    value: 'rename',
-                    child: Text(strings.rename),
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'delete',
-                    child: Text(strings.deleteWorkout),
-                  ),
-                ],
-              ),
             ],
-          ),
-          const SizedBox(height: 18),
-          Text(
-            session.title,
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              Expanded(
-                child: _WorkoutMetric(
-                  label: strings.time,
-                  value: '${durationMinutes}min',
-                ),
-              ),
-              Expanded(
-                child: _WorkoutMetric(
-                  label: strings.volume,
-                  value: '$volume kg',
-                ),
-              ),
-              Expanded(
-                child: _WorkoutMetric(
-                  label: strings.sets,
-                  value: '${session.totalSets}',
-                ),
-              ),
-              Expanded(
-                child: _WorkoutMetric(
-                  label: strings.heartRateShort,
-                  value: averageHeartRate == null ? '--' : '$averageHeartRate',
-                  trailingIcon: Icons.favorite,
-                  trailingColor: Colors.red,
+            if (session.exercises.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              ...session.exercises.take(3).map(
+                (exercise) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    '${exercise.sets.length} ${strings.sets.toLowerCase()} · ${exercise.exerciseName}',
+                    style: theme.textTheme.bodyLarge,
+                  ),
                 ),
               ),
             ],
-          ),
-          if (session.exercises.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            ...session.exercises.take(3).map(
-              (exercise) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  '${exercise.sets.length} ${strings.sets.toLowerCase()} · ${exercise.exerciseName}',
-                  style: theme.textTheme.bodyLarge,
-                ),
-              ),
-            ),
           ],
-        ],
         ),
       ),
     );
@@ -396,57 +547,6 @@ class _WorkoutMetric extends StatelessWidget {
       ],
     );
   }
-}
-
-List<Widget> _buildDemoFriendCards(ThemeData theme, AppStrings strings) {
-  return [
-    AuraCard(
-      padding: const EdgeInsets.all(22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.18),
-                child: const Text('A'),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('albitadinamita', style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 2),
-                    Text(strings.socialDemoSubtitle, style: theme.textTheme.bodyMedium),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          Text('Biceps + pecho + hombro', style: theme.textTheme.headlineMedium),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              Expanded(child: _WorkoutMetric(label: strings.time, value: '53min')),
-              Expanded(child: _WorkoutMetric(label: strings.volume, value: '4230 kg')),
-              Expanded(child: _WorkoutMetric(label: strings.sets, value: '12')),
-              Expanded(
-                child: _WorkoutMetric(
-                  label: strings.heartRateShort,
-                  value: '133',
-                  trailingIcon: Icons.favorite,
-                  trailingColor: Colors.red,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  ];
 }
 
 Future<void> _showRenameSummaryDialog(
@@ -579,7 +679,7 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                         .map(
                           (item) => DropdownMenuItem(
                             value: item,
-                            child: Text(item.title),
+                            child: Text(item.titleFor(appState.languageCode)),
                           ),
                         )
                         .toList(growable: false),

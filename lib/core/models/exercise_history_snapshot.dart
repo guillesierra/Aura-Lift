@@ -16,9 +16,11 @@ class ExerciseHistorySnapshot {
 
   bool get hasData => sets.isNotEmpty;
 
-  String get summary {
+  String get summary => summaryFor('es');
+
+  String summaryFor(String languageCode) {
     if (sets.isEmpty) {
-      return 'Sin registros previos';
+      return languageCode == 'en' ? 'No previous records' : 'Sin registros previos';
     }
 
     final pieces = <String>[];
@@ -27,7 +29,8 @@ class ExerciseHistorySnapshot {
       final weight = set.weightKg % 1 == 0
           ? set.weightKg.toStringAsFixed(0)
           : set.weightKg.toStringAsFixed(1);
-      pieces.add('S${i + 1}: ${set.reps} x $weight kg');
+      final setLabel = languageCode == 'en' ? 'Set ${i + 1}' : 'S${i + 1}';
+      pieces.add('$setLabel: ${set.reps} x $weight kg');
     }
     return pieces.join('  ·  ');
   }

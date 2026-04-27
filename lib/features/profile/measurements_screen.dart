@@ -10,14 +10,16 @@ class MeasurementsScreen extends StatelessWidget {
   const MeasurementsScreen({
     super.key,
     required this.profile,
+    required this.languageCode,
   });
 
   final UserProfile profile;
+  final String languageCode;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
+    final strings = AppStrings.of(languageCode);
 
     return Scaffold(
       body: TintedBackground(
@@ -61,11 +63,11 @@ class MeasurementsScreen extends StatelessWidget {
                     const SizedBox(height: 14),
                     _MeasurementRow(
                       label: strings.bodyType,
-                      value: profile.bodyType.title,
+                      value: profile.bodyType.titleFor(languageCode),
                     ),
                     const SizedBox(height: 18),
                     Text(
-                      profile.bodyType.description,
+                      profile.bodyType.descriptionFor(languageCode),
                       style: theme.textTheme.bodyMedium,
                     ),
                   ],
