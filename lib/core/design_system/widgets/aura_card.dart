@@ -6,7 +6,7 @@ class AuraCard extends StatelessWidget {
   const AuraCard({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(20),
+    this.padding = const EdgeInsets.all(16),
     this.borderColor,
     this.borderWidth = 1,
     this.color,

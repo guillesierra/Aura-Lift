@@ -344,7 +344,8 @@ class SocialSeed {
 
     for (var i = 0; i < extraNames.length; i += 1) {
       final name = extraNames[i];
-      final handle = name.toLowerCase().replaceAll(' ', '').replaceAll('ñ', 'n');
+      final handle =
+          name.toLowerCase().replaceAll(' ', '').replaceAll('ñ', 'n');
       seeded.add(
         SocialProfile(
           id: 'social-auto-${i + 1}',

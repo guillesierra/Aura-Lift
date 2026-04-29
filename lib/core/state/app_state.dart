@@ -38,9 +38,9 @@ class AppState extends ChangeNotifier {
   })  : _profileRepository = profileRepository,
         _exerciseRepository = exerciseRepository,
         _workoutRepository = workoutRepository,
-      _settingsRepository = settingsRepository,
-      _socialRepository = socialRepository,
-      _socialAuthService = socialAuthService;
+        _settingsRepository = settingsRepository,
+        _socialRepository = socialRepository,
+        _socialAuthService = socialAuthService;
 
   final ProfileRepository _profileRepository;
   final ExerciseRepository _exerciseRepository;
@@ -76,31 +76,33 @@ class AppState extends ChangeNotifier {
   SocialAuthAccount? get authAccount => _authAccount;
   HeartRateCoachCue? get pendingHeartRateCoachCue => _pendingHeartRateCoachCue;
   String? get pendingExerciseTechniqueTip => _pendingExerciseTechniqueTip;
-    List<SocialProfile> get communityProfiles => _resolvedCommunityProfiles();
-    List<SocialProfile> get followingProfiles => _resolvedCommunityProfiles()
+  List<SocialProfile> get communityProfiles => _resolvedCommunityProfiles();
+  List<SocialProfile> get followingProfiles => _resolvedCommunityProfiles()
       .where((profile) => _followingProfileIds.contains(profile.id))
       .toList(growable: false);
-    List<SocialProfile> get friendProfiles => _resolvedCommunityProfiles()
+  List<SocialProfile> get friendProfiles => _resolvedCommunityProfiles()
       .where(
-      (profile) =>
-        _followingProfileIds.contains(profile.id) && profile.followsMe,
+        (profile) =>
+            _followingProfileIds.contains(profile.id) && profile.followsMe,
       )
       .toList(growable: false);
-    List<SocialProfile> get incomingRequestProfiles => _resolvedCommunityProfiles()
-        .where(
-          (profile) =>
-              profile.followsMe &&
-              !_followingProfileIds.contains(profile.id) &&
-              !_dismissedIncomingRequestIds.contains(profile.id),
-        )
-        .toList(growable: false);
-    List<SocialProfile> get outgoingRequestProfiles => _resolvedCommunityProfiles()
-        .where(
-          (profile) =>
-              _followingProfileIds.contains(profile.id) && !profile.followsMe,
-        )
-        .toList(growable: false);
-    int get pendingIncomingRequestsCount => incomingRequestProfiles.length;
+  List<SocialProfile> get incomingRequestProfiles =>
+      _resolvedCommunityProfiles()
+          .where(
+            (profile) =>
+                profile.followsMe &&
+                !_followingProfileIds.contains(profile.id) &&
+                !_dismissedIncomingRequestIds.contains(profile.id),
+          )
+          .toList(growable: false);
+  List<SocialProfile> get outgoingRequestProfiles =>
+      _resolvedCommunityProfiles()
+          .where(
+            (profile) =>
+                _followingProfileIds.contains(profile.id) && !profile.followsMe,
+          )
+          .toList(growable: false);
+  int get pendingIncomingRequestsCount => incomingRequestProfiles.length;
   List<String> get availableMuscleGroups {
     final groups = _exercises.map((item) => item.muscleGroup).toSet().toList();
     groups.sort();
@@ -138,10 +140,10 @@ class AppState extends ChangeNotifier {
     final persistedFollowing = await _socialRepository.loadFollowingIds();
     _communityAvatarOverrides = await _socialRepository.loadAvatarOverrides();
     _dismissedIncomingRequestIds =
-      await _socialRepository.loadDismissedIncomingRequestIds();
+        await _socialRepository.loadDismissedIncomingRequestIds();
     _followingProfileIds = persistedFollowing.isEmpty
-      ? Set<String>.from(SocialSeed.initialFollowingIds)
-      : persistedFollowing;
+        ? Set<String>.from(SocialSeed.initialFollowingIds)
+        : persistedFollowing;
     _isBootstrapped = true;
     notifyListeners();
   }
@@ -234,8 +236,7 @@ class AppState extends ChangeNotifier {
   String exportWorkoutsAsCsv() {
     final finished = _sessions.where((session) => !session.isActive).toList(
           growable: false,
-        )
-      ..sort((a, b) => b.startedAt.compareTo(a.startedAt));
+        )..sort((a, b) => b.startedAt.compareTo(a.startedAt));
     return WorkoutCsvCodec.encode(finished);
   }
 
@@ -377,7 +378,9 @@ class AppState extends ChangeNotifier {
 
   List<WorkoutSession> socialCompletedSessionsFor(String profileId) {
     final sessions = _communitySessionsByProfileId[profileId] ?? const [];
-    return sessions.where((session) => !session.isActive).toList(growable: false)
+    return sessions
+        .where((session) => !session.isActive)
+        .toList(growable: false)
       ..sort((a, b) => b.startedAt.compareTo(a.startedAt));
   }
 
@@ -431,9 +434,8 @@ class AppState extends ChangeNotifier {
       return null;
     }
 
-    final mySessions = _sessions
-        .where((session) => !session.isActive)
-        .toList(growable: false);
+    final mySessions =
+        _sessions.where((session) => !session.isActive).toList(growable: false);
     final otherSessions = socialCompletedSessionsFor(profileId);
 
     final myStats = _statsFromSessions(mySessions);
@@ -949,10 +951,12 @@ class AppState extends ChangeNotifier {
     final completed = _sessions.where((session) => !session.isActive);
     return completed.fold<int>(
       0,
-      (sum, session) => sum + auraPointsForSession(
-        session,
-        bodyWeightKg: bodyWeightKg,
-      ),
+      (sum, session) =>
+          sum +
+          auraPointsForSession(
+            session,
+            bodyWeightKg: bodyWeightKg,
+          ),
     );
   }
 
@@ -966,10 +970,12 @@ class AppState extends ChangeNotifier {
     );
     return completed.fold<int>(
       0,
-      (sum, session) => sum + auraPointsForSession(
-        session,
-        bodyWeightKg: bodyWeightKg,
-      ),
+      (sum, session) =>
+          sum +
+          auraPointsForSession(
+            session,
+            bodyWeightKg: bodyWeightKg,
+          ),
     );
   }
 

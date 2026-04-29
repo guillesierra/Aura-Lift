@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../core/design_system/widgets/aura_card.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/state/app_state.dart';
 import '../home/home_screen.dart';
@@ -39,7 +38,7 @@ class _MainShellState extends State<MainShell> {
         ];
 
         return Scaffold(
-          extendBody: true,
+          extendBody: false,
           body: AnimatedSwitcher(
             duration: widget.appState.menuAnimationsEnabled
                 ? const Duration(milliseconds: 220)
@@ -64,22 +63,22 @@ class _MainShellState extends State<MainShell> {
               child: screens[_index],
             ),
           ),
-          bottomNavigationBar: SafeArea(
-            minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(AuraCard.radius),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface.withValues(alpha: 0.72),
-                    borderRadius: BorderRadius.circular(AuraCard.radius),
-                    border: Border.all(
-                      color: theme.colorScheme.outline.withValues(alpha: 0.58),
-                    ),
-                  ),
+          bottomNavigationBar: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: theme.colorScheme.outline.withValues(alpha: 0.44),
+                ),
+              ),
+            ),
+            child: SafeArea(
+              top: false,
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
                   child: NavigationBar(
-                    backgroundColor: Colors.transparent,
+                    backgroundColor:
+                        theme.colorScheme.surface.withValues(alpha: 0.88),
                     selectedIndex: _index,
                     onDestinationSelected: (value) {
                       setState(() => _index = value);

@@ -32,11 +32,13 @@ class TrainingHubScreen extends StatelessWidget {
                 builder: (context, constraints) => SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(strings.training, style: theme.textTheme.displayLarge),
+                        Text(strings.training,
+                            style: theme.textTheme.displayLarge),
                         const SizedBox(height: 12),
                         Text(
                           activeSession == null

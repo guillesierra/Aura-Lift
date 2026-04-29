@@ -15,7 +15,8 @@ import 'package:aura_lift/core/repositories/workout_repository.dart';
 import 'package:aura_lift/core/state/app_state.dart';
 
 void main() {
-  test('imports external heart-rate readings once for selected exercise', () async {
+  test('imports external heart-rate readings once for selected exercise',
+      () async {
     final exercise = Exercise(
       id: 'exercise-1',
       name: 'Press de banca',

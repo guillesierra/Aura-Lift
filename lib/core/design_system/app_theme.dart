@@ -50,7 +50,8 @@ class AppTheme {
 
     return base.copyWith(
       scaffoldBackgroundColor: const Color(0xFFF6F8F7),
-      materialTapTargetSize: MaterialTapTargetSize.padded,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: const VisualDensity(horizontal: -1, vertical: -1),
       textTheme: _textTheme(base.textTheme, Brightness.light),
       cardTheme: const CardThemeData(
         color: Colors.white,
@@ -75,7 +76,7 @@ class AppTheme {
         filled: true,
         fillColor: scheme.surfaceContainerHighest,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         hintStyle: TextStyle(color: scheme.onSurfaceVariant),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -92,15 +93,15 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(54),
+          minimumSize: const Size.fromHeight(48),
           backgroundColor: scheme.primary,
           foregroundColor: scheme.onPrimary,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(12),
           ),
           textStyle: const TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w700,
             letterSpacing: 0,
           ),
@@ -147,7 +148,8 @@ class AppTheme {
 
     return base.copyWith(
       scaffoldBackgroundColor: const Color(0xFF0F1518),
-      materialTapTargetSize: MaterialTapTargetSize.padded,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: const VisualDensity(horizontal: -1, vertical: -1),
       textTheme: _textTheme(base.textTheme, Brightness.dark),
       cardTheme: const CardThemeData(
         color: Color(0xFF151B1F),
@@ -172,7 +174,7 @@ class AppTheme {
         filled: true,
         fillColor: scheme.surfaceContainerHighest,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         hintStyle: TextStyle(color: scheme.onSurfaceVariant),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -189,15 +191,15 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(54),
+          minimumSize: const Size.fromHeight(48),
           backgroundColor: scheme.primary,
           foregroundColor: scheme.onPrimary,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(12),
           ),
           textStyle: const TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w700,
             letterSpacing: 0,
           ),
@@ -217,58 +219,58 @@ class AppTheme {
 
     return base.copyWith(
       displayLarge: TextStyle(
-        fontSize: 38,
-        fontWeight: FontWeight.w800,
-        color: primary,
-        letterSpacing: 0,
-        height: 1.08,
-      ),
-      headlineLarge: TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w800,
         color: primary,
         letterSpacing: 0,
         height: 1.1,
       ),
+      headlineLarge: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w800,
+        color: primary,
+        letterSpacing: 0,
+        height: 1.12,
+      ),
       headlineMedium: TextStyle(
-        fontSize: 26,
+        fontSize: 23,
         fontWeight: FontWeight.w700,
         color: primary,
         letterSpacing: 0,
-        height: 1.14,
+        height: 1.16,
       ),
       titleLarge: TextStyle(
-        fontSize: 19,
+        fontSize: 17,
         fontWeight: FontWeight.w700,
         color: primary,
         letterSpacing: 0,
       ),
       titleMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: FontWeight.w700,
         color: primary,
         letterSpacing: 0,
       ),
       bodyLarge: TextStyle(
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.w500,
         color: primary,
-        height: 1.4,
+        height: 1.36,
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: FontWeight.w500,
         color: secondary,
-        height: 1.35,
+        height: 1.32,
       ),
       labelLarge: TextStyle(
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: FontWeight.w700,
         color: primary,
         letterSpacing: 0,
       ),
       labelMedium: TextStyle(
-        fontSize: 13,
+        fontSize: 12,
         fontWeight: FontWeight.w700,
         color: secondary,
         letterSpacing: 0,
@@ -278,7 +280,7 @@ class AppTheme {
 
   static NavigationBarThemeData _navigationBarTheme(ColorScheme scheme) {
     return NavigationBarThemeData(
-      height: 70,
+      height: 64,
       elevation: 0,
       backgroundColor: scheme.surface,
       indicatorColor: scheme.primaryContainer,
@@ -286,13 +288,13 @@ class AppTheme {
         final selected = states.contains(WidgetState.selected);
         return IconThemeData(
           color: selected ? scheme.primary : scheme.onSurfaceVariant,
-          size: selected ? 26 : 24,
+          size: selected ? 24 : 22,
         );
       }),
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         final selected = states.contains(WidgetState.selected);
         return TextStyle(
-          fontSize: 13,
+          fontSize: 12,
           fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
           color: selected ? scheme.primary : scheme.onSurfaceVariant,
         );
@@ -331,14 +333,14 @@ class AppTheme {
   static OutlinedButtonThemeData _outlinedButtonTheme(ColorScheme scheme) {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        minimumSize: const Size.fromHeight(54),
+        minimumSize: const Size.fromHeight(48),
         foregroundColor: scheme.onSurface,
         side: BorderSide(color: scheme.outline),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(12),
         ),
         textStyle: const TextStyle(
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w700,
           letterSpacing: 0,
         ),

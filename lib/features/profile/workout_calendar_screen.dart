@@ -42,9 +42,8 @@ class _WorkoutCalendarScreenState extends State<WorkoutCalendarScreen> {
             .toSet()
             .toList(growable: false)
           ..sort();
-        final fallbackYear = availableYears.isEmpty
-            ? DateTime.now().year
-            : availableYears.last;
+        final fallbackYear =
+            availableYears.isEmpty ? DateTime.now().year : availableYears.last;
         final selectedYear = _selectedYear == null ||
                 (!availableYears.contains(_selectedYear) &&
                     availableYears.isNotEmpty)
@@ -62,7 +61,8 @@ class _WorkoutCalendarScreenState extends State<WorkoutCalendarScreen> {
         }
 
         final yearSessions = completedSessions
-            .where((session) => session.startedAt.toLocal().year == selectedYear)
+            .where(
+                (session) => session.startedAt.toLocal().year == selectedYear)
             .toList(growable: false);
         final days = _WorkoutDay.fromSessions(yearSessions);
 
@@ -113,14 +113,16 @@ class _WorkoutCalendarScreenState extends State<WorkoutCalendarScreen> {
                       onPreviousYear: hasPreviousYear
                           ? () {
                               setState(() {
-                                _selectedYear = availableYears[currentYearIndex - 1];
+                                _selectedYear =
+                                    availableYears[currentYearIndex - 1];
                               });
                             }
                           : null,
                       onNextYear: hasNextYear
                           ? () {
                               setState(() {
-                                _selectedYear = availableYears[currentYearIndex + 1];
+                                _selectedYear =
+                                    availableYears[currentYearIndex + 1];
                               });
                             }
                           : null,

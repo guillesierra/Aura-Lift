@@ -1,51 +1,33 @@
 # Aura Lift
 
-App de entrenamiento en Flutter para iOS y Android centrada en:
+Aura Lift es una app de entrenamiento en Flutter enfocada en registro de sesiones,
+progreso, frecuencia cardiaca y una experiencia visual compacta para movil.
 
-- perfil de usuario
-- registro de entrenamientos, ejercicios y series
-- progreso por ejercicio
-- frecuencia cardiaca por sesion y por ejercicio
-- coaching de audio basado en FC
-- tema claro/oscuro e idioma ES/EN
+## Que incluye hoy
 
-## Estado actual
+- Onboarding de perfil (nombre, altura, peso, tipo de cuerpo)
+- Registro de entrenamientos, ejercicios y series
+- Historial, detalle de sesion y progreso por ejercicio
+- Perfil con metricas, liga anual y calendario de entrenamientos
+- Capa social local con perfiles de amigos y comparativa de rendimiento
+- Importacion de frecuencia cardiaca desde proveedores de salud en iOS y Android
+- Coaching de audio basado en datos de entrenamiento y FC
+- Tema claro/oscuro, idioma ES/EN y soporte de emojis
+- Layout global compacto con ancho maximo tipo iPhone para UI consistente
 
-Base ya implementada:
+## Arquitectura
 
-- arquitectura modular en `lib/core` y `lib/features`
-- onboarding con nombre, altura, peso y tipo de cuerpo
-- persistencia local de perfil, ajustes, ejercicios y entrenamientos
-- seed inicial de 100 ejercicios comunes
-- creacion de ejercicios personalizados
-- sesion activa con ejercicios, series, peso y repeticiones
-- historial de entrenamientos con renombrado y borrado
-- detalle de entrenamiento con volumen, tiempo, FC media, FC maxima y desglose
-- progreso por ejercicio con historial y resumen
-- seleccion explicita del ejercicio activo para asociar nuevas muestras de FC
-- estimacion basica de kcal por entrenamiento y por ejercicio
-- lectura de FC desde Apple Health / HealthKit para muestras registradas por Apple Watch o dispositivos Apple compatibles
-
-Pendiente de producto:
-
-- captura en tiempo real directa desde Apple Watch / AirPods sin pasar por Apple Health
-- integracion real con musica en reproduccion
-- social real y backend
-- calculo avanzado de kcal y patrones con sensores reales
-
-## Estructura
-
-- `lib/app.dart`: arranque y dependencias
-- `lib/core/`: modelos, repositorios, estado, tema, localizacion y widgets base
-- `lib/features/`: onboarding, home, training, workout, profile y progress
-- `assets/seed/exercises_seed.json`: catalogo inicial
+- `lib/app.dart`: arranque, inyeccion de dependencias y frame global de app
+- `lib/core/`: estado, modelos, repositorios, tema, localizacion y utilidades
+- `lib/features/`: onboarding, home, training, workout, profile, progress, social
+- `assets/seed/exercises_seed.json`: seed de ejercicios base
 
 ## Requisitos
 
 - Flutter estable
-- Dart incluido con Flutter
+- Dart (incluido con Flutter)
 
-## Comandos
+## Comandos de desarrollo
 
 ```bash
 flutter pub get
@@ -54,26 +36,34 @@ flutter test
 flutter run
 ```
 
-### Modo demo con datos dummy
+## Pruebas responsive (recomendado)
 
-Para probar la interfaz con historial variado sin escribir datos reales en
-`SharedPreferences`, levanta la app con:
+Para validar overflows y accesibilidad basica en anchos de movil y text scale alto:
+
+```bash
+flutter test test/responsive_layout_test.dart
+```
+
+La bateria cubre escenarios de 320/360/390 px y textScale 1.3/1.4/1.5.
+
+## Modo demo
+
+Para arrancar con datos de ejemplo (sin persistencia real en disco):
 
 ```bash
 flutter run -d linux --dart-define=AURA_LIFT_DEMO_DATA=true
 ```
 
-Este modo usa repositorios en memoria e incluye perfil, entrenamientos de
-varios dias, ejercicios de distintos grupos musculares, series, volumen y
-muestras de frecuencia cardiaca con distintos BPM. Al cerrar la app, esos datos
-dummy se pierden.
+El modo demo incluye perfil, sesiones, volumen, progreso y muestras de FC para
+probar pantallas sin cargar datos manualmente.
 
 ## Plataformas
 
-El proyecto esta orientado a `iOS` y `Android`, pero puede ejecutarse en desktop para desarrollo de interfaz. La capa de voz se desactiva automaticamente en plataformas donde el plugin no tenga implementacion nativa disponible.
+- Objetivo principal: iOS y Android
+- Desktop: soportado para desarrollo y validacion de interfaz
 
-## Notas de desarrollo
+## Limitaciones actuales
 
-- Los datos se guardan localmente.
-- La localizacion activa soporta espanol e ingles.
-- La frecuencia cardiaca actual se puede registrar de forma manual desde la pantalla de sesion mientras no exista la integracion real con sensores.
+- No hay backend social real (funciona en modo local/demo)
+- No hay streaming nativo en tiempo real directo de wearable (se usa importacion)
+- El calculo de calorias y recomendaciones es heuristico

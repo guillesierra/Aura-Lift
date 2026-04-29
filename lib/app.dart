@@ -23,6 +23,8 @@ class AuraLiftApp extends StatefulWidget {
 }
 
 class _AuraLiftAppState extends State<AuraLiftApp> {
+  static const _maxPhoneWidth = 430.0;
+
   late final AppState _appState;
 
   @override
@@ -41,7 +43,7 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
       settingsRepository: AuraLiftApp.useDemoData
           ? DemoSettingsRepository()
           : LocalSettingsRepository(),
-        socialRepository: AuraLiftApp.useDemoData
+      socialRepository: AuraLiftApp.useDemoData
           ? DemoSocialRepository()
           : LocalSocialRepository(),
       socialAuthService: PluginSocialAuthService(),
@@ -74,6 +76,10 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
             themeMode: _appState.themeMode,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
+            builder: (context, child) => _PhoneFrame(
+              maxWidth: _maxPhoneWidth,
+              child: child ?? const SizedBox.shrink(),
+            ),
             home: const _BootstrapScreen(),
           );
         }
@@ -91,6 +97,10 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
           themeMode: _appState.themeMode,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
+          builder: (context, child) => _PhoneFrame(
+            maxWidth: _maxPhoneWidth,
+            child: child ?? const SizedBox.shrink(),
+          ),
           home: AnimatedSwitcher(
             duration: const Duration(milliseconds: 320),
             switchInCurve: Curves.easeOutCubic,
@@ -115,6 +125,34 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
                     key: const ValueKey('home'),
                     appState: _appState,
                   ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PhoneFrame extends StatelessWidget {
+  const _PhoneFrame({
+    required this.maxWidth,
+    required this.child,
+  });
+
+  final double maxWidth;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth <= maxWidth) {
+          return child;
+        }
+        return Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: child,
           ),
         );
       },

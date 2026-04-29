@@ -217,8 +217,8 @@ class FriendProfileScreen extends StatelessWidget {
                                     builder: (_) => WorkoutSummaryDetailScreen(
                                       session: session,
                                       authorName: profile.name,
-                                      bodyWeightKg: appState.profile?.weightKg ??
-                                          75,
+                                      bodyWeightKg:
+                                          appState.profile?.weightKg ?? 75,
                                     ),
                                   ),
                                 );
@@ -250,6 +250,23 @@ class _ComparisonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = AppStrings.of(languageCode);
     final theme = Theme.of(context);
+    final metrics = <({String label, String mine, String other})>[
+      (
+        label: strings.trainingTime,
+        mine: '${comparison.myStats.totalMinutes} min',
+        other: '${comparison.otherStats.totalMinutes} min',
+      ),
+      (
+        label: strings.totalVolume,
+        mine: '${comparison.myStats.totalVolume.toStringAsFixed(0)} kg',
+        other: '${comparison.otherStats.totalVolume.toStringAsFixed(0)} kg',
+      ),
+      (
+        label: strings.bestLift,
+        mine: '${comparison.myStats.topSingleLift.toStringAsFixed(1)} kg',
+        other: '${comparison.otherStats.topSingleLift.toStringAsFixed(1)} kg',
+      ),
+    ];
 
     return AuraCard(
       padding: const EdgeInsets.all(16),
@@ -261,28 +278,33 @@ class _ComparisonCard extends StatelessWidget {
             style: theme.textTheme.titleLarge,
           ),
           const SizedBox(height: 10),
-          _ComparisonRow(
-            label: strings.trainingTime,
-            mine: '${comparison.myStats.totalMinutes} min',
-            other: '${comparison.otherStats.totalMinutes} min',
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  strings.youLabel,
+                  style: theme.textTheme.labelMedium,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  strings.heSheLabel,
+                  textAlign: TextAlign.end,
+                  style: theme.textTheme.labelMedium,
+                ),
+              ),
+            ],
           ),
-          _ComparisonRow(
-            label: strings.totalVolume,
-            mine: '${comparison.myStats.totalVolume.toStringAsFixed(0)} kg',
-            other:
-                '${comparison.otherStats.totalVolume.toStringAsFixed(0)} kg',
-          ),
-          _ComparisonRow(
-            label: strings.totalWeightLifted,
-            mine: '${comparison.myStats.totalVolume.toStringAsFixed(0)} kg',
-            other:
-                '${comparison.otherStats.totalVolume.toStringAsFixed(0)} kg',
-          ),
-          _ComparisonRow(
-            label: strings.bestLift,
-            mine: '${comparison.myStats.topSingleLift.toStringAsFixed(1)} kg',
-            other:
-                '${comparison.otherStats.topSingleLift.toStringAsFixed(1)} kg',
+          const SizedBox(height: 8),
+          ...metrics.map(
+            (metric) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _ComparisonMetricTile(
+                label: metric.label,
+                mine: metric.mine,
+                other: metric.other,
+              ),
+            ),
           ),
           const SizedBox(height: 10),
           Text(
@@ -296,11 +318,11 @@ class _ComparisonCard extends StatelessWidget {
               style: theme.textTheme.bodyMedium,
             )
           else
-            ...comparison.sharedExerciseRecords.take(6).map(
+            ...comparison.sharedExerciseRecords.take(3).map(
                   (item) => Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: Text(
-                      '${_titleCase(item.exerciseName)}: ${strings.youLabel} ${item.myBestWeight.toStringAsFixed(0)}kg • ${strings.heSheLabel} ${item.otherBestWeight.toStringAsFixed(0)}kg',
+                      '${_titleCase(item.exerciseName)} · ${item.myBestWeight.toStringAsFixed(0)}kg / ${item.otherBestWeight.toStringAsFixed(0)}kg',
                       style: theme.textTheme.bodyMedium,
                     ),
                   ),
@@ -318,8 +340,8 @@ class _ComparisonCard extends StatelessWidget {
   }
 }
 
-class _ComparisonRow extends StatelessWidget {
-  const _ComparisonRow({
+class _ComparisonMetricTile extends StatelessWidget {
+  const _ComparisonMetricTile({
     required this.label,
     required this.mine,
     required this.other,
@@ -332,11 +354,25 @@ class _ComparisonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: theme.colorScheme.outline.withValues(alpha: 0.35),
+        ),
+      ),
       child: Row(
         children: [
-          Expanded(child: Text(label, style: theme.textTheme.bodyMedium)),
+          Expanded(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodyMedium,
+            ),
+          ),
           Expanded(
             child: Text(
               mine,

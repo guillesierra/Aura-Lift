@@ -75,155 +75,172 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     AuraCard(
                       padding: const EdgeInsets.all(18),
-                      child: Row(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                borderRadius: BorderRadius.circular(999),
+                                onTap: () async {
+                                  await _showAvatarActions(
+                                    context,
+                                    appState,
+                                    hasAvatar: profile.avatarUrl != null,
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  radius: 36,
+                                  backgroundColor:
+                                      theme.colorScheme.primaryContainer,
+                                  backgroundImage:
+                                      avatarImageProvider(profile.avatarUrl),
+                                  child: profile.avatarUrl == null
+                                      ? Text(
+                                          profile.name.isNotEmpty
+                                              ? profile.name[0].toUpperCase()
+                                              : 'A',
+                                          style: theme.textTheme.headlineMedium
+                                              ?.copyWith(
+                                            color: theme.colorScheme.primary,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      profile.name,
+                                      style: theme.textTheme.headlineMedium,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${profile.heightCm.toStringAsFixed(0)} cm · ${profile.weightKg.toStringAsFixed(0)} kg · ${profile.bodyType.titleFor(appState.languageCode)}',
+                                      style: theme.textTheme.bodyMedium,
+                                    ),
+                                    if (profile.city.isNotEmpty ||
+                                        profile.gym.isNotEmpty) ...[
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        [profile.city, profile.gym]
+                                            .where((item) => item.isNotEmpty)
+                                            .join(' · '),
+                                        style: theme.textTheme.bodySmall,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              IconButton.filledTonal(
+                                tooltip: strings.settings,
+                                onPressed: () async {
+                                  await _showProfileSettingsSheet(
+                                      context, appState);
+                                },
+                                icon: const Icon(Icons.settings_outlined),
+                              ),
+                            ],
+                          ),
+                          if (profile.presentation.isNotEmpty) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              profile.presentation,
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ],
+                          const SizedBox(height: 12),
                           InkWell(
                             borderRadius: BorderRadius.circular(999),
                             onTap: () async {
-                              await _showAvatarActions(
+                              await _showAnnualLeagueInfoSheet(
                                 context,
                                 appState,
-                                hasAvatar: profile.avatarUrl != null,
+                                year: currentYear,
+                                annualAuraPoints: annualAuraPoints,
                               );
                             },
-                            child: CircleAvatar(
-                              radius: 42,
-                              backgroundColor: theme.colorScheme.primaryContainer,
-                              backgroundImage:
-                                  avatarImageProvider(profile.avatarUrl),
-                              child: profile.avatarUrl == null
-                                  ? Text(
-                                      profile.name.isNotEmpty
-                                          ? profile.name[0].toUpperCase()
-                                          : 'A',
-                                      style:
-                                          theme.textTheme.headlineLarge?.copyWith(
-                                        color: theme.colorScheme.primary,
-                                      ),
-                                    )
-                                  : null,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  profile.name,
-                                  style: theme.textTheme.headlineMedium,
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  '${profile.heightCm.toStringAsFixed(0)} cm · ${profile.weightKg.toStringAsFixed(0)} kg · ${profile.bodyType.titleFor(appState.languageCode)}',
-                                  style: theme.textTheme.bodyMedium,
-                                ),
-                                if (profile.city.isNotEmpty ||
-                                    profile.gym.isNotEmpty) ...[
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    [profile.city, profile.gym]
-                                        .where((item) => item.isNotEmpty)
-                                        .join(' · '),
-                                    style: theme.textTheme.bodySmall,
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 7,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AuraLeagueSystem.color(
+                                  league,
+                                  theme,
+                                ).withValues(alpha: 0.14),
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    AuraLeagueSystem.icon(league),
+                                    size: 16,
+                                    color: AuraLeagueSystem.color(
+                                      league,
+                                      theme,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      '${strings.annualLeague} ${AuraLeagueSystem.localizedName(league, appState.languageCode)} · $currentYear · $annualAuraPoints ${strings.auraPointsShort}',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.labelMedium,
+                                    ),
                                   ),
                                 ],
-                                if (profile.presentation.isNotEmpty) ...[
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    profile.presentation,
-                                    style: theme.textTheme.bodyMedium,
-                                  ),
-                                ],
-                                const SizedBox(height: 10),
-                                InkWell(
-                                  borderRadius: BorderRadius.circular(999),
-                                  onTap: () async {
-                                    await _showAnnualLeagueInfoSheet(
-                                      context,
-                                      appState,
-                                      year: currentYear,
-                                      annualAuraPoints: annualAuraPoints,
-                                    );
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 7,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: AuraLeagueSystem.color(
-                                        league,
-                                        theme,
-                                      ).withValues(alpha: 0.14),
-                                      borderRadius: BorderRadius.circular(999),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Icon(
-                                          AuraLeagueSystem.icon(league),
-                                          size: 16,
-                                          color: AuraLeagueSystem.color(
-                                            league,
-                                            theme,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 6),
-                                        Expanded(
-                                          child: Text(
-                                            '${strings.annualLeague} ${AuraLeagueSystem.localizedName(league, appState.languageCode)} · $currentYear · $annualAuraPoints ${strings.auraPointsShort}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: theme.textTheme.labelMedium,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 14),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: _TopStat(
-                                        label: strings.workouts,
-                                        value: '${completedSessions.length}',
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: _TopStat(
-                                        label: strings.volume,
-                                        value:
-                                            '${totalVolume.toStringAsFixed(0)} kg',
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: _TopStat(
-                                        label: strings.duration,
-                                        value: '${totalMinutes}m',
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: _TopStat(
-                                        label: strings.auraPointsShort,
-                                        value: '$totalAuraPoints',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          IconButton.filledTonal(
-                            tooltip: strings.settings,
-                            onPressed: () async {
-                              await _showProfileSettingsSheet(context, appState);
+                          const SizedBox(height: 14),
+                          LayoutBuilder(
+                            builder: (context, constraints) {
+                              final itemWidth = (constraints.maxWidth - 10) / 2;
+                              return Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: [
+                                  SizedBox(
+                                    width: itemWidth,
+                                    child: _TopStat(
+                                      label: strings.workouts,
+                                      value: '${completedSessions.length}',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: itemWidth,
+                                    child: _TopStat(
+                                      label: strings.volume,
+                                      value:
+                                          '${totalVolume.toStringAsFixed(0)} kg',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: itemWidth,
+                                    child: _TopStat(
+                                      label: strings.duration,
+                                      value: '${totalMinutes}m',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: itemWidth,
+                                    child: _TopStat(
+                                      label: strings.auraPointsShort,
+                                      value: '$totalAuraPoints',
+                                    ),
+                                  ),
+                                ],
+                              );
                             },
-                            icon: const Icon(Icons.settings_outlined),
                           ),
                         ],
                       ),
@@ -253,7 +270,12 @@ class ProfileScreen extends StatelessWidget {
                                   width: 120,
                                   height: 40,
                                   child: Stack(
-                                    children: friends.take(4).toList().asMap().entries.map(
+                                    children: friends
+                                        .take(4)
+                                        .toList()
+                                        .asMap()
+                                        .entries
+                                        .map(
                                       (entry) {
                                         final index = entry.key;
                                         final friend = entry.value;
@@ -261,12 +283,14 @@ class ProfileScreen extends StatelessWidget {
                                           left: index * 24,
                                           child: CircleAvatar(
                                             radius: 18,
-                                            backgroundImage: friend.avatarUrl ==
-                                                    null
-                                                ? null
-                                                : NetworkImage(friend.avatarUrl!),
+                                            backgroundImage:
+                                                friend.avatarUrl == null
+                                                    ? null
+                                                    : NetworkImage(
+                                                        friend.avatarUrl!),
                                             child: friend.avatarUrl == null
-                                                ? Text(friend.name[0].toUpperCase())
+                                                ? Text(friend.name[0]
+                                                    .toUpperCase())
                                                 : null,
                                           ),
                                         );
@@ -491,7 +515,8 @@ Future<void> _showProfileSettingsSheet(
       TextEditingController(text: profile.weightKg.toStringAsFixed(0));
   final cityController = TextEditingController(text: profile.city);
   final gymController = TextEditingController(text: profile.gym);
-  final presentationController = TextEditingController(text: profile.presentation);
+  final presentationController =
+      TextEditingController(text: profile.presentation);
   var selectedBodyType = profile.bodyType;
   var replaceExisting = false;
   var isBusy = false;
@@ -546,7 +571,8 @@ Future<void> _showProfileSettingsSheet(
                             ? null
                             : () async {
                                 setStateModal(() => isBusy = true);
-                                final result = await appState.signInWithGoogle();
+                                final result =
+                                    await appState.signInWithGoogle();
                                 if (!context.mounted) {
                                   return;
                                 }
@@ -554,15 +580,18 @@ Future<void> _showProfileSettingsSheet(
                                 final messenger = ScaffoldMessenger.of(context);
                                 if (result.isSuccess) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.authSuccess)),
+                                    SnackBar(
+                                        content: Text(strings.authSuccess)),
                                   );
                                 } else if (result.isCancelled) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.authCancelled)),
+                                    SnackBar(
+                                        content: Text(strings.authCancelled)),
                                   );
                                 } else if (result.isUnsupported) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.authUnsupported)),
+                                    SnackBar(
+                                        content: Text(strings.authUnsupported)),
                                   );
                                 } else if (result.errorMessage != null) {
                                   messenger.showSnackBar(
@@ -590,15 +619,18 @@ Future<void> _showProfileSettingsSheet(
                                 final messenger = ScaffoldMessenger.of(context);
                                 if (result.isSuccess) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.authSuccess)),
+                                    SnackBar(
+                                        content: Text(strings.authSuccess)),
                                   );
                                 } else if (result.isCancelled) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.authCancelled)),
+                                    SnackBar(
+                                        content: Text(strings.authCancelled)),
                                   );
                                 } else if (result.isUnsupported) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.authUnsupported)),
+                                    SnackBar(
+                                        content: Text(strings.authUnsupported)),
                                   );
                                 } else if (result.errorMessage != null) {
                                   messenger.showSnackBar(
@@ -655,7 +687,8 @@ Future<void> _showProfileSettingsSheet(
                             ? null
                             : () async {
                                 final csv = appState.exportWorkoutsAsCsv();
-                                final savePath = await FilePicker.platform.saveFile(
+                                final savePath =
+                                    await FilePicker.platform.saveFile(
                                   dialogTitle: strings.exportCsv,
                                   fileName: 'aura_lift_workouts.csv',
                                   type: FileType.custom,
@@ -683,7 +716,8 @@ Future<void> _showProfileSettingsSheet(
                                 }
                                 messenger.showSnackBar(
                                   SnackBar(
-                                    content: Text(strings.csvExported(savePath)),
+                                    content:
+                                        Text(strings.csvExported(savePath)),
                                   ),
                                 );
                               },
@@ -694,7 +728,8 @@ Future<void> _showProfileSettingsSheet(
                         onPressed: isBusy
                             ? null
                             : () async {
-                                final picked = await FilePicker.platform.pickFiles(
+                                final picked =
+                                    await FilePicker.platform.pickFiles(
                                   dialogTitle: strings.importCsv,
                                   type: FileType.custom,
                                   allowedExtensions: const ['csv'],
@@ -718,18 +753,21 @@ Future<void> _showProfileSettingsSheet(
                                 if (selected.bytes != null) {
                                   raw = utf8.decode(selected.bytes!);
                                 } else if (selected.path != null) {
-                                  raw = await File(selected.path!).readAsString();
+                                  raw =
+                                      await File(selected.path!).readAsString();
                                 }
                                 if (raw == null || raw.trim().isEmpty) {
                                   messenger.showSnackBar(
-                                    SnackBar(content: Text(strings.csvImportEmpty)),
+                                    SnackBar(
+                                        content: Text(strings.csvImportEmpty)),
                                   );
                                   return;
                                 }
 
                                 setStateModal(() => isBusy = true);
                                 try {
-                                  final report = await appState.importWorkoutsFromCsv(
+                                  final report =
+                                      await appState.importWorkoutsFromCsv(
                                     raw,
                                     replaceExisting: replaceExisting,
                                   );
@@ -759,7 +797,8 @@ Future<void> _showProfileSettingsSheet(
                                     messenger.showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          strings.csvImportError(error.toString()),
+                                          strings
+                                              .csvImportError(error.toString()),
                                         ),
                                       ),
                                     );
@@ -789,7 +828,8 @@ Future<void> _showProfileSettingsSheet(
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: InputDecoration(labelText: strings.height),
+                          decoration:
+                              InputDecoration(labelText: strings.height),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -799,7 +839,8 @@ Future<void> _showProfileSettingsSheet(
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: InputDecoration(labelText: strings.weight),
+                          decoration:
+                              InputDecoration(labelText: strings.weight),
                         ),
                       ),
                     ],
@@ -838,7 +879,8 @@ Future<void> _showProfileSettingsSheet(
                     controller: presentationController,
                     maxLength: 200,
                     maxLines: 4,
-                    decoration: InputDecoration(labelText: strings.presentation),
+                    decoration:
+                        InputDecoration(labelText: strings.presentation),
                   ),
                   const SizedBox(height: 10),
                   FilledButton(
@@ -885,13 +927,23 @@ class _TopStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: theme.textTheme.labelMedium),
-        const SizedBox(height: 2),
-        Text(value, style: theme.textTheme.titleMedium),
-      ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: theme.colorScheme.outline.withValues(alpha: 0.4),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: theme.textTheme.labelMedium),
+          const SizedBox(height: 2),
+          Text(value, style: theme.textTheme.titleMedium),
+        ],
+      ),
     );
   }
 }
@@ -935,7 +987,8 @@ class _ActionTile extends StatelessWidget {
   }
 }
 
-Future<void> _pickAvatarFromDevice(BuildContext context, AppState appState) async {
+Future<void> _pickAvatarFromDevice(
+    BuildContext context, AppState appState) async {
   final picked = await FilePicker.platform.pickFiles(
     dialogTitle: AppStrings.of(appState.languageCode).changeProfilePhoto,
     type: FileType.image,
@@ -1061,7 +1114,8 @@ Future<void> _showAnnualLeagueInfoSheet(
                           color: color.withValues(alpha: isCurrent ? 0.2 : 0.1),
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color: color.withValues(alpha: isCurrent ? 0.7 : 0.35),
+                            color:
+                                color.withValues(alpha: isCurrent ? 0.7 : 0.35),
                           ),
                         ),
                         child: Row(

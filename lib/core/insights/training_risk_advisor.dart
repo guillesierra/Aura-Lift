@@ -135,7 +135,7 @@ class TrainingRiskAdvisor {
     }
 
     recommendations
-      .sort((a, b) => b.severity.index.compareTo(a.severity.index));
+        .sort((a, b) => b.severity.index.compareTo(a.severity.index));
     return recommendations;
   }
 

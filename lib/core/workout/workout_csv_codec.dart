@@ -64,26 +64,25 @@ class WorkoutCsvCodec {
     return const ListToCsvConverter().convert(rows);
   }
 
-  static ({List<WorkoutSession> sessions, WorkoutCsvImportReport report}) decode(
+  static ({List<WorkoutSession> sessions, WorkoutCsvImportReport report})
+      decode(
     String raw,
   ) {
     final parsed = const CsvToListConverter(
       shouldParseNumbers: false,
       eol: '\n',
-    )
-        .convert(raw)
-        .where((row) => row.isNotEmpty)
-        .toList(growable: false);
+    ).convert(raw).where((row) => row.isNotEmpty).toList(growable: false);
     if (parsed.length <= 1) {
       return (
         sessions: const [],
-        report: const WorkoutCsvImportReport(sessions: 0, exercises: 0, sets: 0),
+        report:
+            const WorkoutCsvImportReport(sessions: 0, exercises: 0, sets: 0),
       );
     }
 
     final header = parsed.first
-      .map((item) => _normalizeHeader(item.toString()))
-      .toList(growable: false);
+        .map((item) => _normalizeHeader(item.toString()))
+        .toList(growable: false);
     final indexByName = <String, int>{
       for (var i = 0; i < header.length; i++) header[i]: i,
     };
@@ -91,31 +90,37 @@ class WorkoutCsvCodec {
     final bucketBySession = <String, _SessionBucket>{};
 
     for (final row in parsed.skip(1)) {
-      final title = _readCell(indexByName, row, const ['title', 'workout_title']) ??
-          _readCellAtIndex(row, 0);
+      final title =
+          _readCell(indexByName, row, const ['title', 'workout_title']) ??
+              _readCellAtIndex(row, 0);
       final exerciseTitle = _readCell(
-        indexByName,
-        row,
-        const ['exercise_title', 'exercise', 'exercise_name', 'name'],
-      ) ??
+            indexByName,
+            row,
+            const ['exercise_title', 'exercise', 'exercise_name', 'name'],
+          ) ??
           _readCellAtIndex(row, 4);
-      if (title == null || title.isEmpty || exerciseTitle == null || exerciseTitle.isEmpty) {
+      if (title == null ||
+          title.isEmpty ||
+          exerciseTitle == null ||
+          exerciseTitle.isEmpty) {
         continue;
       }
 
-      final startedAt =
-          _parseDate(_readCell(indexByName, row, const ['start_time', 'started_at', 'date'])) ??
-              _parseDate(_readCellAtIndex(row, 1)) ??
-              _parseDate(_readCell(indexByName, row, const ['end_time', 'ended_at'])) ??
-              _parseDate(_readCellAtIndex(row, 2)) ??
-              DateTime.now().toUtc();
+      final startedAt = _parseDate(_readCell(
+              indexByName, row, const ['start_time', 'started_at', 'date'])) ??
+          _parseDate(_readCellAtIndex(row, 1)) ??
+          _parseDate(
+              _readCell(indexByName, row, const ['end_time', 'ended_at'])) ??
+          _parseDate(_readCellAtIndex(row, 2)) ??
+          DateTime.now().toUtc();
       final endedAt = _parseDate(
-        _readCell(indexByName, row, const ['end_time', 'ended_at']),
-      ) ??
+            _readCell(indexByName, row, const ['end_time', 'ended_at']),
+          ) ??
           _parseDate(_readCellAtIndex(row, 2));
 
-      final sessionId = _readCell(indexByName, row, const ['session_id', 'workout_id']) ??
-          'csv-${startedAt.microsecondsSinceEpoch}-${title.hashCode}';
+      final sessionId =
+          _readCell(indexByName, row, const ['session_id', 'workout_id']) ??
+              'csv-${startedAt.microsecondsSinceEpoch}-${title.hashCode}';
       final sessionKey = '$sessionId|${startedAt.toIso8601String()}';
       final bucket = bucketBySession.putIfAbsent(
         sessionKey,
@@ -127,10 +132,11 @@ class WorkoutCsvCodec {
         ),
       );
 
-        final exerciseId = _readCell(indexByName, row, const ['exercise_id']) ??
+      final exerciseId = _readCell(indexByName, row, const ['exercise_id']) ??
           'csv-ex-${exerciseTitle.trim().toLowerCase().replaceAll(' ', '-')}-${bucket.exerciseBuckets.length + 1}';
-        final muscleGroup =
-          _readCell(indexByName, row, const ['muscle_group', 'muscle']) ?? 'General';
+      final muscleGroup =
+          _readCell(indexByName, row, const ['muscle_group', 'muscle']) ??
+              'General';
       final exerciseBucket = bucket.exerciseBuckets.putIfAbsent(
         exerciseTitle,
         () => _ExerciseBucket(
@@ -141,17 +147,20 @@ class WorkoutCsvCodec {
         ),
       );
 
-        final reps = _toInt(_readCell(indexByName, row, const ['reps'])) ?? 1;
-        final weight =
-          _toDouble(_readCell(indexByName, row, const ['weight_kg', 'weight'])) ?? 0;
-        final setTime = _parseDate(
-          _readCell(indexByName, row, const ['set_completed_at', 'completed_at']),
+      final reps = _toInt(_readCell(indexByName, row, const ['reps'])) ?? 1;
+      final weight = _toDouble(
+              _readCell(indexByName, row, const ['weight_kg', 'weight'])) ??
+          0;
+      final setTime = _parseDate(
+            _readCell(
+                indexByName, row, const ['set_completed_at', 'completed_at']),
           ) ??
           bucket.startedAt;
-        final setIndex = _toInt(_readCell(indexByName, row, const ['set_index', 'set'])) ??
-          exerciseBucket.rawSets.length;
+      final setIndex =
+          _toInt(_readCell(indexByName, row, const ['set_index', 'set'])) ??
+              exerciseBucket.rawSets.length;
 
-        final setId = _readCell(indexByName, row, const ['set_id']) ??
+      final setId = _readCell(indexByName, row, const ['set_id']) ??
           'csv-set-${setTime.microsecondsSinceEpoch}-${exerciseBucket.rawSets.length}';
       exerciseBucket.rawSets.add(
         _RawSet(
@@ -181,7 +190,9 @@ class WorkoutCsvCodec {
                   muscleGroup: exerciseBucket.muscleGroup,
                   orderIndex: exerciseBucket.orderIndex,
                   startedAt: bucket.startedAt,
-                  sets: sortedSets.map((item) => item.set).toList(growable: false),
+                  sets: sortedSets
+                      .map((item) => item.set)
+                      .toList(growable: false),
                 );
               })
               .where((exercise) => exercise.sets.isNotEmpty)

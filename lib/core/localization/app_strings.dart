@@ -63,7 +63,7 @@ class AppStrings {
       isEnglish ? 'Training insights' : 'Resumen de entreno';
   String get searchProfiles =>
       isEnglish ? 'Search profiles' : 'Buscar perfiles';
-    String get socialHub => isEnglish ? 'Social' : 'Social';
+  String get socialHub => isEnglish ? 'Social' : 'Social';
   String get followProfile => isEnglish ? 'Follow' : 'Seguir';
   String get unfollowProfile => isEnglish ? 'Unfollow' : 'Dejar de seguir';
   String get viewProfile => isEnglish ? 'View profile' : 'Ver perfil';
@@ -159,16 +159,14 @@ class AppStrings {
   String get profileSettings =>
       isEnglish ? 'Profile settings' : 'Configuracion de perfil';
   String get account => isEnglish ? 'Account' : 'Cuenta';
-  String get notConnected =>
-      isEnglish ? 'Not connected' : 'Sin conexion';
+  String get notConnected => isEnglish ? 'Not connected' : 'Sin conexion';
   String connectedWith(String provider) =>
       isEnglish ? 'Connected with $provider' : 'Conectado con $provider';
   String get connectGoogle =>
       isEnglish ? 'Sign in with Google' : 'Iniciar con Google';
   String get connectApple =>
       isEnglish ? 'Sign in with Apple' : 'Iniciar con Apple';
-  String get disconnectAccount =>
-      isEnglish ? 'Sign out' : 'Cerrar sesion';
+  String get disconnectAccount => isEnglish ? 'Sign out' : 'Cerrar sesion';
   String get authCancelled =>
       isEnglish ? 'Login cancelled.' : 'Inicio de sesion cancelado.';
   String get authUnsupported => isEnglish
@@ -180,39 +178,35 @@ class AppStrings {
       isEnglish ? 'Login error: $message' : 'Error de inicio: $message';
   String get dataTransfer =>
       isEnglish ? 'Workout CSV' : 'CSV de entrenamientos';
-  String get exportCsv =>
-      isEnglish ? 'Export CSV' : 'Exportar CSV';
-  String get importCsv =>
-      isEnglish ? 'Import CSV' : 'Importar CSV';
-  String get replaceExistingWorkouts => isEnglish
-      ? 'Replace existing history'
-      : 'Reemplazar historial actual';
+  String get exportCsv => isEnglish ? 'Export CSV' : 'Exportar CSV';
+  String get importCsv => isEnglish ? 'Import CSV' : 'Importar CSV';
+  String get replaceExistingWorkouts =>
+      isEnglish ? 'Replace existing history' : 'Reemplazar historial actual';
   String csvExported(String path) =>
       isEnglish ? 'CSV exported to $path' : 'CSV exportado en $path';
-  String get csvExportCancelled => isEnglish
-      ? 'Export cancelled.'
-      : 'Exportacion cancelada.';
-  String get csvImportCancelled => isEnglish
-      ? 'Import cancelled.'
-      : 'Importacion cancelada.';
-  String get csvImportEmpty =>
-      isEnglish ? 'No workouts found in CSV.' : 'No se encontraron entrenos en el CSV.';
+  String get csvExportCancelled =>
+      isEnglish ? 'Export cancelled.' : 'Exportacion cancelada.';
+  String get csvImportCancelled =>
+      isEnglish ? 'Import cancelled.' : 'Importacion cancelada.';
+  String get csvImportEmpty => isEnglish
+      ? 'No workouts found in CSV.'
+      : 'No se encontraron entrenos en el CSV.';
   String csvImported(int sessions, int sets) => isEnglish
       ? 'Imported $sessions workouts and $sets sets.'
       : 'Importados $sessions entrenos y $sets series.';
-  String csvImportError(String message) =>
-      isEnglish ? 'CSV import error: $message' : 'Error importando CSV: $message';
+  String csvImportError(String message) => isEnglish
+      ? 'CSV import error: $message'
+      : 'Error importando CSV: $message';
   String get city => isEnglish ? 'City' : 'Ciudad';
   String get gym => isEnglish ? 'Gym' : 'Gimnasio';
-  String get presentation =>
-      isEnglish ? 'Presentation' : 'Presentacion';
+  String get presentation => isEnglish ? 'Presentation' : 'Presentacion';
   String totalFriendsCount(int count) =>
       isEnglish ? '$count friends' : '$count amigos';
   String get settings => isEnglish ? 'Settings' : 'Configuracion';
   String get appearance => isEnglish ? 'Appearance' : 'Apariencia';
   String get language => isEnglish ? 'Language' : 'Idioma';
-    String get menuAnimations =>
-            isEnglish ? 'Menu animations' : 'Animaciones de menu';
+  String get menuAnimations =>
+      isEnglish ? 'Menu animations' : 'Animaciones de menu';
   String get followSystem => isEnglish ? 'System' : 'Sistema';
   String get light => isEnglish ? 'Light' : 'Claro';
   String get dark => isEnglish ? 'Dark' : 'Oscuro';
@@ -222,9 +216,9 @@ class AppStrings {
   String get time => isEnglish ? 'Time' : 'Tiempo';
   String get sets => isEnglish ? 'Sets' : 'Series';
   String get heartRateShort => isEnglish ? 'HR' : 'FC';
-    String get auraPoints => isEnglish ? 'Aura Points' : 'Aura Points';
-    String get auraPointsShort => isEnglish ? 'AP' : 'AP';
-    String get annualLeague => isEnglish ? 'Annual league' : 'Liga anual';
+  String get auraPoints => isEnglish ? 'Aura Points' : 'Aura Points';
+  String get auraPointsShort => isEnglish ? 'AP' : 'AP';
+  String get annualLeague => isEnglish ? 'Annual league' : 'Liga anual';
   String get heartRateUnit => isEnglish ? 'bpm' : 'lpm';
   String get rename => isEnglish ? 'Rename' : 'Renombrar';
   String get deleteWorkout =>
@@ -262,9 +256,8 @@ class AppStrings {
       : 'Importa muestras de frecuencia cardiaca desde Apple Health (iPhone) o Health Connect/Google Fit (dispositivos Android).';
   String get appleHealthSyncing =>
       isEnglish ? 'Reading Apple Health...' : 'Leyendo Apple Health...';
-  String get heartHealthSyncing => isEnglish
-      ? 'Reading health data...'
-      : 'Leyendo datos de salud...';
+  String get heartHealthSyncing =>
+      isEnglish ? 'Reading health data...' : 'Leyendo datos de salud...';
   String get appleHealthUnsupported => isEnglish
       ? 'Apple Health sync is available on iPhone.'
       : 'La sincronizacion con Apple Health esta disponible en iPhone.';
@@ -422,8 +415,8 @@ class AppStrings {
   String get noSharedExercises => isEnglish
       ? 'No shared exercises yet.'
       : 'Aun no hay ejercicios compartidos.';
-    String get youLabel => isEnglish ? 'You' : 'Tu';
-    String get heSheLabel => isEnglish ? 'They' : 'El/Ella';
+  String get youLabel => isEnglish ? 'You' : 'Tu';
+  String get heSheLabel => isEnglish ? 'They' : 'El/Ella';
 }
 
 extension ThemeModeLabel on ThemeMode {

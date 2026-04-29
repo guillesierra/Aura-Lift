@@ -241,7 +241,7 @@ class HomeScreen extends StatelessWidget {
                                 estimatedCalories:
                                     CalorieEstimator.estimateWorkoutCalories(
                                   session: item.session,
-                                    bodyWeightKg: profile.weightKg,
+                                  bodyWeightKg: profile.weightKg,
                                 ),
                                 auraPoints: appState.auraPointsForSession(
                                   item.session,
@@ -834,7 +834,8 @@ Future<void> _showCommunitySearchSheet(
                                   );
                                   setModalState(() {});
                                 },
-                                child: Text(_statusActionLabel(strings, status)),
+                                child:
+                                    Text(_statusActionLabel(strings, status)),
                               ),
                             ],
                           ),

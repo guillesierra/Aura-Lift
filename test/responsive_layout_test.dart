@@ -152,7 +152,8 @@ Future<void> _pumpAppScenario(
   expect(
     overflowErrors,
     isEmpty,
-    reason: 'Detected overflow errors at ${width}px and text scale x$textScale.',
+    reason:
+        'Detected overflow errors at ${width}px and text scale x$textScale.',
   );
 }
 

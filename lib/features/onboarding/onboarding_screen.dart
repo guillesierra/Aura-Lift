@@ -363,24 +363,24 @@ class _BodyTypeStep extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Text(strings.bodyType, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 12),
-            Text(
-              strings.bodyTypeCopy,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 24),
-            ...BodyType.values.map(
-              (type) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _BodyTypeTile(
-                  type: type,
-                  strings: strings,
-                  isSelected: type == selected,
-                  onTap: () => onSelected(type),
+              Text(strings.bodyType, style: theme.textTheme.headlineMedium),
+              const SizedBox(height: 12),
+              Text(
+                strings.bodyTypeCopy,
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 24),
+              ...BodyType.values.map(
+                (type) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _BodyTypeTile(
+                    type: type,
+                    strings: strings,
+                    isSelected: type == selected,
+                    onTap: () => onSelected(type),
+                  ),
                 ),
               ),
-            ),
             ],
           ),
         ),

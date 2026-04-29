@@ -41,8 +41,7 @@ void main() {
         isTrue,
         reason: 'Invalid difficulty for $name: $difficulty',
       );
-      expect(imagePrompt, isNotEmpty,
-          reason: 'Missing imagePrompt for $name');
+      expect(imagePrompt, isNotEmpty, reason: 'Missing imagePrompt for $name');
     }
 
     expect(data.length, greaterThanOrEqualTo(120));

@@ -8,9 +8,8 @@ class AuraPointsEstimator {
     required double bodyWeightKg,
   }) {
     final safeBodyWeight = bodyWeightKg <= 0 ? 70.0 : bodyWeightKg;
-    final durationMinutes = session.duration.inMinutes < 1
-        ? 1
-        : session.duration.inMinutes;
+    final durationMinutes =
+        session.duration.inMinutes < 1 ? 1 : session.duration.inMinutes;
 
     var relativeVolume = 0.0;
     var weightedSetCount = 0.0;
@@ -37,8 +36,12 @@ class AuraPointsEstimator {
     final setScore = weightedSetCount * 1.35;
     final competitiveScore = intensityScore * 2.1;
 
-    final total =
-        workScore + setScore + competitiveScore + heavySetBonus + durationBonus + exerciseBonus;
+    final total = workScore +
+        setScore +
+        competitiveScore +
+        heavySetBonus +
+        durationBonus +
+        exerciseBonus;
     return total <= 0 ? 0 : total.round();
   }
 }

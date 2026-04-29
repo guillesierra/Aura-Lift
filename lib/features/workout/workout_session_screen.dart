@@ -260,23 +260,17 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                compactActions
-                    ? FloatingActionButton(
-                        heroTag: 'finish_workout_fab',
-                        onPressed: finishAction,
-                        backgroundColor: const Color(0xFFC62828),
-                        foregroundColor: Colors.white,
-                        tooltip: strings.finish,
-                        child: const Icon(Icons.flag_outlined),
-                      )
-                    : FloatingActionButton.extended(
-                        heroTag: 'finish_workout_fab',
-                        onPressed: finishAction,
-                        backgroundColor: const Color(0xFFC62828),
-                        foregroundColor: Colors.white,
-                        icon: const Icon(Icons.flag_outlined),
-                        label: Text(strings.finish),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: FloatingActionButton(
+                    heroTag: 'finish_workout_fab',
+                    onPressed: finishAction,
+                    backgroundColor: const Color(0xFFC62828),
+                    foregroundColor: Colors.white,
+                    tooltip: strings.finish,
+                    child: const Icon(Icons.flag_outlined),
+                  ),
+                ),
                 compactActions
                     ? FloatingActionButton(
                         heroTag: 'add_exercise_fab',
@@ -460,33 +454,6 @@ class _HeartRatePanelState extends State<_HeartRatePanel> {
             Text(
               _healthMessage!,
               style: theme.textTheme.bodySmall,
-            ),
-          ],
-          if (samples.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            Text(strings.recentSamples, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: samples
-                  .map(
-                    (sample) => Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        '${sample.bpm} ${strings.heartRateUnit}',
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  )
-                  .toList(growable: false),
             ),
           ],
         ],
@@ -1312,12 +1279,10 @@ Future<void> _showExercisePickerSheet(
                 final muscleGroups = appState.canonicalMuscleGroups;
                 final equipmentTypes = appState.canonicalEquipmentTypes;
                 final filteredExercises = appState.exercises.where((exercise) {
-                  final matchesGroup =
-                      selectedMuscleGroup == null ||
-                          exercise.muscleGroup == selectedMuscleGroup;
-                  final matchesEquipment =
-                      selectedEquipment == null ||
-                          exercise.equipment == selectedEquipment;
+                  final matchesGroup = selectedMuscleGroup == null ||
+                      exercise.muscleGroup == selectedMuscleGroup;
+                  final matchesEquipment = selectedEquipment == null ||
+                      exercise.equipment == selectedEquipment;
                   if (query.isEmpty) {
                     return matchesGroup && matchesEquipment;
                   }
@@ -1441,8 +1406,8 @@ Future<void> _showExercisePickerSheet(
                               title: Text(exercise.name),
                               subtitle: Text(
                                 lastSnapshot == null
-                                ? '${exercise.muscleGroup} · ${exercise.equipment}'
-                                : '${exercise.muscleGroup} · ${exercise.equipment} · ${lastSnapshot.summaryFor(appState.languageCode)}',
+                                    ? '${exercise.muscleGroup} · ${exercise.equipment}'
+                                    : '${exercise.muscleGroup} · ${exercise.equipment} · ${lastSnapshot.summaryFor(appState.languageCode)}',
                               ),
                               trailing: Icon(
                                 disabled
@@ -1477,7 +1442,8 @@ Future<void> _showExercisePickerSheet(
                       DropdownButtonFormField<String>(
                         initialValue: selectedMuscleGroup,
                         isExpanded: true,
-                        decoration: InputDecoration(labelText: strings.muscleGroup),
+                        decoration:
+                            InputDecoration(labelText: strings.muscleGroup),
                         items: muscleGroups
                             .map(
                               (group) => DropdownMenuItem<String>(

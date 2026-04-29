@@ -88,17 +88,20 @@ class ExerciseTechniqueTipBuilder {
           ? 'Lead with elbows and keep your chest open to engage your back properly.'
           : 'Guia con codos y mantén el pecho abierto para activar bien la espalda.';
     }
-    if (normalizedGroup.contains('piernas') || normalizedGroup.contains('gemelos')) {
+    if (normalizedGroup.contains('piernas') ||
+        normalizedGroup.contains('gemelos')) {
       return isEnglish
           ? 'Use full range of motion and keep pressure balanced across your feet.'
           : 'Usa rango completo y reparte la presion de forma equilibrada en los pies.';
     }
-    if (normalizedGroup.contains('hombros') || normalizedGroup.contains('trapecio')) {
+    if (normalizedGroup.contains('hombros') ||
+        normalizedGroup.contains('trapecio')) {
       return isEnglish
           ? 'Stabilize the trunk first, then move with smooth, controlled repetitions.'
           : 'Primero estabiliza el tronco y luego mueve con repeticiones fluidas y controladas.';
     }
-    if (normalizedGroup.contains('biceps') || normalizedGroup.contains('triceps')) {
+    if (normalizedGroup.contains('biceps') ||
+        normalizedGroup.contains('triceps')) {
       return isEnglish
           ? 'Keep strict form and avoid compensating with your hips or lower back.'
           : 'Tecnica estricta y evita compensar con cadera o zona lumbar.';

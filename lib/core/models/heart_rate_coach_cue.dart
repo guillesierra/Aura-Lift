@@ -21,7 +21,8 @@ class CoachUtterance {
 extension HeartRateCoachCueX on HeartRateCoachCue {
   String get audioMessage => utteranceFor('es').text;
 
-  String audioMessageFor(String languageCode) => utteranceFor(languageCode).text;
+  String audioMessageFor(String languageCode) =>
+      utteranceFor(languageCode).text;
 
   VoiceTone get preferredTone {
     switch (this) {
