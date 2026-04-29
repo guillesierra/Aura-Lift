@@ -119,6 +119,7 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
     final theme = Theme.of(context);
     final strings = AppStrings.of(appState.languageCode);
     final samples = appState.recentHeartRateSamples();
+    final hasStatusSignal = appState.hasHeartRateStatusSignal();
     final currentStatus = appState.currentHeartRateStatus();
     final currentBpm = samples.isEmpty ? null : samples.last.bpm;
     final baseline = appState.currentHeartRateBaseline();
@@ -140,12 +141,16 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
                       style: theme.textTheme.titleLarge,
                     ),
                     const SizedBox(height: 6),
-                    Text(
-                      currentBpm == null
-                          ? strings.noHeartRateSamplesYet
-                          : currentStatus.titleFor(appState.languageCode),
-                      style: theme.textTheme.bodyLarge,
-                    ),
+                    if (currentBpm == null)
+                      Text(
+                        strings.noHeartRateSamplesYet,
+                        style: theme.textTheme.bodyLarge,
+                      )
+                    else if (hasStatusSignal)
+                      Text(
+                        currentStatus.titleFor(appState.languageCode),
+                        style: theme.textTheme.bodyLarge,
+                      ),
                   ],
                 ),
               ),
@@ -163,11 +168,13 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            currentStatus.descriptionFor(appState.languageCode),
-            style: theme.textTheme.bodyMedium,
-          ),
+          if (hasStatusSignal) ...[
+            const SizedBox(height: 12),
+            Text(
+              currentStatus.descriptionFor(appState.languageCode),
+              style: theme.textTheme.bodyMedium,
+            ),
+          ],
           if (trackedExerciseName != null) ...[
             const SizedBox(height: 12),
             Text(

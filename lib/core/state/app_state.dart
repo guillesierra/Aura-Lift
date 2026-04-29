@@ -854,10 +854,11 @@ class AppState extends ChangeNotifier {
   }
 
   HeartRateStatus currentHeartRateStatus() {
-    final samples = recentHeartRateSamples();
-    if (samples.length < 3) {
+    if (!hasHeartRateStatusSignal()) {
       return HeartRateStatus.idle;
     }
+
+    final samples = recentHeartRateSamples();
 
     final baseline = currentHeartRateBaseline();
     final last = samples.last.bpm;
@@ -891,6 +892,45 @@ class AppState extends ChangeNotifier {
     }
 
     return HeartRateStatus.restSuggested;
+  }
+
+  bool hasHeartRateStatusSignal() {
+    final samples = recentHeartRateSamples();
+    if (samples.length < 3) {
+      return false;
+    }
+
+    final last = samples.last.bpm;
+    final previous = samples[samples.length - 2].bpm;
+    final recentPeak = samples.fold<int>(
+      0,
+      (maxValue, sample) => sample.bpm > maxValue ? sample.bpm : maxValue,
+    );
+    final recentLow = samples.fold<int>(
+      300,
+      (minValue, sample) => sample.bpm < minValue ? sample.bpm : minValue,
+    );
+    final spread = recentPeak - recentLow;
+    final stepDelta = (last - previous).abs();
+    final baseline = currentHeartRateBaseline();
+
+    if (last >= 135 || recentPeak >= 145) {
+      return true;
+    }
+
+    if (spread >= 8 && stepDelta >= 2) {
+      return true;
+    }
+
+    if (recentPeak >= 135 && (recentPeak - last) >= 8) {
+      return true;
+    }
+
+    if (baseline != null && (last - baseline).abs() >= 6) {
+      return true;
+    }
+
+    return false;
   }
 
   int? currentHeartRateBaseline() {
