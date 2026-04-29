@@ -26,7 +26,7 @@ class WorkoutSessionActions extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 22),
               child: FloatingActionButton(
                 heroTag: 'finish_workout_fab',
                 onPressed: onFinishPressed,

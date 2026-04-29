@@ -5,6 +5,7 @@ import 'core/debug/demo_data.dart';
 import 'core/design_system/app_theme.dart';
 import 'core/auth/plugin_social_auth_service.dart';
 import 'core/repositories/local_exercise_repository.dart';
+import 'core/models/app_settings.dart';
 import 'core/repositories/local_profile_repository.dart';
 import 'core/repositories/local_settings_repository.dart';
 import 'core/repositories/local_social_repository.dart';
@@ -62,6 +63,13 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
     return AnimatedBuilder(
       animation: _appState,
       builder: (context, _) {
+      final useLiquidGlass =
+        _appState.appearance == AppAppearance.liquidGlass;
+      final lightTheme =
+        useLiquidGlass ? AppTheme.liquidGlassLight : AppTheme.light;
+      final darkTheme =
+        useLiquidGlass ? AppTheme.liquidGlassDark : AppTheme.dark;
+
         if (!_appState.isBootstrapped) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -74,8 +82,8 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
             ],
             supportedLocales: const [Locale('es'), Locale('en')],
             themeMode: _appState.themeMode,
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
+            theme: lightTheme,
+            darkTheme: darkTheme,
             builder: (context, child) => _PhoneFrame(
               maxWidth: _maxPhoneWidth,
               child: child ?? const SizedBox.shrink(),
@@ -95,8 +103,8 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
           ],
           supportedLocales: const [Locale('es'), Locale('en')],
           themeMode: _appState.themeMode,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
+          theme: lightTheme,
+          darkTheme: darkTheme,
           builder: (context, child) => _PhoneFrame(
             maxWidth: _maxPhoneWidth,
             child: child ?? const SizedBox.shrink(),

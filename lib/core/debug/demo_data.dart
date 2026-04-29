@@ -52,6 +52,7 @@ class DemoSettingsRepository implements SettingsRepository {
     themeMode: ThemeMode.light,
     languageCode: 'es',
     enableMenuAnimations: true,
+    appearance: AppAppearance.classic,
   );
 
   @override
@@ -167,7 +168,7 @@ class DemoData {
     final now = DateTime.now().toUtc();
     return UserProfile(
       id: 'demo-profile',
-      name: 'Guillermo Demo',
+      name: 'Guille',
       heightCm: 178,
       weightKg: 78,
       bodyType: BodyType.athletic,

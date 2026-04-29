@@ -6,6 +6,7 @@ import '../../core/design_system/widgets/aura_card.dart';
 import '../../core/design_system/widgets/primary_button.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
+import '../../core/models/app_settings.dart';
 import '../../core/metrics/calorie_estimator.dart';
 import '../../core/models/workout_session.dart';
 import '../../core/state/app_state.dart';
@@ -918,6 +919,26 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                   const SizedBox(height: 20),
                   Text(strings.appearance, style: theme.textTheme.titleLarge),
                   const SizedBox(height: 12),
+                  Text(
+                    strings.appearanceStyle,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    children: AppAppearance.values.map((appearance) {
+                      return ChoiceChip(
+                        label: Text(appearance.localizedLabel(strings)),
+                        selected: appState.appearance == appearance,
+                        onSelected: (_) async {
+                          await appState.updateAppearance(appearance);
+                        },
+                      );
+                    }).toList(growable: false),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(strings.theme, style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
                     children: ThemeMode.values.map((mode) {

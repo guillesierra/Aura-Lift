@@ -70,8 +70,11 @@ class AppState extends ChangeNotifier {
   List<WorkoutSession> get sessions => _sessions;
   AppSettings get settings => _settings;
   ThemeMode get themeMode => _settings.themeMode;
+  AppAppearance get appearance => _settings.appearance;
   String get languageCode => _settings.languageCode;
   bool get menuAnimationsEnabled => _settings.enableMenuAnimations;
+  int? get configuredHeartRateBaseBpm => _settings.heartRateBaseBpm;
+  int? get configuredHeartRateReturnCueBpm => _settings.heartRateReturnCueBpm;
   bool get isBootstrapped => _isBootstrapped;
   SocialAuthAccount? get authAccount => _authAccount;
   HeartRateCoachCue? get pendingHeartRateCoachCue => _pendingHeartRateCoachCue;
@@ -891,6 +894,11 @@ class AppState extends ChangeNotifier {
   }
 
   int? currentHeartRateBaseline() {
+    final configured = _settings.heartRateBaseBpm;
+    if (configured != null && configured > 0) {
+      return configured;
+    }
+
     final current = activeSession;
     if (current == null || current.heartRateSamples.length < 3) {
       return null;
@@ -902,6 +910,14 @@ class AppState extends ChangeNotifier {
       (sum, sample) => sum + sample.bpm,
     );
     return (total / 3).round();
+  }
+
+  int? currentHeartRateReturnCueThreshold() {
+    final baseline = currentHeartRateBaseline();
+    if (baseline == null) {
+      return null;
+    }
+    return _restReadyThresholdFromBaseline(baseline);
   }
 
   HeartRateCoachCue? consumePendingHeartRateCoachCue() {
@@ -922,6 +938,12 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateAppearance(AppAppearance appearance) async {
+    _settings = _settings.copyWith(appearance: appearance);
+    await _settingsRepository.save(_settings);
+    notifyListeners();
+  }
+
   Future<void> updateLanguageCode(String languageCode) async {
     _settings = _settings.copyWith(languageCode: languageCode);
     await _settingsRepository.save(_settings);
@@ -930,6 +952,20 @@ class AppState extends ChangeNotifier {
 
   Future<void> updateMenuAnimationsEnabled(bool enabled) async {
     _settings = _settings.copyWith(enableMenuAnimations: enabled);
+    await _settingsRepository.save(_settings);
+    notifyListeners();
+  }
+
+  Future<void> updateHeartRateCoachSettings({
+    int? baseBpm,
+    int? returnCueBpm,
+  }) async {
+    _settings = _settings.copyWith(
+      heartRateBaseBpm: baseBpm,
+      keepHeartRateBaseBpm: baseBpm != null,
+      heartRateReturnCueBpm: returnCueBpm,
+      keepHeartRateReturnCueBpm: returnCueBpm != null,
+    );
     await _settingsRepository.save(_settings);
     notifyListeners();
   }
@@ -1179,6 +1215,10 @@ class AppState extends ChangeNotifier {
   }
 
   int _restReadyThresholdFromBaseline(int baseline) {
+    final configured = _settings.heartRateReturnCueBpm;
+    if (configured != null && configured > 0) {
+      return configured;
+    }
     return (baseline * 1.05).round();
   }
 

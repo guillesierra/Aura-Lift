@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/design_system/widgets/aura_card.dart';
-import '../../../core/health/apple_health_heart_rate_service.dart';
+import '../../../core/health/wearable_heart_rate_stream_service.dart';
 import '../../../core/localization/app_strings.dart';
 import '../../../core/models/heart_rate_status.dart';
 import '../../../core/state/app_state.dart';
@@ -10,7 +12,10 @@ class WorkoutHeartRatePanel extends StatefulWidget {
   const WorkoutHeartRatePanel({
     super.key,
     required this.appState,
+    this.wearableStreamService,
   });
+
+  final WearableHeartRateStreamService? wearableStreamService;
 
   final AppState appState;
 
@@ -19,54 +24,92 @@ class WorkoutHeartRatePanel extends StatefulWidget {
 }
 
 class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
-  final HealthHeartRateService _heartRateService = HealthHeartRateService();
-  bool _isSyncingHealth = false;
+  late final WearableHeartRateStreamService _wearableStreamService;
+  StreamSubscription? _wearableSubscription;
+  bool _isStreamingWearable = false;
   String? _healthMessage;
 
-  Future<void> _syncHeartRateFromHealth() async {
+  @override
+  void initState() {
+    super.initState();
+    _wearableStreamService =
+        widget.wearableStreamService ?? WearableHeartRateStreamService();
+  }
+
+  @override
+  void dispose() {
+    unawaited(_stopWearableStream());
+    super.dispose();
+  }
+
+  Future<void> _startWearableStream() async {
     final activeSession = widget.appState.activeSession;
-    if (_isSyncingHealth || activeSession == null) {
+    if (_isStreamingWearable || activeSession == null) {
       return;
     }
-
-    setState(() {
-      _isSyncingHealth = true;
-      _healthMessage = null;
-    });
 
     final strings = AppStrings.of(widget.appState.languageCode);
-    final result = await _heartRateService.fetchHeartRateReadings(
-      startTime: activeSession.startedAt.toLocal(),
-      endTime: DateTime.now(),
+    final startResult = await _wearableStreamService.start(
+      startedAt: activeSession.startedAt,
     );
-    if (!mounted) {
+
+    String? message;
+    switch (startResult.status) {
+      case WearableHeartRateStreamStatus.success:
+        message = strings.wearableStreamStarted;
+        break;
+      case WearableHeartRateStreamStatus.unsupported:
+        message = strings.wearableStreamUnsupported;
+        break;
+      case WearableHeartRateStreamStatus.denied:
+        message = strings.wearableStreamDenied;
+        break;
+      case WearableHeartRateStreamStatus.failed:
+        message = strings.wearableStreamFailed;
+        break;
+    }
+
+    if (!startResult.isSuccess) {
+      if (mounted) {
+        setState(() {
+          _healthMessage = message;
+        });
+      }
       return;
     }
 
-    var message = switch (result.status) {
-      HealthHeartRateStatus.unsupported => strings.heartHealthUnsupported,
-      HealthHeartRateStatus.denied => strings.heartHealthDenied,
-      HealthHeartRateStatus.failed => strings.heartHealthSyncFailed,
-      HealthHeartRateStatus.success => null,
-    };
-
-    if (result.status == HealthHeartRateStatus.success) {
-      final imported = await widget.appState.importHeartRateReadings(
-        readings: result.readings,
+    _wearableSubscription = _wearableStreamService
+        .stream(startedAt: activeSession.startedAt)
+        .listen((reading) async {
+      await widget.appState.importHeartRateReadings(
+        readings: [reading],
         exerciseId: widget.appState.currentHeartRateExerciseId(),
       );
-      message = imported == 0
-          ? strings.heartHealthNoSamples
-          : strings.heartHealthImported(imported);
-    }
+    });
 
     if (!mounted) {
       return;
     }
 
     setState(() {
-      _isSyncingHealth = false;
+      _isStreamingWearable = true;
       _healthMessage = message;
+    });
+  }
+
+  Future<void> _stopWearableStream() async {
+    await _wearableSubscription?.cancel();
+    _wearableSubscription = null;
+    await _wearableStreamService.stop();
+
+    if (!mounted) {
+      return;
+    }
+
+    final strings = AppStrings.of(widget.appState.languageCode);
+    setState(() {
+      _isStreamingWearable = false;
+      _healthMessage = strings.wearableStreamStopped;
     });
   }
 
@@ -79,7 +122,7 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
     final currentStatus = appState.currentHeartRateStatus();
     final currentBpm = samples.isEmpty ? null : samples.last.bpm;
     final baseline = appState.currentHeartRateBaseline();
-    final threshold = baseline == null ? null : (baseline * 1.15).round();
+    final threshold = appState.currentHeartRateReturnCueThreshold();
     final trackedExerciseName = appState.currentHeartRateExerciseName();
 
     return AuraCard(
@@ -141,26 +184,21 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
           ],
           const SizedBox(height: 16),
           Text(
-            strings.heartHealthCopy,
+            strings.heartRateCoachSettingsHint,
             style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: 10),
-          OutlinedButton.icon(
-            onPressed: _isSyncingHealth ? null : _syncHeartRateFromHealth,
-            icon: _isSyncingHealth
-                ? SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: theme.colorScheme.primary,
-                    ),
-                  )
-                : const Icon(Icons.favorite_outline),
+          FilledButton.tonalIcon(
+            onPressed: _isStreamingWearable
+                ? _stopWearableStream
+                : _startWearableStream,
+            icon: Icon(
+              _isStreamingWearable ? Icons.stop_circle : Icons.sensors,
+            ),
             label: Text(
-              _isSyncingHealth
-                  ? strings.heartHealthSyncing
-                  : strings.syncHeartHealth,
+              _isStreamingWearable
+                  ? strings.stopWearableStream
+                  : strings.startWearableStream,
             ),
           ),
           if (_healthMessage != null) ...[

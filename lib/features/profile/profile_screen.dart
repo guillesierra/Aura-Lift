@@ -383,7 +383,7 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisSpacing: 12,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      childAspectRatio: 1.15,
+                      childAspectRatio: 2.25,
                       children: [
                         _ActionTile(
                           title: strings.stats,
@@ -517,9 +517,17 @@ Future<void> _showProfileSettingsSheet(
   final gymController = TextEditingController(text: profile.gym);
   final presentationController =
       TextEditingController(text: profile.presentation);
+  final heartRateBaseController = TextEditingController(
+    text: appState.configuredHeartRateBaseBpm?.toString() ?? '',
+  );
+  final returnCueController = TextEditingController(
+    text: appState.configuredHeartRateReturnCueBpm?.toString() ?? '',
+  );
   var selectedBodyType = profile.bodyType;
   var replaceExisting = false;
   var isBusy = false;
+  String? heartRateBaseError;
+  String? returnCueError;
 
   await showModalBottomSheet<void>(
     context: context,
@@ -815,6 +823,54 @@ Future<void> _showProfileSettingsSheet(
                     ],
                   ),
                   const SizedBox(height: 12),
+                  Text(
+                    strings.heartRateCoachSettings,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    strings.heartRateCoachSettingsHint,
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: heartRateBaseController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (_) {
+                            if (heartRateBaseError != null) {
+                              setStateModal(() => heartRateBaseError = null);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: strings.baseHeartRateBpm,
+                            helperText: strings.baseHeartRateRangeHint,
+                            errorText: heartRateBaseError,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: TextField(
+                          controller: returnCueController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (_) {
+                            if (returnCueError != null) {
+                              setStateModal(() => returnCueError = null);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: strings.returnCueBpm,
+                            helperText: strings.returnCueRangeHint,
+                            errorText: returnCueError,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
                   TextField(
                     controller: nameController,
                     decoration: InputDecoration(labelText: strings.name),
@@ -890,6 +946,40 @@ Future<void> _showProfileSettingsSheet(
                       if (height == null || weight == null) {
                         return;
                       }
+                      final baseInput = heartRateBaseController.text.trim();
+                      final returnInput = returnCueController.text.trim();
+                      final baseBpm =
+                          baseInput.isEmpty ? null : int.tryParse(baseInput);
+                      final returnCueBpm = returnInput.isEmpty
+                          ? null
+                          : int.tryParse(returnInput);
+                      String? nextBaseError;
+                      String? nextReturnCueError;
+                      if (baseInput.isNotEmpty && baseBpm == null) {
+                        nextBaseError = strings.heartRateRangeError(40, 120);
+                      }
+                      if (returnInput.isNotEmpty && returnCueBpm == null) {
+                        nextReturnCueError = strings.heartRateRangeError(60, 170);
+                      }
+                      if (baseBpm != null && (baseBpm < 40 || baseBpm > 120)) {
+                        nextBaseError = strings.heartRateRangeError(40, 120);
+                      }
+                      if (returnCueBpm != null &&
+                          (returnCueBpm < 60 || returnCueBpm > 170)) {
+                        nextReturnCueError = strings.heartRateRangeError(60, 170);
+                      }
+                      if (nextBaseError != null || nextReturnCueError != null) {
+                        setStateModal(() {
+                          heartRateBaseError = nextBaseError;
+                          returnCueError = nextReturnCueError;
+                        });
+                        return;
+                      }
+
+                      await appState.updateHeartRateCoachSettings(
+                        baseBpm: baseBpm,
+                        returnCueBpm: returnCueBpm,
+                      );
                       await appState.updateProfile(
                         name: nameController.text,
                         heightCm: height,
@@ -967,18 +1057,20 @@ class _ActionTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(AuraCard.radius),
       onTap: onTap,
       child: AuraCard(
-        padding: const EdgeInsets.all(14),
-        child: Column(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icon, color: theme.colorScheme.primary, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleMedium,
+            Icon(icon, color: theme.colorScheme.primary, size: 20),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.titleSmall,
+              ),
             ),
           ],
         ),

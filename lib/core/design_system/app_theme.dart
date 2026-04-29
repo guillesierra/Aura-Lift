@@ -209,6 +209,83 @@ class AppTheme {
     );
   }
 
+  static ThemeData get liquidGlassLight =>
+      _buildLiquidGlassTheme(baseTheme: light, brightness: Brightness.light);
+
+  static ThemeData get liquidGlassDark =>
+      _buildLiquidGlassTheme(baseTheme: dark, brightness: Brightness.dark);
+
+  static ThemeData _buildLiquidGlassTheme({
+    required ThemeData baseTheme,
+    required Brightness brightness,
+  }) {
+    final scheme = baseTheme.colorScheme;
+    final isDark = brightness == Brightness.dark;
+    final glassFill = isDark
+        ? const Color(0xFF0E171C).withValues(alpha: 0.62)
+        : Colors.white.withValues(alpha: 0.68);
+    final glassSoftFill = isDark
+        ? const Color(0xFF19262D).withValues(alpha: 0.40)
+        : const Color(0xFFF5FBFA).withValues(alpha: 0.45);
+    final glassBorder = isDark
+        ? Colors.white.withValues(alpha: 0.16)
+        : Colors.white.withValues(alpha: 0.70);
+    final scaffold = isDark
+        ? const Color(0xFF081015)
+        : const Color(0xFFEAF6F3);
+
+    return baseTheme.copyWith(
+      scaffoldBackgroundColor: scaffold,
+      cardTheme: CardThemeData(
+        color: glassFill,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(_cardRadius)),
+          side: BorderSide(color: glassBorder, width: 1),
+        ),
+      ),
+      navigationBarTheme: baseTheme.navigationBarTheme.copyWith(
+        backgroundColor: glassFill,
+        indicatorColor: scheme.primaryContainer.withValues(alpha: 0.80),
+      ),
+      chipTheme: baseTheme.chipTheme.copyWith(
+        backgroundColor: glassSoftFill,
+        selectedColor: scheme.primaryContainer.withValues(alpha: 0.74),
+        side: BorderSide(color: glassBorder),
+      ),
+      inputDecorationTheme: baseTheme.inputDecorationTheme.copyWith(
+        fillColor: glassSoftFill,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: glassBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: scheme.primary.withValues(alpha: 0.92)),
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          foregroundColor: scheme.onSurface,
+          backgroundColor: glassSoftFill,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: glassBorder),
+          ),
+        ),
+      ),
+      dividerColor: glassBorder,
+      bottomSheetTheme: baseTheme.bottomSheetTheme.copyWith(
+        backgroundColor: glassFill,
+        modalBackgroundColor: glassFill,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+      ),
+    );
+  }
+
   static TextTheme _textTheme(TextTheme base, Brightness brightness) {
     final primary = brightness == Brightness.dark
         ? const Color(0xFFEAF0F2)

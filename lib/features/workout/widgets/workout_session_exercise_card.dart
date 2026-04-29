@@ -33,7 +33,7 @@ class WorkoutSessionExerciseCard extends StatefulWidget {
 
 class _WorkoutSessionExerciseCardState
     extends State<WorkoutSessionExerciseCard> {
-  static const _showHeartRateExerciseSelector = false;
+  static const _showHeartRateExerciseSelector = true;
 
   final _weightController = TextEditingController();
   final _repsController = TextEditingController();
@@ -300,28 +300,46 @@ class _SetTableHeader extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-            width: 42, child: Text(strings.set.toUpperCase(), style: style)),
+          width: 42,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(strings.set.toUpperCase(), style: style),
+          ),
+        ),
         Expanded(
           flex: 3,
-          child: Text(
-            strings.isEnglish ? 'PREVIOUS' : 'ANTERIOR',
-            style: style,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              strings.isEnglish ? 'PREVIOUS' : 'ANTERIOR',
+              style: style,
+            ),
           ),
         ),
         Expanded(
           flex: 2,
-          child: Text(
-            'KG',
-            textAlign: TextAlign.center,
-            style: style,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.center,
+            child: Text(
+              'KG',
+              textAlign: TextAlign.center,
+              style: style,
+            ),
           ),
         ),
         Expanded(
           flex: 2,
-          child: Text(
-            strings.reps.toUpperCase(),
-            textAlign: TextAlign.center,
-            style: style,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.center,
+            child: Text(
+              'REPS',
+              textAlign: TextAlign.center,
+              style: style,
+            ),
           ),
         ),
         const SizedBox(width: 46),

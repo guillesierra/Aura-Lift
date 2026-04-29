@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/app_settings.dart';
+
 class AppStrings {
   const AppStrings._(this.languageCode);
 
@@ -182,6 +184,20 @@ class AppStrings {
   String get importCsv => isEnglish ? 'Import CSV' : 'Importar CSV';
   String get replaceExistingWorkouts =>
       isEnglish ? 'Replace existing history' : 'Reemplazar historial actual';
+  String get heartRateCoachSettings =>
+      isEnglish ? 'Heart-rate coach' : 'Coach de frecuencia cardiaca';
+  String get baseHeartRateBpm =>
+      isEnglish ? 'Base heart rate (bpm)' : 'Frecuencia base (lpm)';
+  String get returnCueBpm =>
+      isEnglish ? 'Back-to-work cue (bpm)' : 'Aviso de vuelta (lpm)';
+    String get heartRateCoachSettingsHint => '';
+  String get baseHeartRateRangeHint =>
+      isEnglish ? 'Recommended range: 40-120 bpm' : 'Rango recomendado: 40-120 lpm';
+  String get returnCueRangeHint =>
+      isEnglish ? 'Recommended range: 60-170 bpm' : 'Rango recomendado: 60-170 lpm';
+  String heartRateRangeError(int min, int max) => isEnglish
+      ? 'Use a value between $min and $max.'
+      : 'Usa un valor entre $min y $max.';
   String csvExported(String path) =>
       isEnglish ? 'CSV exported to $path' : 'CSV exportado en $path';
   String get csvExportCancelled =>
@@ -204,12 +220,17 @@ class AppStrings {
       isEnglish ? '$count friends' : '$count amigos';
   String get settings => isEnglish ? 'Settings' : 'Configuracion';
   String get appearance => isEnglish ? 'Appearance' : 'Apariencia';
+    String get appearanceStyle =>
+            isEnglish ? 'Visual style' : 'Estilo visual';
+    String get theme => isEnglish ? 'Theme' : 'Tema';
   String get language => isEnglish ? 'Language' : 'Idioma';
   String get menuAnimations =>
       isEnglish ? 'Menu animations' : 'Animaciones de menu';
   String get followSystem => isEnglish ? 'System' : 'Sistema';
   String get light => isEnglish ? 'Light' : 'Claro';
   String get dark => isEnglish ? 'Dark' : 'Oscuro';
+    String get classic => isEnglish ? 'Classic' : 'Clasico';
+    String get liquidGlass => isEnglish ? 'Liquid Glass' : 'Liquid Glass';
   String get spanish => isEnglish ? 'Spanish' : 'Espanol';
   String get english => isEnglish ? 'English' : 'Ingles';
   String get close => isEnglish ? 'Close' : 'Cerrar';
@@ -288,6 +309,27 @@ class AppStrings {
   String get heartHealthSyncFailed => isEnglish
       ? 'Health sync failed.'
       : 'No se pudo sincronizar la app de salud.';
+  String get startWearableStream => isEnglish
+      ? 'Start wearable live stream'
+      : 'Iniciar stream en vivo del wearable';
+  String get stopWearableStream => isEnglish
+      ? 'Stop wearable live stream'
+      : 'Detener stream en vivo del wearable';
+  String get wearableStreamStarted => isEnglish
+      ? 'Wearable heart-rate live stream started.'
+      : 'Stream en vivo de frecuencia cardiaca iniciado.';
+  String get wearableStreamStopped => isEnglish
+      ? 'Wearable heart-rate live stream stopped.'
+      : 'Stream en vivo de frecuencia cardiaca detenido.';
+  String get wearableStreamUnsupported => isEnglish
+      ? 'Wearable live stream is not supported on this device.'
+      : 'El stream en vivo no esta soportado en este dispositivo.';
+  String get wearableStreamDenied => isEnglish
+      ? 'Health permission is required to start wearable live stream.'
+      : 'Se requiere permiso de salud para iniciar el stream en vivo.';
+  String get wearableStreamFailed => isEnglish
+      ? 'Could not start wearable live stream.'
+      : 'No se pudo iniciar el stream en vivo del wearable.';
   String get noHeartRateSamplesYet =>
       isEnglish ? 'No samples yet' : 'Sin muestras todavia';
   String selectedExerciseForHeartRate(String exerciseName) => isEnglish
@@ -521,4 +563,15 @@ extension ThemeModeLabel on ThemeMode {
         return strings.dark;
     }
   }
+}
+
+extension AppAppearanceLabel on AppAppearance {
+    String localizedLabel(AppStrings strings) {
+        switch (this) {
+            case AppAppearance.classic:
+                return strings.classic;
+            case AppAppearance.liquidGlass:
+                return strings.liquidGlass;
+        }
+    }
 }
