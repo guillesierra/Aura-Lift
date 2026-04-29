@@ -87,7 +87,7 @@ Notas:
 
 - Para repos tipo `<usuario>.github.io`, la app se publica en la raiz.
 - En web puedes validar UI/UX y logica general, pero integraciones nativas de salud
-	(HealthKit/Health Connect) no estan disponibles en navegador.
+  (HealthKit/Health Connect) no estan disponibles en navegador.
 
 ## Limitaciones actuales
 

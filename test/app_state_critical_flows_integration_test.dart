@@ -129,8 +129,10 @@ void main() {
         appState.connectionStatusFor('social-lucia'),
         SocialConnectionStatus.friends,
       );
-      expect(appState.friendProfiles.any((p) => p.id == 'social-lucia'), isTrue);
-      expect(socialRepository.savedFollowingIds.contains('social-lucia'), isTrue);
+      expect(
+          appState.friendProfiles.any((p) => p.id == 'social-lucia'), isTrue);
+      expect(
+          socialRepository.savedFollowingIds.contains('social-lucia'), isTrue);
 
       expect(
         appState.connectionStatusFor('social-marcos'),

@@ -827,11 +827,13 @@ Future<void> _showProfileSettingsSheet(
                     strings.heartRateCoachSettings,
                     style: theme.textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    strings.heartRateCoachSettingsHint,
-                    style: theme.textTheme.bodySmall,
-                  ),
+                  if (strings.heartRateCoachSettingsHint.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      strings.heartRateCoachSettingsHint,
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ],
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -959,14 +961,16 @@ Future<void> _showProfileSettingsSheet(
                         nextBaseError = strings.heartRateRangeError(40, 120);
                       }
                       if (returnInput.isNotEmpty && returnCueBpm == null) {
-                        nextReturnCueError = strings.heartRateRangeError(60, 170);
+                        nextReturnCueError =
+                            strings.heartRateRangeError(60, 170);
                       }
                       if (baseBpm != null && (baseBpm < 40 || baseBpm > 120)) {
                         nextBaseError = strings.heartRateRangeError(40, 120);
                       }
                       if (returnCueBpm != null &&
                           (returnCueBpm < 60 || returnCueBpm > 170)) {
-                        nextReturnCueError = strings.heartRateRangeError(60, 170);
+                        nextReturnCueError =
+                            strings.heartRateRangeError(60, 170);
                       }
                       if (nextBaseError != null || nextReturnCueError != null) {
                         setStateModal(() {

@@ -37,12 +37,12 @@ extension HeartRateStatusX on HeartRateStatus {
             : 'Tu frecuencia cardiaca está elevada. Mantén el esfuerzo o termina la serie.';
       case HeartRateStatus.restSuggested:
         return isEnglish
-            ? 'Your heart rate has started dropping after the effort. Use this time to rest.'
-            : 'La frecuencia ha empezado a bajar tras el esfuerzo. Aprovecha para descansar.';
+            ? 'Take a short rest before your next set.'
+            : 'Toma una pausa corta antes de tu siguiente serie.';
       case HeartRateStatus.readyForNextSet:
         return isEnglish
-            ? 'Your heart rate has stabilized lower. You can start the next set.'
-            : 'La frecuencia se ha estabilizado a un nivel más bajo. Puedes empezar la siguiente serie.';
+            ? 'You can start the next set when you feel ready.'
+            : 'Puedes empezar la siguiente serie cuando te notes listo.';
     }
   }
 }

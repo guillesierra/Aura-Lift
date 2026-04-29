@@ -21,8 +21,7 @@ import 'package:aura_lift/core/state/app_state.dart';
 import 'package:aura_lift/features/workout/widgets/workout_heart_rate_panel.dart';
 
 void main() {
-  testWidgets('starts wearable stream and imports live sample',
-      (tester) async {
+  testWidgets('starts wearable stream and imports live sample', (tester) async {
     final appState = _buildAppState();
     await appState.bootstrap();
     await appState.startWorkoutSession();
@@ -81,7 +80,8 @@ AppState _buildAppState() {
   );
 }
 
-class _FakeWearableHeartRateStreamService extends WearableHeartRateStreamService {
+class _FakeWearableHeartRateStreamService
+    extends WearableHeartRateStreamService {
   final _controller = StreamController<ExternalHeartRateReading>.broadcast();
   bool started = false;
 

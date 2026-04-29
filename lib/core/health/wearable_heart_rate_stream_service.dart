@@ -49,7 +49,8 @@ class WearableHeartRateStreamService {
       defaultTargetPlatform == TargetPlatform.iOS ||
       defaultTargetPlatform == TargetPlatform.android;
 
-  Stream<ExternalHeartRateReading> stream({required DateTime startedAt}) async* {
+  Stream<ExternalHeartRateReading> stream(
+      {required DateTime startedAt}) async* {
     if (!isSupported) {
       return;
     }
@@ -76,9 +77,8 @@ class WearableHeartRateStreamService {
           timestampMillis.toInt(),
           isUtc: true,
         ),
-        source: source is String && source.isNotEmpty
-            ? source
-            : _defaultSource(),
+        source:
+            source is String && source.isNotEmpty ? source : _defaultSource(),
       );
     }
   }

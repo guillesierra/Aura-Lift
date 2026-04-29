@@ -230,9 +230,7 @@ class AppTheme {
     final glassBorder = isDark
         ? Colors.white.withValues(alpha: 0.16)
         : Colors.white.withValues(alpha: 0.70);
-    final scaffold = isDark
-        ? const Color(0xFF081015)
-        : const Color(0xFFEAF6F3);
+    final scaffold = isDark ? const Color(0xFF081015) : const Color(0xFFEAF6F3);
 
     return baseTheme.copyWith(
       scaffoldBackgroundColor: scaffold,

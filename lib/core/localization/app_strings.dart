@@ -190,11 +190,13 @@ class AppStrings {
       isEnglish ? 'Base heart rate (bpm)' : 'Frecuencia base (lpm)';
   String get returnCueBpm =>
       isEnglish ? 'Back-to-work cue (bpm)' : 'Aviso de vuelta (lpm)';
-    String get heartRateCoachSettingsHint => '';
-  String get baseHeartRateRangeHint =>
-      isEnglish ? 'Recommended range: 40-120 bpm' : 'Rango recomendado: 40-120 lpm';
-  String get returnCueRangeHint =>
-      isEnglish ? 'Recommended range: 60-170 bpm' : 'Rango recomendado: 60-170 lpm';
+  String get heartRateCoachSettingsHint => '';
+  String get baseHeartRateRangeHint => isEnglish
+      ? 'Recommended range: 40-120 bpm'
+      : 'Rango recomendado: 40-120 lpm';
+  String get returnCueRangeHint => isEnglish
+      ? 'Recommended range: 60-170 bpm'
+      : 'Rango recomendado: 60-170 lpm';
   String heartRateRangeError(int min, int max) => isEnglish
       ? 'Use a value between $min and $max.'
       : 'Usa un valor entre $min y $max.';
@@ -220,17 +222,16 @@ class AppStrings {
       isEnglish ? '$count friends' : '$count amigos';
   String get settings => isEnglish ? 'Settings' : 'Configuracion';
   String get appearance => isEnglish ? 'Appearance' : 'Apariencia';
-    String get appearanceStyle =>
-            isEnglish ? 'Visual style' : 'Estilo visual';
-    String get theme => isEnglish ? 'Theme' : 'Tema';
+  String get appearanceStyle => isEnglish ? 'Visual style' : 'Estilo visual';
+  String get theme => isEnglish ? 'Theme' : 'Tema';
   String get language => isEnglish ? 'Language' : 'Idioma';
   String get menuAnimations =>
       isEnglish ? 'Menu animations' : 'Animaciones de menu';
   String get followSystem => isEnglish ? 'System' : 'Sistema';
   String get light => isEnglish ? 'Light' : 'Claro';
   String get dark => isEnglish ? 'Dark' : 'Oscuro';
-    String get classic => isEnglish ? 'Classic' : 'Clasico';
-    String get liquidGlass => isEnglish ? 'Liquid Glass' : 'Liquid Glass';
+  String get classic => isEnglish ? 'Classic' : 'Clasico';
+  String get liquidGlass => isEnglish ? 'Liquid Glass' : 'Liquid Glass';
   String get spanish => isEnglish ? 'Spanish' : 'Espanol';
   String get english => isEnglish ? 'English' : 'Ingles';
   String get close => isEnglish ? 'Close' : 'Cerrar';
@@ -566,12 +567,12 @@ extension ThemeModeLabel on ThemeMode {
 }
 
 extension AppAppearanceLabel on AppAppearance {
-    String localizedLabel(AppStrings strings) {
-        switch (this) {
-            case AppAppearance.classic:
-                return strings.classic;
-            case AppAppearance.liquidGlass:
-                return strings.liquidGlass;
-        }
+  String localizedLabel(AppStrings strings) {
+    switch (this) {
+      case AppAppearance.classic:
+        return strings.classic;
+      case AppAppearance.liquidGlass:
+        return strings.liquidGlass;
     }
+  }
 }

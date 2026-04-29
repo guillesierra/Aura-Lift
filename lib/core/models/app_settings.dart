@@ -43,7 +43,7 @@ class AppSettings {
       themeMode: themeMode ?? this.themeMode,
       languageCode: languageCode ?? this.languageCode,
       enableMenuAnimations: enableMenuAnimations ?? this.enableMenuAnimations,
-        appearance: appearance ?? this.appearance,
+      appearance: appearance ?? this.appearance,
       heartRateBaseBpm: keepHeartRateBaseBpm
           ? (heartRateBaseBpm ?? this.heartRateBaseBpm)
           : null,

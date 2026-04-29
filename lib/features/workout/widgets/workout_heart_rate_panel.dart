@@ -143,7 +143,7 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
                     Text(
                       currentBpm == null
                           ? strings.noHeartRateSamplesYet
-                          : '$currentBpm ${strings.heartRateUnit} · ${currentStatus.titleFor(appState.languageCode)}',
+                          : currentStatus.titleFor(appState.languageCode),
                       style: theme.textTheme.bodyLarge,
                     ),
                   ],
@@ -175,7 +175,7 @@ class _WorkoutHeartRatePanelState extends State<WorkoutHeartRatePanel> {
               style: theme.textTheme.bodySmall,
             ),
           ],
-          if (baseline != null) ...[
+          if (baseline != null && samples.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(
               strings.heartRateBaseline(baseline, threshold ?? baseline),

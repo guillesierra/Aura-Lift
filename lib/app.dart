@@ -63,12 +63,12 @@ class _AuraLiftAppState extends State<AuraLiftApp> {
     return AnimatedBuilder(
       animation: _appState,
       builder: (context, _) {
-      final useLiquidGlass =
-        _appState.appearance == AppAppearance.liquidGlass;
-      final lightTheme =
-        useLiquidGlass ? AppTheme.liquidGlassLight : AppTheme.light;
-      final darkTheme =
-        useLiquidGlass ? AppTheme.liquidGlassDark : AppTheme.dark;
+        final useLiquidGlass =
+            _appState.appearance == AppAppearance.liquidGlass;
+        final lightTheme =
+            useLiquidGlass ? AppTheme.liquidGlassLight : AppTheme.light;
+        final darkTheme =
+            useLiquidGlass ? AppTheme.liquidGlassDark : AppTheme.dark;
 
         if (!_appState.isBootstrapped) {
           return MaterialApp(
