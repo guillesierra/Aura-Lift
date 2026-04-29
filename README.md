@@ -54,6 +54,20 @@ flutter test
 flutter run
 ```
 
+### Modo demo con datos dummy
+
+Para probar la interfaz con historial variado sin escribir datos reales en
+`SharedPreferences`, levanta la app con:
+
+```bash
+flutter run -d linux --dart-define=AURA_LIFT_DEMO_DATA=true
+```
+
+Este modo usa repositorios en memoria e incluye perfil, entrenamientos de
+varios dias, ejercicios de distintos grupos musculares, series, volumen y
+muestras de frecuencia cardiaca con distintos BPM. Al cerrar la app, esos datos
+dummy se pierden.
+
 ## Plataformas
 
 El proyecto esta orientado a `iOS` y `Android`, pero puede ejecutarse en desktop para desarrollo de interfaz. La capa de voz se desactiva automaticamente en plataformas donde el plugin no tenga implementacion nativa disponible.

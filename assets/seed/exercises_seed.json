@@ -1,102 +1,1890 @@
 [
-  {"id":"11111111-1111-1111-1111-111111111001","name":"Press de banca con barra","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111002","name":"Press inclinado con mancuernas","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111003","name":"Press declinado con barra","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111004","name":"Aperturas con mancuernas","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111005","name":"Aperturas en polea","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111006","name":"Fondos en paralelas","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111007","name":"Press en maquina convergente","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111008","name":"Flexiones","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111009","name":"Pullover con mancuerna","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111010","name":"Press inclinado en maquina smith","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111011","name":"Dominadas","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111012","name":"Jalon al pecho","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111013","name":"Remo con barra","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111014","name":"Remo con mancuerna","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111015","name":"Remo en polea baja","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111016","name":"Peso muerto convencional","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111017","name":"Peso muerto rumano","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111018","name":"Pulldown con brazos rectos","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111019","name":"Remo en maquina T","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111020","name":"Hiperextensiones","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111021","name":"Press militar con barra","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111022","name":"Press militar con mancuernas","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111023","name":"Elevaciones laterales","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111024","name":"Elevaciones frontales","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111025","name":"Pajaros con mancuernas","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111026","name":"Face pull","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111027","name":"Press Arnold","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111028","name":"Remo al menton","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111029","name":"Elevacion lateral en maquina","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111030","name":"Press tras nuca en maquina","muscleGroup":"Hombros","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111031","name":"Curl con barra","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111032","name":"Curl alterno con mancuernas","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111033","name":"Curl martillo","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111034","name":"Curl en banco inclinado","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111035","name":"Curl concentrado","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111036","name":"Curl en polea","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111037","name":"Curl predicador","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111038","name":"Curl inverso","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111039","name":"Curl spider","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111040","name":"Curl con barra Z","muscleGroup":"Biceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111041","name":"Press cerrado","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111042","name":"Fondos de triceps en banco","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111043","name":"Extension de triceps en polea","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111044","name":"Extension por encima de la cabeza","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111045","name":"Rompecraneos","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111046","name":"Patada de triceps","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111047","name":"Press frances con barra Z","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111048","name":"Extension unilateral en polea","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111049","name":"Fondos asistidos","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111050","name":"Press de triceps con cuerda","muscleGroup":"Triceps","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111051","name":"Sentadilla trasera","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111052","name":"Sentadilla frontal","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111053","name":"Prensa de piernas","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111054","name":"Zancadas con mancuernas","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111055","name":"Peso muerto rumano con mancuernas","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111056","name":"Hip thrust con barra","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111057","name":"Curl femoral tumbado","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111058","name":"Extension de cuadriceps","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111059","name":"Sentadilla bulgara","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111060","name":"Step-up","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111061","name":"Elevacion de talones de pie","muscleGroup":"Gemelos","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111062","name":"Elevacion de talones sentado","muscleGroup":"Gemelos","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111063","name":"Gemelo en prensa","muscleGroup":"Gemelos","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111064","name":"Gemelo unilateral","muscleGroup":"Gemelos","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111065","name":"Saltos en comba","muscleGroup":"Gemelos","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111066","name":"Crunch en suelo","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111067","name":"Crunch en maquina","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111068","name":"Elevaciones de piernas colgado","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111069","name":"Plancha frontal","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111070","name":"Plancha lateral","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111071","name":"Russian twist","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111072","name":"Rueda abdominal","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111073","name":"Dead bug","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111074","name":"Bird dog","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111075","name":"Pallof press","muscleGroup":"Core","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111076","name":"Remo ergometro","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111077","name":"Cinta de correr","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111078","name":"Bicicleta estatica","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111079","name":"Eliptica","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111080","name":"Assault bike","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111081","name":"Sprints en cinta","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111082","name":"Escaladora","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111083","name":"Saltar cuerda intervalos","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111084","name":"Caminata inclinada","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111085","name":"HIIT en bici","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111086","name":"Sentadilla goblet","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111087","name":"Buenos dias con barra","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111088","name":"Pull through en polea","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111089","name":"Abduccion de cadera en maquina","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111090","name":"Aduccion de cadera en maquina","muscleGroup":"Piernas","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111091","name":"Encogimientos de trapecio con barra","muscleGroup":"Trapecio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111092","name":"Encogimientos con mancuernas","muscleGroup":"Trapecio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111093","name":"Farmer walk","muscleGroup":"Trapecio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111094","name":"Extension de espalda en banco romano","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111095","name":"Pullover en polea alta","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111096","name":"Remo invertido","muscleGroup":"Espalda","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111097","name":"Press de banca con mancuernas","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111098","name":"Press de pecho en polea","muscleGroup":"Pecho","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111099","name":"Burpees","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"},
-  {"id":"11111111-1111-1111-1111-111111111100","name":"Battle ropes","muscleGroup":"Cardio","isCustom":false,"createdAt":"2026-01-01T00:00:00Z"}
+  {
+    "id": "11111111-1111-1111-1111-111111111001",
+    "name": "Press de banca con barra",
+    "muscleGroup": "Pecho",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press de banca con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111002",
+    "name": "Press inclinado con mancuernas",
+    "muscleGroup": "Pecho",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press inclinado con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111003",
+    "name": "Press declinado con barra",
+    "muscleGroup": "Pecho",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press declinado con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111004",
+    "name": "Aperturas con mancuernas",
+    "muscleGroup": "Pecho",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Aperturas con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111005",
+    "name": "Aperturas en polea",
+    "muscleGroup": "Pecho",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Aperturas en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111006",
+    "name": "Fondos en paralelas",
+    "muscleGroup": "Pecho",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Fondos en paralelas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111007",
+    "name": "Press en maquina convergente",
+    "muscleGroup": "Pecho",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press en maquina convergente\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111008",
+    "name": "Flexiones",
+    "muscleGroup": "Pecho",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Flexiones\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111009",
+    "name": "Pullover con mancuerna",
+    "muscleGroup": "Pecho",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pullover con mancuerna\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111010",
+    "name": "Press inclinado en maquina smith",
+    "muscleGroup": "Pecho",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press inclinado en maquina smith\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111011",
+    "name": "Dominadas",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Avanzado",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Dominadas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111012",
+    "name": "Jalon al pecho",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Jalon al pecho\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111013",
+    "name": "Remo con barra",
+    "muscleGroup": "Espalda",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111014",
+    "name": "Remo con mancuerna",
+    "muscleGroup": "Espalda",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo con mancuerna\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111015",
+    "name": "Remo en polea baja",
+    "muscleGroup": "Espalda",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo en polea baja\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111016",
+    "name": "Peso muerto convencional",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Peso muerto convencional\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111017",
+    "name": "Peso muerto rumano",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Peso muerto rumano\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111018",
+    "name": "Pulldown con brazos rectos",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pulldown con brazos rectos\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111019",
+    "name": "Remo en maquina T",
+    "muscleGroup": "Espalda",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo en maquina T\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111020",
+    "name": "Hiperextensiones",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Hiperextensiones\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111021",
+    "name": "Press militar con barra",
+    "muscleGroup": "Hombros",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press militar con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111022",
+    "name": "Press militar con mancuernas",
+    "muscleGroup": "Hombros",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press militar con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111023",
+    "name": "Elevaciones laterales",
+    "muscleGroup": "Hombros",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevaciones laterales\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111024",
+    "name": "Elevaciones frontales",
+    "muscleGroup": "Hombros",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevaciones frontales\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111025",
+    "name": "Pajaros con mancuernas",
+    "muscleGroup": "Hombros",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pajaros con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111026",
+    "name": "Face pull",
+    "muscleGroup": "Hombros",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Face pull\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111027",
+    "name": "Press Arnold",
+    "muscleGroup": "Hombros",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press Arnold\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111028",
+    "name": "Remo al menton",
+    "muscleGroup": "Hombros",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo al menton\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111029",
+    "name": "Elevacion lateral en maquina",
+    "muscleGroup": "Hombros",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevacion lateral en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111030",
+    "name": "Press tras nuca en maquina",
+    "muscleGroup": "Hombros",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press tras nuca en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111031",
+    "name": "Curl con barra",
+    "muscleGroup": "Biceps",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111032",
+    "name": "Curl alterno con mancuernas",
+    "muscleGroup": "Biceps",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl alterno con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111033",
+    "name": "Curl martillo",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl martillo\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111034",
+    "name": "Curl en banco inclinado",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl en banco inclinado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111035",
+    "name": "Curl concentrado",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl concentrado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111036",
+    "name": "Curl en polea",
+    "muscleGroup": "Biceps",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111037",
+    "name": "Curl predicador",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl predicador\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111038",
+    "name": "Curl inverso",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl inverso\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111039",
+    "name": "Curl spider",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl spider\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111040",
+    "name": "Curl con barra Z",
+    "muscleGroup": "Biceps",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl con barra Z\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111041",
+    "name": "Press cerrado",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press cerrado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111042",
+    "name": "Fondos de triceps en banco",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Fondos de triceps en banco\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111043",
+    "name": "Extension de triceps en polea",
+    "muscleGroup": "Triceps",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Extension de triceps en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111044",
+    "name": "Extension por encima de la cabeza",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Extension por encima de la cabeza\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111045",
+    "name": "Rompecraneos",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Rompecraneos\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111046",
+    "name": "Patada de triceps",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Patada de triceps\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111047",
+    "name": "Press frances con barra Z",
+    "muscleGroup": "Triceps",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press frances con barra Z\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111048",
+    "name": "Extension unilateral en polea",
+    "muscleGroup": "Triceps",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Extension unilateral en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111049",
+    "name": "Fondos asistidos",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Fondos asistidos\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111050",
+    "name": "Press de triceps con cuerda",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press de triceps con cuerda\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111051",
+    "name": "Sentadilla trasera",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sentadilla trasera\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111052",
+    "name": "Sentadilla frontal",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sentadilla frontal\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111053",
+    "name": "Prensa de piernas",
+    "muscleGroup": "Piernas",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Prensa de piernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111054",
+    "name": "Zancadas con mancuernas",
+    "muscleGroup": "Piernas",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Zancadas con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111055",
+    "name": "Peso muerto rumano con mancuernas",
+    "muscleGroup": "Piernas",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Peso muerto rumano con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111056",
+    "name": "Hip thrust con barra",
+    "muscleGroup": "Piernas",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Hip thrust con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111057",
+    "name": "Curl femoral tumbado",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl femoral tumbado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111058",
+    "name": "Extension de cuadriceps",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Extension de cuadriceps\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111059",
+    "name": "Sentadilla bulgara",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Avanzado",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sentadilla bulgara\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111060",
+    "name": "Step-up",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Step-up\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111061",
+    "name": "Elevacion de talones de pie",
+    "muscleGroup": "Gemelos",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevacion de talones de pie\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111062",
+    "name": "Elevacion de talones sentado",
+    "muscleGroup": "Gemelos",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevacion de talones sentado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111063",
+    "name": "Gemelo en prensa",
+    "muscleGroup": "Gemelos",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Gemelo en prensa\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111064",
+    "name": "Gemelo unilateral",
+    "muscleGroup": "Gemelos",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Gemelo unilateral\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111065",
+    "name": "Saltos en comba",
+    "muscleGroup": "Gemelos",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Saltos en comba\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111066",
+    "name": "Crunch en suelo",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Crunch en suelo\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111067",
+    "name": "Crunch en maquina",
+    "muscleGroup": "Core",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Crunch en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111068",
+    "name": "Elevaciones de piernas colgado",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevaciones de piernas colgado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111069",
+    "name": "Plancha frontal",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Plancha frontal\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111070",
+    "name": "Plancha lateral",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Plancha lateral\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111071",
+    "name": "Russian twist",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Russian twist\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111072",
+    "name": "Rueda abdominal",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Rueda abdominal\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111073",
+    "name": "Dead bug",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Dead bug\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111074",
+    "name": "Bird dog",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Bird dog\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111075",
+    "name": "Pallof press",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pallof press\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111076",
+    "name": "Remo ergometro",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo ergometro\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111077",
+    "name": "Cinta de correr",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Cinta de correr\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111078",
+    "name": "Bicicleta estatica",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Bicicleta estatica\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111079",
+    "name": "Eliptica",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Eliptica\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111080",
+    "name": "Assault bike",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Assault bike\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111081",
+    "name": "Sprints en cinta",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sprints en cinta\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111082",
+    "name": "Escaladora",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Escaladora\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111083",
+    "name": "Saltar cuerda intervalos",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Saltar cuerda intervalos\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111084",
+    "name": "Caminata inclinada",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Caminata inclinada\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111085",
+    "name": "HIIT en bici",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"HIIT en bici\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111086",
+    "name": "Sentadilla goblet",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sentadilla goblet\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111087",
+    "name": "Buenos dias con barra",
+    "muscleGroup": "Piernas",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Buenos dias con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111088",
+    "name": "Pull through en polea",
+    "muscleGroup": "Piernas",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pull through en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111089",
+    "name": "Abduccion de cadera en maquina",
+    "muscleGroup": "Piernas",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Abduccion de cadera en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111090",
+    "name": "Aduccion de cadera en maquina",
+    "muscleGroup": "Piernas",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Aduccion de cadera en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111091",
+    "name": "Encogimientos de trapecio con barra",
+    "muscleGroup": "Trapecio",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Trapecio"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Encogimientos de trapecio con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Trapecio, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111092",
+    "name": "Encogimientos con mancuernas",
+    "muscleGroup": "Trapecio",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Trapecio"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Encogimientos con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Trapecio, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111093",
+    "name": "Farmer walk",
+    "muscleGroup": "Trapecio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Trapecio"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Farmer walk\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Trapecio, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111094",
+    "name": "Extension de espalda en banco romano",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Extension de espalda en banco romano\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111095",
+    "name": "Pullover en polea alta",
+    "muscleGroup": "Espalda",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pullover en polea alta\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111096",
+    "name": "Remo invertido",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo invertido\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111097",
+    "name": "Press de banca con mancuernas",
+    "muscleGroup": "Pecho",
+    "equipment": "Mancuernas",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press de banca con mancuernas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Mancuernas), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111098",
+    "name": "Press de pecho en polea",
+    "muscleGroup": "Pecho",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press de pecho en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111099",
+    "name": "Burpees",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Avanzado",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Burpees\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111100",
+    "name": "Battle ropes",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Battle ropes\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111101",
+    "name": "Press de banca agarre cerrado",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press de banca agarre cerrado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111102",
+    "name": "Press inclinado con barra",
+    "muscleGroup": "Pecho",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press inclinado con barra\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111103",
+    "name": "Press horizontal en maquina",
+    "muscleGroup": "Pecho",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press horizontal en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111104",
+    "name": "Cruce de poleas alto a bajo",
+    "muscleGroup": "Pecho",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Pectoral mayor"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Cruce de poleas alto a bajo\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Pectoral mayor, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111105",
+    "name": "Dominadas supinas",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Avanzado",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Dominadas supinas\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111106",
+    "name": "Remo Pendlay",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo Pendlay\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111107",
+    "name": "Remo unilateral en polea",
+    "muscleGroup": "Espalda",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo unilateral en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111108",
+    "name": "Pulldown unilateral",
+    "muscleGroup": "Espalda",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Dorsal ancho",
+      "Romboides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Pulldown unilateral\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Dorsal ancho, Romboides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111109",
+    "name": "Press militar en maquina",
+    "muscleGroup": "Hombros",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Press militar en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111110",
+    "name": "Elevacion lateral en polea unilateral",
+    "muscleGroup": "Hombros",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevacion lateral en polea unilateral\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "name": "Elevaciones Y en banco inclinado",
+    "muscleGroup": "Hombros",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Deltoides"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Elevaciones Y en banco inclinado\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Deltoides, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111112",
+    "name": "Curl bayesiano en polea",
+    "muscleGroup": "Biceps",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl bayesiano en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111113",
+    "name": "Curl martillo en cuerda",
+    "muscleGroup": "Biceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl martillo en cuerda\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111114",
+    "name": "Curl predicador en maquina",
+    "muscleGroup": "Biceps",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Biceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Curl predicador en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Biceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111115",
+    "name": "Extension de triceps en polea alta unilateral",
+    "muscleGroup": "Triceps",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Extension de triceps en polea alta unilateral\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111116",
+    "name": "Fondos en paralelas asistidos",
+    "muscleGroup": "Triceps",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Triceps braquial"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Fondos en paralelas asistidos\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Triceps braquial, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111117",
+    "name": "Sentadilla hack en maquina",
+    "muscleGroup": "Piernas",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sentadilla hack en maquina\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111118",
+    "name": "Sentadilla sumo con kettlebell",
+    "muscleGroup": "Piernas",
+    "equipment": "Kettlebell",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sentadilla sumo con kettlebell\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Kettlebell), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111119",
+    "name": "Peso muerto sumo",
+    "muscleGroup": "Piernas",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Peso muerto sumo\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111120",
+    "name": "Puente de gluteo con banda",
+    "muscleGroup": "Piernas",
+    "equipment": "Banda",
+    "primaryMuscles": [
+      "Cuadriceps",
+      "Isquiotibiales",
+      "Gluteos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Puente de gluteo con banda\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Banda), only activated muscles highlighted in bright red: Cuadriceps, Isquiotibiales, Gluteos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111121",
+    "name": "Gemelo en maquina de pie",
+    "muscleGroup": "Gemelos",
+    "equipment": "Maquina",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Gemelo en maquina de pie\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Maquina), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111122",
+    "name": "Gemelo en escalon unilateral",
+    "muscleGroup": "Gemelos",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Gemelos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Gemelo en escalon unilateral\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Gemelos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111123",
+    "name": "Crunch en polea",
+    "muscleGroup": "Core",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Crunch en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111124",
+    "name": "Plancha con arrastre de disco",
+    "muscleGroup": "Core",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Plancha con arrastre de disco\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111125",
+    "name": "Woodchopper en polea",
+    "muscleGroup": "Core",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Recto abdominal",
+      "Oblicuos"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Woodchopper en polea\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Recto abdominal, Oblicuos, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111126",
+    "name": "Encogimientos en maquina Smith",
+    "muscleGroup": "Trapecio",
+    "equipment": "Barra",
+    "primaryMuscles": [
+      "Trapecio"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Encogimientos en maquina Smith\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Barra), only activated muscles highlighted in bright red: Trapecio, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111127",
+    "name": "Remo al cuello con cable",
+    "muscleGroup": "Trapecio",
+    "equipment": "Polea",
+    "primaryMuscles": [
+      "Trapecio"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Intermedio",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Remo al cuello con cable\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Polea), only activated muscles highlighted in bright red: Trapecio, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111128",
+    "name": "Sled push",
+    "muscleGroup": "Cardio",
+    "equipment": "Otro",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Avanzado",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Sled push\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Otro), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111129",
+    "name": "Ski erg",
+    "muscleGroup": "Cardio",
+    "equipment": "Cardio machine",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Ski erg\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Cardio machine), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111130",
+    "name": "Carrera por intervalos en pista",
+    "muscleGroup": "Cardio",
+    "equipment": "Peso corporal",
+    "primaryMuscles": [
+      "Sistema cardiovascular"
+    ],
+    "secondaryMuscles": [],
+    "difficulty": "Principiante",
+    "imagePrompt": "White background, 3D light-gray mannequin performing \"Carrera por intervalos en pista\" in the exact exercise posture, equipment required for the exercise in dark gray and black (Peso corporal), only activated muscles highlighted in bright red: Sistema cardiovascular, clean anatomy style, full body visible, no realistic skin, no realistic face, no cartoon, no text, no watermark",
+    "isCustom": false,
+    "createdAt": "2026-01-01T00:00:00Z"
+  }
 ]

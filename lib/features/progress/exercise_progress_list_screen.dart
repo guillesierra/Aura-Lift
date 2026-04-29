@@ -98,7 +98,7 @@ class _ProgressExerciseCard extends StatelessWidget {
     final theme = Theme.of(context);
     final strings = AppStrings.of(Localizations.localeOf(context).languageCode);
     return InkWell(
-      borderRadius: BorderRadius.circular(28),
+      borderRadius: BorderRadius.circular(AuraCard.radius),
       onTap: onTap,
       child: AuraCard(
         child: Column(
@@ -117,7 +117,8 @@ class _ProgressExerciseCard extends StatelessWidget {
                         style: theme.textTheme.titleLarge,
                       ),
                       const SizedBox(height: 4),
-                      Text(entry.muscleGroup, style: theme.textTheme.bodyMedium),
+                      Text(entry.muscleGroup,
+                          style: theme.textTheme.bodyMedium),
                     ],
                   ),
                 ),

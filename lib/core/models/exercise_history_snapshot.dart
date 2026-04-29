@@ -20,7 +20,9 @@ class ExerciseHistorySnapshot {
 
   String summaryFor(String languageCode) {
     if (sets.isEmpty) {
-      return languageCode == 'en' ? 'No previous records' : 'Sin registros previos';
+      return languageCode == 'en'
+          ? 'No previous records'
+          : 'Sin registros previos';
     }
 
     final pieces = <String>[];

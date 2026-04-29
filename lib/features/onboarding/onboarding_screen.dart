@@ -96,6 +96,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       heightCm: height,
       weightKg: weight,
       bodyType: _bodyType,
+      presentation: '',
+      city: '',
+      gym: '',
       createdAt: DateTime.now().toUtc(),
       updatedAt: DateTime.now().toUtc(),
     );
@@ -176,8 +179,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Expanded(
                       flex: 2,
                       child: PrimaryButton(
-                        label: _step == 2 ? strings.begin : strings.continueLabel,
-                        onPressed: (_canContinue && !_isSubmitting) ? _next : null,
+                        label:
+                            _step == 2 ? strings.begin : strings.continueLabel,
+                        onPressed:
+                            (_canContinue && !_isSubmitting) ? _next : null,
                       ),
                     ),
                   ],
@@ -251,26 +256,29 @@ class _IntroStep extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: AuraCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(strings.appName, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 12),
-            Text(
-              strings.onboardingIntroCopy,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 28),
-            Text(strings.name, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 10),
-            TextField(
-              controller: nameController,
-              textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                hintText: strings.nameHint,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(strings.appName, style: theme.textTheme.headlineMedium),
+              const SizedBox(height: 12),
+              Text(
+                strings.onboardingIntroCopy,
+                style: theme.textTheme.bodyMedium,
               ),
-            ),
-          ],
+              const SizedBox(height: 28),
+              Text(strings.name, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 10),
+              TextField(
+                controller: nameController,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  hintText: strings.nameHint,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -295,32 +303,37 @@ class _MetricsStep extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: AuraCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(strings.yourMetrics, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 12),
-            Text(
-              strings.metricsCopy,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 24),
-            Text(strings.heightCm, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 10),
-            TextField(
-              controller: heightController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(hintText: '180'),
-            ),
-            const SizedBox(height: 18),
-            Text(strings.weightKg, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 10),
-            TextField(
-              controller: weightController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(hintText: '78'),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(strings.yourMetrics, style: theme.textTheme.headlineMedium),
+              const SizedBox(height: 12),
+              Text(
+                strings.metricsCopy,
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 24),
+              Text(strings.heightCm, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 10),
+              TextField(
+                controller: heightController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(hintText: '180'),
+              ),
+              const SizedBox(height: 18),
+              Text(strings.weightKg, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 10),
+              TextField(
+                controller: weightController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(hintText: '78'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -345,9 +358,11 @@ class _BodyTypeStep extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: AuraCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             Text(strings.bodyType, style: theme.textTheme.headlineMedium),
             const SizedBox(height: 12),
             Text(
@@ -366,7 +381,8 @@ class _BodyTypeStep extends StatelessWidget {
                 ),
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -393,7 +409,7 @@ class _BodyTypeTile extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
       onTap: onTap,
-        child: AnimatedContainer(
+      child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(

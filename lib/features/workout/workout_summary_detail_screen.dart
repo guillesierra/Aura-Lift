@@ -166,7 +166,9 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                             Expanded(
                               child: _DetailMetric(
                                 label: strings.maximum,
-                                value: maxHeartRate == null ? '--' : '$maxHeartRate',
+                                value: maxHeartRate == null
+                                    ? '--'
+                                    : '$maxHeartRate',
                                 trailingIcon: Icons.favorite,
                                 trailingColor: Colors.red,
                               ),
@@ -206,7 +208,8 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                       (maxValue, set) =>
                           set.weightKg > maxValue ? set.weightKg : maxValue,
                     );
-                    final averageHeartRate = session.averageHeartRateForExercise(
+                    final averageHeartRate =
+                        session.averageHeartRateForExercise(
                       exercise.exerciseId,
                     );
                     final maxHeartRate = session.maxHeartRateForExercise(
@@ -338,7 +341,8 @@ class WorkoutSummaryDetailScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => const SizedBox(height: 12),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 12),
                   itemCount: session.exercises.length,
                 ),
               ),

@@ -1,13 +1,16 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/design_system/widgets/avatar_image_provider.dart';
 import '../../core/design_system/widgets/aura_card.dart';
 import '../../core/design_system/widgets/primary_button.dart';
 import '../../core/design_system/widgets/tinted_background.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/metrics/calorie_estimator.dart';
-import '../../core/models/body_type.dart';
 import '../../core/models/workout_session.dart';
 import '../../core/state/app_state.dart';
+import '../social/friend_profile_screen.dart';
+import '../social/social_hub_screen.dart';
 import '../workout/workout_summary_detail_screen.dart';
 import '../workout/workout_session_screen.dart';
 
@@ -27,12 +30,14 @@ class HomeScreen extends StatelessWidget {
         final theme = Theme.of(context);
         final strings = AppStrings.of(appState.languageCode);
         final profile = appState.profile!;
+        final animateMenus = appState.menuAnimationsEnabled;
         final activeSession = appState.activeSession;
-        final completedSessions = appState.sessions
+        final myCompletedSessions = appState.sessions
             .where((item) => !item.isActive)
             .toList()
           ..sort((a, b) => b.startedAt.compareTo(a.startedAt));
-        final homeInsight = _HomeInsight.fromSessions(completedSessions);
+        final feedItems = appState.homeFeedItems();
+        final homeInsight = _HomeInsight.fromSessions(myCompletedSessions);
 
         return Scaffold(
           body: TintedBackground(
@@ -48,8 +53,6 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(strings.home, style: theme.textTheme.bodyMedium),
-                              const SizedBox(height: 10),
                               Text(
                                 strings.hello(profile.name),
                                 style: theme.textTheme.displayLarge,
@@ -65,6 +68,58 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         IconButton.filledTonal(
+                          tooltip: strings.socialHub,
+                          onPressed: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => SocialHubScreen(
+                                  appState: appState,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              const Icon(Icons.groups_rounded),
+                              if (appState.pendingIncomingRequestsCount > 0)
+                                Positioned(
+                                  right: -8,
+                                  top: -6,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.error,
+                                      borderRadius: BorderRadius.circular(999),
+                                    ),
+                                    child: Text(
+                                      appState.pendingIncomingRequestsCount > 99
+                                          ? '99+'
+                                          : '${appState.pendingIncomingRequestsCount}',
+                                      style:
+                                          theme.textTheme.labelSmall?.copyWith(
+                                        color: theme.colorScheme.onError,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton.filledTonal(
+                          tooltip: strings.searchProfiles,
+                          onPressed: () {
+                            _showCommunitySearchSheet(context, appState);
+                          },
+                          icon: const Icon(Icons.search_rounded),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton.filledTonal(
                           tooltip: strings.settings,
                           onPressed: () {
                             _showSettingsSheet(context, appState);
@@ -74,8 +129,8 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 24),
-                    AuraCard(
-                      padding: const EdgeInsets.all(28),
+                    (AuraCard(
+                      padding: const EdgeInsets.all(24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -125,6 +180,9 @@ class HomeScreen extends StatelessWidget {
                             label: activeSession == null
                                 ? strings.startWorkout
                                 : strings.resumeWorkout,
+                            icon: activeSession == null
+                                ? Icons.play_arrow_rounded
+                                : Icons.bolt_rounded,
                             onPressed: () async {
                               if (activeSession == null) {
                                 await appState.startWorkoutSession();
@@ -142,16 +200,26 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
+                    ))
+                        .animate(
+                          target: animateMenus ? 1 : 0,
+                        )
+                        .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
+                        .slideY(
+                          begin: 0.04,
+                          end: 0,
+                          duration: 260.ms,
+                          curve: Curves.easeOutCubic,
+                        ),
                     const SizedBox(height: 18),
                     Text(
-                      completedSessions.isEmpty
+                      feedItems.isEmpty
                           ? strings.recentHistory
-                          : '${strings.recentHistory} · ${completedSessions.length}',
+                          : '${strings.recentHistory} · ${feedItems.length}',
                       style: theme.textTheme.titleLarge,
                     ),
                     const SizedBox(height: 14),
-                    if (completedSessions.isEmpty)
+                    if (feedItems.isEmpty)
                       AuraCard(
                         child: Text(
                           strings.noClosedSessions,
@@ -159,45 +227,71 @@ class HomeScreen extends StatelessWidget {
                         ),
                       )
                     else
-                      ...completedSessions.take(10).map(
-                            (session) => Padding(
+                      ...feedItems.take(14).map(
+                            (item) => Padding(
                               padding: const EdgeInsets.only(bottom: 14),
                               child: WorkoutSummaryCard(
-                                session: session,
-                                authorName: profile.name,
-                                authorHandle: profile.name.toLowerCase(),
-                                highlightColor: theme.colorScheme.primary,
+                                session: item.session,
+                                authorName: item.authorName,
+                                authorHandle: item.authorHandle,
+                                authorAvatarUrl: item.authorAvatarUrl,
+                                highlightColor: item.isCurrentUser
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.secondary,
                                 estimatedCalories:
                                     CalorieEstimator.estimateWorkoutCalories(
-                                  session: session,
-                                  bodyWeightKg: profile.weightKg,
+                                  session: item.session,
+                                    bodyWeightKg: profile.weightKg,
+                                ),
+                                auraPoints: appState.auraPointsForSession(
+                                  item.session,
+                                  bodyWeightKg: item.isCurrentUser
+                                      ? profile.weightKg
+                                      : 75,
                                 ),
                                 onTap: () async {
+                                  if (item.isCurrentUser) {
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (_) =>
+                                            WorkoutSummaryDetailScreen(
+                                          session: item.session,
+                                          authorName: item.authorName,
+                                          bodyWeightKg: profile.weightKg,
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+
                                   await Navigator.of(context).push(
                                     MaterialPageRoute<void>(
-                                      builder: (_) => WorkoutSummaryDetailScreen(
-                                        session: session,
-                                        authorName: profile.name,
-                                        bodyWeightKg: profile.weightKg,
+                                      builder: (_) => FriendProfileScreen(
+                                        appState: appState,
+                                        profileId: item.profileId,
                                       ),
                                     ),
                                   );
                                 },
-                                onRename: (title) {
-                                  return appState.renameWorkoutSession(
-                                    sessionId: session.id,
-                                    title: title,
-                                  );
-                                },
-                                onDelete: () {
-                                  return appState.deleteWorkoutSession(
-                                    session.id,
-                                  );
-                                },
+                                onRename: item.isCurrentUser
+                                    ? (title) {
+                                        return appState.renameWorkoutSession(
+                                          sessionId: item.session.id,
+                                          title: title,
+                                        );
+                                      }
+                                    : null,
+                                onDelete: item.isCurrentUser
+                                    ? () {
+                                        return appState.deleteWorkoutSession(
+                                          item.session.id,
+                                        );
+                                      }
+                                    : null,
                               ),
                             ),
                           ),
-                    if (completedSessions.isNotEmpty) ...[
+                    if (myCompletedSessions.isNotEmpty) ...[
                       const SizedBox(height: 10),
                       Text(
                         strings.homeInsights,
@@ -333,6 +427,8 @@ class WorkoutSummaryCard extends StatelessWidget {
     required this.session,
     required this.authorName,
     required this.authorHandle,
+    this.authorAvatarUrl,
+    this.auraPoints,
     required this.highlightColor,
     this.estimatedCalories,
     this.onRename,
@@ -343,6 +439,8 @@ class WorkoutSummaryCard extends StatelessWidget {
   final WorkoutSession session;
   final String authorName;
   final String authorHandle;
+  final String? authorAvatarUrl;
+  final int? auraPoints;
   final Color highlightColor;
   final int? estimatedCalories;
   final Future<void> Function(String title)? onRename;
@@ -362,7 +460,7 @@ class WorkoutSummaryCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(28),
+      borderRadius: BorderRadius.circular(AuraCard.radius),
       child: AuraCard(
         padding: const EdgeInsets.all(22),
         child: Column(
@@ -373,10 +471,15 @@ class WorkoutSummaryCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 22,
                   backgroundColor: highlightColor.withValues(alpha: 0.18),
-                  child: Text(
-                    authorName.isNotEmpty ? authorName[0].toUpperCase() : 'A',
-                    style: theme.textTheme.titleMedium,
-                  ),
+                  backgroundImage: avatarImageProvider(authorAvatarUrl),
+                  child: authorAvatarUrl == null
+                      ? Text(
+                          authorName.isNotEmpty
+                              ? authorName[0].toUpperCase()
+                              : 'A',
+                          style: theme.textTheme.titleMedium,
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -389,38 +492,41 @@ class WorkoutSummaryCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                PopupMenuButton<String>(
-                  onSelected: (value) async {
-                    if (value == 'rename' && onRename != null) {
-                      await _showRenameSummaryDialog(
-                        context,
-                        initialTitle: session.title,
-                        onSave: onRename!,
-                      );
-                      return;
-                    }
-
-                    if (value == 'delete' && onDelete != null) {
-                      final confirmed = await _showDeleteSummaryDialog(
-                        context,
-                        title: session.title,
-                      );
-                      if (confirmed == true) {
-                        await onDelete!();
+                if (onRename != null || onDelete != null)
+                  PopupMenuButton<String>(
+                    onSelected: (value) async {
+                      if (value == 'rename' && onRename != null) {
+                        await _showRenameSummaryDialog(
+                          context,
+                          initialTitle: session.title,
+                          onSave: onRename!,
+                        );
+                        return;
                       }
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem<String>(
-                      value: 'rename',
-                      child: Text(strings.rename),
-                    ),
-                    PopupMenuItem<String>(
-                      value: 'delete',
-                      child: Text(strings.deleteWorkout),
-                    ),
-                  ],
-                ),
+
+                      if (value == 'delete' && onDelete != null) {
+                        final confirmed = await _showDeleteSummaryDialog(
+                          context,
+                          title: session.title,
+                        );
+                        if (confirmed == true) {
+                          await onDelete!();
+                        }
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      if (onRename != null)
+                        PopupMenuItem<String>(
+                          value: 'rename',
+                          child: Text(strings.rename),
+                        ),
+                      if (onDelete != null)
+                        PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Text(strings.deleteWorkout),
+                        ),
+                    ],
+                  ),
               ],
             ),
             const SizedBox(height: 18),
@@ -452,9 +558,16 @@ class WorkoutSummaryCard extends StatelessWidget {
                 Expanded(
                   child: _WorkoutMetric(
                     label: strings.heartRateShort,
-                    value: averageHeartRate == null ? '--' : '$averageHeartRate',
+                    value:
+                        averageHeartRate == null ? '--' : '$averageHeartRate',
                     trailingIcon: Icons.favorite,
                     trailingColor: Colors.red,
+                  ),
+                ),
+                Expanded(
+                  child: _WorkoutMetric(
+                    label: strings.auraPointsShort,
+                    value: auraPoints == null ? '--' : '$auraPoints',
                   ),
                 ),
               ],
@@ -493,14 +606,14 @@ class WorkoutSummaryCard extends StatelessWidget {
             if (session.exercises.isNotEmpty) ...[
               const SizedBox(height: 16),
               ...session.exercises.take(3).map(
-                (exercise) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    '${exercise.sets.length} ${strings.sets.toLowerCase()} · ${exercise.exerciseName}',
-                    style: theme.textTheme.bodyLarge,
+                    (exercise) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        '${exercise.sets.length} ${strings.sets.toLowerCase()} · ${exercise.exerciseName}',
+                        style: theme.textTheme.bodyLarge,
+                      ),
+                    ),
                   ),
-                ),
-              ),
             ],
           ],
         ),
@@ -531,9 +644,16 @@ class _WorkoutMetric extends StatelessWidget {
         Text(label, style: theme.textTheme.bodyMedium),
         const SizedBox(height: 6),
         Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Text(value, style: theme.textTheme.titleMedium),
+            Flexible(
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
             if (trailingIcon != null) ...[
               const SizedBox(width: 4),
               Icon(
@@ -611,15 +731,168 @@ Future<bool?> _showDeleteSummaryDialog(
   );
 }
 
-Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
-  final profile = appState.profile!;
-  final nameController = TextEditingController(text: profile.name);
-  final heightController =
-      TextEditingController(text: profile.heightCm.toStringAsFixed(0));
-  final weightController =
-      TextEditingController(text: profile.weightKg.toStringAsFixed(0));
-  var selectedBodyType = profile.bodyType;
+Future<void> _showCommunitySearchSheet(
+  BuildContext context,
+  AppState appState,
+) async {
+  final strings = AppStrings.of(appState.languageCode);
+  final queryController = TextEditingController();
+  String query = '';
 
+  await showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    builder: (context) {
+      final theme = Theme.of(context);
+      return StatefulBuilder(
+        builder: (context, setModalState) {
+          final results = appState.searchCommunityProfiles(query);
+          return Padding(
+            padding: EdgeInsets.fromLTRB(
+              20,
+              8,
+              20,
+              20 + MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(strings.searchProfiles, style: theme.textTheme.titleLarge),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: queryController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    labelText: strings.searchProfiles,
+                  ),
+                  onChanged: (value) => setModalState(() => query = value),
+                ),
+                const SizedBox(height: 12),
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: results.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      final profile = results[index];
+                      final status = appState.connectionStatusFor(profile.id);
+                      return AuraCard(
+                        padding: const EdgeInsets.all(12),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => FriendProfileScreen(
+                                  appState: appState,
+                                  profileId: profile.id,
+                                ),
+                              ),
+                            );
+                            if (context.mounted) {
+                              setModalState(() {});
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage: profile.avatarUrl == null
+                                    ? null
+                                    : NetworkImage(profile.avatarUrl!),
+                                child: profile.avatarUrl == null
+                                    ? Text(profile.name[0].toUpperCase())
+                                    : null,
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      profile.name,
+                                      style: theme.textTheme.titleMedium,
+                                    ),
+                                    Text(
+                                      profile.handle,
+                                      style: theme.textTheme.bodySmall,
+                                    ),
+                                    Text(
+                                      _statusLabel(strings, status),
+                                      style: theme.textTheme.labelSmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await _applyConnectionAction(
+                                    appState,
+                                    profile.id,
+                                  );
+                                  setModalState(() {});
+                                },
+                                child: Text(_statusActionLabel(strings, status)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+String _statusLabel(AppStrings strings, SocialConnectionStatus status) {
+  switch (status) {
+    case SocialConnectionStatus.friends:
+      return strings.friendsStatus;
+    case SocialConnectionStatus.requestSent:
+      return strings.requestSentStatus;
+    case SocialConnectionStatus.requestReceived:
+      return strings.requestReceivedStatus;
+    case SocialConnectionStatus.notFollowing:
+      return strings.followProfile;
+  }
+}
+
+String _statusActionLabel(AppStrings strings, SocialConnectionStatus status) {
+  switch (status) {
+    case SocialConnectionStatus.friends:
+      return strings.removeFriend;
+    case SocialConnectionStatus.requestSent:
+      return strings.cancelRequest;
+    case SocialConnectionStatus.requestReceived:
+      return strings.acceptRequest;
+    case SocialConnectionStatus.notFollowing:
+      return strings.followProfile;
+  }
+}
+
+Future<void> _applyConnectionAction(AppState appState, String profileId) async {
+  final status = appState.connectionStatusFor(profileId);
+  switch (status) {
+    case SocialConnectionStatus.friends:
+    case SocialConnectionStatus.requestSent:
+      await appState.unfollowProfile(profileId);
+      return;
+    case SocialConnectionStatus.requestReceived:
+    case SocialConnectionStatus.notFollowing:
+      await appState.followProfile(profileId);
+      return;
+  }
+}
+
+Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
@@ -641,56 +914,6 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(strings.settings, style: theme.textTheme.headlineMedium),
-                  const SizedBox(height: 18),
-                  Text(strings.profile, style: theme.textTheme.titleLarge),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(labelText: strings.name),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: heightController,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          decoration: InputDecoration(labelText: strings.height),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: TextField(
-                          controller: weightController,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          decoration: InputDecoration(labelText: strings.weight),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  DropdownButtonFormField<BodyType>(
-                    initialValue: selectedBodyType,
-                    items: BodyType.values
-                        .map(
-                          (item) => DropdownMenuItem(
-                            value: item,
-                            child: Text(item.titleFor(appState.languageCode)),
-                          ),
-                        )
-                        .toList(growable: false),
-                    onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
-                      setModalState(() => selectedBodyType = value);
-                    },
-                    decoration: InputDecoration(labelText: strings.bodyType),
-                  ),
                   const SizedBox(height: 20),
                   Text(strings.appearance, style: theme.textTheme.titleLarge),
                   const SizedBox(height: 12),
@@ -729,23 +952,22 @@ Future<void> _showSettingsSheet(BuildContext context, AppState appState) async {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  PrimaryButton(
-                    label: strings.saveChanges,
-                    onPressed: () async {
-                      final height = double.tryParse(heightController.text);
-                      final weight = double.tryParse(weightController.text);
-                      if (height == null || weight == null) {
-                        return;
-                      }
-                      await appState.updateProfile(
-                        name: nameController.text,
-                        heightCm: height,
-                        weightKg: weight,
-                        bodyType: selectedBodyType,
-                      );
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(strings.menuAnimations),
+                    value: appState.menuAnimationsEnabled,
+                    onChanged: (value) async {
+                      await appState.updateMenuAnimationsEnabled(value);
                       if (context.mounted) {
-                        Navigator.of(context).pop();
+                        setModalState(() {});
                       }
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  PrimaryButton(
+                    label: strings.close,
+                    onPressed: () {
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],

@@ -15,76 +15,41 @@ class TintedBackground extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+        gradient: RadialGradient(
+          center: const Alignment(0.72, -0.92),
+          radius: 1.35,
           colors: isDark
               ? const [
-                  Color(0xFF0C1013),
-                  Color(0xFF10171A),
-                  Color(0xFF0D1114),
+                  Color(0xFF123A34),
+                  Color(0xFF102821),
+                  Color(0xFF0F1518),
                 ]
               : const [
-                  Color(0xFFF7FAFB),
-                  Color(0xFFF2F6F7),
-                  Color(0xFFF4F7F8),
+                  Color(0xFFE7F5F1),
+                  Color(0xFFF2F8F5),
+                  Color(0xFFF6F8F7),
                 ],
         ),
       ),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            top: -70,
-            right: -10,
-            child: _GlowOrb(
-              color: isDark
-                  ? const Color(0x332BC2A5)
-                  : const Color(0x335ED8C0),
-              size: 220,
-            ),
-          ),
-          Positioned(
-            top: 180,
-            left: -50,
-            child: _GlowOrb(
-              color: isDark
-                  ? const Color(0x1AFFFFFF)
-                  : const Color(0x22A9BBC4),
-              size: 180,
-            ),
-          ),
-          child,
-        ],
-      ),
-    );
-  }
-}
-
-class _GlowOrb extends StatelessWidget {
-  const _GlowOrb({
-    required this.color,
-    required this.size,
-  });
-
-  final Color color;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
+      child: DecoratedBox(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: RadialGradient(
-            colors: [
-              color,
-              color.withValues(alpha: 0),
-            ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [
+                    const Color(0xFF2BC2A5).withValues(alpha: 0.18),
+                    const Color(0xFF0F1518).withValues(alpha: 0),
+                    const Color(0xFF0B7E6C).withValues(alpha: 0.18),
+                  ]
+                : [
+                    const Color(0xFF5CE0C4).withValues(alpha: 0.2),
+                    Colors.white.withValues(alpha: 0.2),
+                    const Color(0xFFA7F3DF).withValues(alpha: 0.18),
+                  ],
           ),
         ),
+        child: child,
       ),
     );
   }

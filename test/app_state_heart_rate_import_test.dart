@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:aura_lift/core/auth/social_auth_service.dart';
 import 'package:aura_lift/core/models/app_settings.dart';
 import 'package:aura_lift/core/models/body_type.dart';
 import 'package:aura_lift/core/models/exercise.dart';
@@ -9,6 +10,7 @@ import 'package:aura_lift/core/models/workout_session.dart';
 import 'package:aura_lift/core/repositories/exercise_repository.dart';
 import 'package:aura_lift/core/repositories/profile_repository.dart';
 import 'package:aura_lift/core/repositories/settings_repository.dart';
+import 'package:aura_lift/core/repositories/social_repository.dart';
 import 'package:aura_lift/core/repositories/workout_repository.dart';
 import 'package:aura_lift/core/state/app_state.dart';
 
@@ -27,6 +29,8 @@ void main() {
       exerciseRepository: _MemoryExerciseRepository([exercise]),
       workoutRepository: workoutRepository,
       settingsRepository: _MemorySettingsRepository(),
+      socialRepository: _MemorySocialRepository(),
+      socialAuthService: _MemorySocialAuthService(),
     );
 
     await appState.bootstrap();
@@ -80,6 +84,9 @@ class _MemoryProfileRepository implements ProfileRepository {
       heightCm: 180,
       weightKg: 80,
       bodyType: BodyType.mesomorph,
+      presentation: '',
+      city: '',
+      gym: '',
       createdAt: DateTime.utc(2026, 1, 1),
       updatedAt: DateTime.utc(2026, 1, 1),
     );
@@ -98,6 +105,12 @@ class _MemoryExerciseRepository implements ExerciseRepository {
   Future<void> addCustomExercise({
     required String name,
     required String muscleGroup,
+    String? equipment,
+    List<String>? primaryMuscles,
+    List<String>? secondaryMuscles,
+    String? difficulty,
+    String? imageAssetPath,
+    String? imagePrompt,
   }) async {}
 
   @override
@@ -122,4 +135,54 @@ class _MemorySettingsRepository implements SettingsRepository {
 
   @override
   Future<void> save(AppSettings settings) async {}
+}
+
+class _MemorySocialRepository implements SocialRepository {
+  Set<String> _following = <String>{};
+  Map<String, String> _avatarOverrides = <String, String>{};
+  Set<String> _dismissedIncoming = <String>{};
+
+  @override
+  Future<Set<String>> loadFollowingIds() async => _following;
+
+  @override
+  Future<void> saveFollowingIds(Set<String> ids) async {
+    _following = Set<String>.from(ids);
+  }
+
+  @override
+  Future<Map<String, String>> loadAvatarOverrides() async => _avatarOverrides;
+
+  @override
+  Future<void> saveAvatarOverrides(Map<String, String> overrides) async {
+    _avatarOverrides = Map<String, String>.from(overrides);
+  }
+
+  @override
+  Future<Set<String>> loadDismissedIncomingRequestIds() async {
+    return _dismissedIncoming;
+  }
+
+  @override
+  Future<void> saveDismissedIncomingRequestIds(Set<String> ids) async {
+    _dismissedIncoming = Set<String>.from(ids);
+  }
+}
+
+class _MemorySocialAuthService implements SocialAuthService {
+  @override
+  Future<SocialAuthAccount?> restoreSession() async => null;
+
+  @override
+  Future<SocialAuthResult> signInWithApple() async {
+    return SocialAuthResult.unsupported();
+  }
+
+  @override
+  Future<SocialAuthResult> signInWithGoogle() async {
+    return SocialAuthResult.unsupported();
+  }
+
+  @override
+  Future<void> signOut() async {}
 }

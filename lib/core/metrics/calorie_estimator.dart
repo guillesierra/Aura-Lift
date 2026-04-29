@@ -64,8 +64,9 @@ class CalorieEstimator {
       return 0;
     }
 
-    final heartRate = session.averageHeartRateForExercise(exercise.exerciseId) ??
-        session.averageHeartRate;
+    final heartRate =
+        session.averageHeartRateForExercise(exercise.exerciseId) ??
+            session.averageHeartRate;
     final met = _baseMetForMuscleGroup(exercise.muscleGroup) *
         _volumeIntensityFactor(exercise, bodyWeightKg) *
         _heartRateFactor(heartRate);

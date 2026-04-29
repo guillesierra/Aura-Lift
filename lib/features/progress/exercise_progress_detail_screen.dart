@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/design_system/widgets/aura_card.dart';
@@ -40,7 +41,8 @@ class ExerciseProgressDetailScreen extends StatelessWidget {
     final latest = history.first;
     final bestWeight = history.fold<double>(
       0,
-      (maxValue, item) => item.bestWeight > maxValue ? item.bestWeight : maxValue,
+      (maxValue, item) =>
+          item.bestWeight > maxValue ? item.bestWeight : maxValue,
     );
     final totalVolume = history.fold<double>(
       0,
@@ -125,7 +127,8 @@ class ExerciseProgressDetailScreen extends StatelessWidget {
                         Expanded(
                           child: _SummaryStat(
                             label: strings.latestVolume,
-                            value: '${latest.totalVolume.toStringAsFixed(0)} kg',
+                            value:
+                                '${latest.totalVolume.toStringAsFixed(0)} kg',
                           ),
                         ),
                       ],
@@ -138,7 +141,8 @@ class ExerciseProgressDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(strings.volumeEvolution, style: theme.textTheme.titleLarge),
+                    Text(strings.volumeEvolution,
+                        style: theme.textTheme.titleLarge),
                     const SizedBox(height: 18),
                     _VolumeBars(history: history.take(6).toList()),
                   ],
@@ -202,37 +206,89 @@ class _VolumeBars extends StatelessWidget {
     final reversed = history.reversed.toList(growable: false);
     final maxVolume = reversed.fold<double>(
       1,
-      (maxValue, item) => item.totalVolume > maxValue ? item.totalVolume : maxValue,
+      (maxValue, item) =>
+          item.totalVolume > maxValue ? item.totalVolume : maxValue,
     );
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: reversed.map((point) {
-        final height = (point.totalVolume / maxVolume) * 120;
-        final local = point.sessionDate.toLocal();
-        final label =
-            '${local.day.toString().padLeft(2, '0')}/${local.month.toString().padLeft(2, '0')}';
-
-        return Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: height.clamp(12, 120).toDouble(),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(label, style: theme.textTheme.bodyMedium),
-              ],
+    return SizedBox(
+      height: 176,
+      child: BarChart(
+        BarChartData(
+          minY: 0,
+          maxY: maxVolume * 1.18,
+          alignment: BarChartAlignment.spaceAround,
+          borderData: FlBorderData(show: false),
+          gridData: FlGridData(
+            drawVerticalLine: false,
+            getDrawingHorizontalLine: (value) => FlLine(
+              color: theme.colorScheme.outline.withValues(alpha: 0.32),
+              strokeWidth: 1,
             ),
           ),
-        );
-      }).toList(growable: false),
+          titlesData: FlTitlesData(
+            leftTitles: const AxisTitles(),
+            topTitles: const AxisTitles(),
+            rightTitles: const AxisTitles(),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 34,
+                getTitlesWidget: (value, meta) {
+                  final index = value.toInt();
+                  if (index < 0 || index >= reversed.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final local = reversed[index].sessionDate.toLocal();
+                  final label =
+                      '${local.day.toString().padLeft(2, '0')}/${local.month.toString().padLeft(2, '0')}';
+                  return SideTitleWidget(
+                    meta: meta,
+                    child: Text(label, style: theme.textTheme.labelMedium),
+                  );
+                },
+              ),
+            ),
+          ),
+          barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              getTooltipColor: (_) => theme.colorScheme.inverseSurface,
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                return BarTooltipItem(
+                  '${rod.toY.toStringAsFixed(0)} kg',
+                  TextStyle(
+                    color: theme.colorScheme.onInverseSurface,
+                    fontWeight: FontWeight.w700,
+                  ),
+                );
+              },
+            ),
+          ),
+          barGroups: reversed.asMap().entries.map((entry) {
+            final point = entry.value;
+            final isLatest = entry.key == reversed.length - 1;
+            return BarChartGroupData(
+              x: entry.key,
+              barRods: [
+                BarChartRodData(
+                  toY: point.totalVolume,
+                  width: 18,
+                  borderRadius: BorderRadius.circular(6),
+                  color: isLatest
+                      ? theme.colorScheme.tertiary
+                      : theme.colorScheme.primary,
+                  backDrawRodData: BackgroundBarChartRodData(
+                    show: true,
+                    toY: maxVolume * 1.18,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                  ),
+                ),
+              ],
+            );
+          }).toList(growable: false),
+        ),
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeOutCubic,
+      ),
     );
   }
 }

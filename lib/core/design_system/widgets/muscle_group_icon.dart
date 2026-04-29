@@ -25,7 +25,8 @@ class MuscleGroupIcon extends StatelessWidget {
         painter: _MuscleGroupPainter(
           muscleGroup: muscleGroup,
           bodyColor: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.22),
-          outlineColor: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.42),
+          outlineColor:
+              theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.42),
           highlightColor: Colors.redAccent,
         ),
       ),

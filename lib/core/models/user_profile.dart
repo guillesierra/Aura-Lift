@@ -9,6 +9,10 @@ class UserProfile {
     required this.heightCm,
     required this.weightKg,
     required this.bodyType,
+    this.avatarUrl,
+    this.presentation = '',
+    this.city = '',
+    this.gym = '',
     required this.createdAt,
     required this.updatedAt,
   });
@@ -18,6 +22,10 @@ class UserProfile {
   final double heightCm;
   final double weightKg;
   final BodyType bodyType;
+  final String? avatarUrl;
+  final String presentation;
+  final String city;
+  final String gym;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -28,6 +36,10 @@ class UserProfile {
       'heightCm': heightCm,
       'weightKg': weightKg,
       'bodyType': bodyType.name,
+      'avatarUrl': avatarUrl,
+      'presentation': presentation,
+      'city': city,
+      'gym': gym,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
@@ -43,6 +55,10 @@ class UserProfile {
         (element) => element.name == map['bodyType'],
         orElse: () => BodyType.undefined,
       ),
+      avatarUrl: map['avatarUrl'] as String?,
+      presentation: (map['presentation'] as String?) ?? '',
+      city: (map['city'] as String?) ?? '',
+      gym: (map['gym'] as String?) ?? '',
       createdAt: DateTime.parse(map['createdAt'] as String),
       updatedAt: DateTime.parse(map['updatedAt'] as String),
     );

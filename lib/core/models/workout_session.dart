@@ -124,9 +124,8 @@ class WorkoutSession {
       'startedAt': startedAt.toIso8601String(),
       'endedAt': endedAt?.toIso8601String(),
       'selectedExerciseId': selectedExerciseId,
-      'exercises': exercises
-          .map((exercise) => exercise.toMap())
-          .toList(growable: false),
+      'exercises':
+          exercises.map((exercise) => exercise.toMap()).toList(growable: false),
       'heartRateSamples': heartRateSamples
           .map((sample) => sample.toMap())
           .toList(growable: false),

@@ -3,20 +3,22 @@ import 'package:health/health.dart';
 
 import '../models/external_heart_rate_reading.dart';
 
-class AppleHealthHeartRateService {
-  AppleHealthHeartRateService({Health? health}) : _health = health ?? Health();
+class HealthHeartRateService {
+  HealthHeartRateService({Health? health}) : _health = health ?? Health();
 
   final Health _health;
   bool _configured = false;
 
-  bool get isSupported => defaultTargetPlatform == TargetPlatform.iOS;
+  bool get isSupported =>
+      defaultTargetPlatform == TargetPlatform.iOS ||
+      defaultTargetPlatform == TargetPlatform.android;
 
-  Future<AppleHealthHeartRateResult> fetchHeartRateReadings({
+  Future<HealthHeartRateResult> fetchHeartRateReadings({
     required DateTime startTime,
     required DateTime endTime,
   }) async {
     if (!isSupported) {
-      return const AppleHealthHeartRateResult.unsupported();
+      return const HealthHeartRateResult.unsupported();
     }
 
     try {
@@ -28,7 +30,7 @@ class AppleHealthHeartRateService {
         permissions: permissions,
       );
       if (!granted) {
-        return const AppleHealthHeartRateResult.denied();
+        return const HealthHeartRateResult.denied();
       }
 
       final points = await _health.getHealthDataFromTypes(
@@ -44,9 +46,9 @@ class AppleHealthHeartRateService {
           .toList(growable: false)
         ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
-      return AppleHealthHeartRateResult.success(readings);
+      return HealthHeartRateResult.success(readings);
     } catch (error) {
-      return AppleHealthHeartRateResult.failed(error.toString());
+      return HealthHeartRateResult.failed(error.toString());
     }
   }
 
@@ -70,9 +72,12 @@ class AppleHealthHeartRateService {
       return null;
     }
 
+    final sourcePrefix = defaultTargetPlatform == TargetPlatform.android
+        ? 'android_health'
+        : 'apple_health';
     final source = point.sourceName.isEmpty
-        ? 'apple_health'
-        : 'apple_health:${point.sourceName}';
+        ? sourcePrefix
+        : '$sourcePrefix:${point.sourceName}';
     return ExternalHeartRateReading(
       bpm: bpm,
       timestamp: point.dateFrom.toUtc(),
@@ -81,45 +86,45 @@ class AppleHealthHeartRateService {
   }
 }
 
-class AppleHealthHeartRateResult {
-  const AppleHealthHeartRateResult._({
+class HealthHeartRateResult {
+  const HealthHeartRateResult._({
     required this.status,
     required this.readings,
     this.errorMessage,
   });
 
-  const AppleHealthHeartRateResult.unsupported()
+  const HealthHeartRateResult.unsupported()
       : this._(
-          status: AppleHealthHeartRateStatus.unsupported,
+          status: HealthHeartRateStatus.unsupported,
           readings: const [],
         );
 
-  const AppleHealthHeartRateResult.denied()
+  const HealthHeartRateResult.denied()
       : this._(
-          status: AppleHealthHeartRateStatus.denied,
+          status: HealthHeartRateStatus.denied,
           readings: const [],
         );
 
-  const AppleHealthHeartRateResult.success(
+  const HealthHeartRateResult.success(
     List<ExternalHeartRateReading> readings,
   ) : this._(
-          status: AppleHealthHeartRateStatus.success,
+          status: HealthHeartRateStatus.success,
           readings: readings,
         );
 
-  const AppleHealthHeartRateResult.failed(String errorMessage)
+  const HealthHeartRateResult.failed(String errorMessage)
       : this._(
-          status: AppleHealthHeartRateStatus.failed,
+          status: HealthHeartRateStatus.failed,
           readings: const [],
           errorMessage: errorMessage,
         );
 
-  final AppleHealthHeartRateStatus status;
+  final HealthHeartRateStatus status;
   final List<ExternalHeartRateReading> readings;
   final String? errorMessage;
 }
 
-enum AppleHealthHeartRateStatus {
+enum HealthHeartRateStatus {
   unsupported,
   denied,
   success,

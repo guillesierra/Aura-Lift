@@ -9,7 +9,7 @@ import '../../core/state/app_state.dart';
 import '../home/home_screen.dart';
 import '../workout/workout_summary_detail_screen.dart';
 
-class WorkoutCalendarScreen extends StatelessWidget {
+class WorkoutCalendarScreen extends StatefulWidget {
   const WorkoutCalendarScreen({
     super.key,
     required this.appState,
@@ -18,7 +18,15 @@ class WorkoutCalendarScreen extends StatelessWidget {
   final AppState appState;
 
   @override
+  State<WorkoutCalendarScreen> createState() => _WorkoutCalendarScreenState();
+}
+
+class _WorkoutCalendarScreenState extends State<WorkoutCalendarScreen> {
+  int? _selectedYear;
+
+  @override
   Widget build(BuildContext context) {
+    final appState = widget.appState;
     return AnimatedBuilder(
       animation: appState,
       builder: (context, _) {
@@ -29,13 +37,39 @@ class WorkoutCalendarScreen extends StatelessWidget {
             .where((session) => !session.isActive)
             .toList(growable: false)
           ..sort((a, b) => b.startedAt.compareTo(a.startedAt));
-        final days = _WorkoutDay.fromSessions(completedSessions);
-        final calendarYear = completedSessions.isEmpty
+        final availableYears = completedSessions
+            .map((session) => session.startedAt.toLocal().year)
+            .toSet()
+            .toList(growable: false)
+          ..sort();
+        final fallbackYear = availableYears.isEmpty
             ? DateTime.now().year
-            : completedSessions.first.startedAt.toLocal().year;
+            : availableYears.last;
+        final selectedYear = _selectedYear == null ||
+                (!availableYears.contains(_selectedYear) &&
+                    availableYears.isNotEmpty)
+            ? fallbackYear
+            : _selectedYear!;
+
+        if (_selectedYear != selectedYear) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                _selectedYear = selectedYear;
+              });
+            }
+          });
+        }
+
         final yearSessions = completedSessions
-            .where((session) => session.startedAt.toLocal().year == calendarYear)
+            .where((session) => session.startedAt.toLocal().year == selectedYear)
             .toList(growable: false);
+        final days = _WorkoutDay.fromSessions(yearSessions);
+
+        final currentYearIndex = availableYears.indexOf(selectedYear);
+        final hasPreviousYear = currentYearIndex > 0;
+        final hasNextYear = currentYearIndex >= 0 &&
+            currentYearIndex < availableYears.length - 1;
 
         return Scaffold(
           body: TintedBackground(
@@ -74,8 +108,22 @@ class WorkoutCalendarScreen extends StatelessWidget {
                     )
                   else ...[
                     _YearWorkoutCalendar(
-                      year: calendarYear,
+                      year: selectedYear,
                       sessions: yearSessions,
+                      onPreviousYear: hasPreviousYear
+                          ? () {
+                              setState(() {
+                                _selectedYear = availableYears[currentYearIndex - 1];
+                              });
+                            }
+                          : null,
+                      onNextYear: hasNextYear
+                          ? () {
+                              setState(() {
+                                _selectedYear = availableYears[currentYearIndex + 1];
+                              });
+                            }
+                          : null,
                     ),
                     const SizedBox(height: 24),
                     ...days.map(
@@ -84,6 +132,7 @@ class WorkoutCalendarScreen extends StatelessWidget {
                         child: _WorkoutDaySection(
                           day: day,
                           authorName: profile.name,
+                          authorAvatarUrl: profile.avatarUrl,
                           bodyWeightKg: profile.weightKg,
                           highlightColor: theme.colorScheme.primary,
                           appState: appState,
@@ -105,10 +154,14 @@ class _YearWorkoutCalendar extends StatelessWidget {
   const _YearWorkoutCalendar({
     required this.year,
     required this.sessions,
+    this.onPreviousYear,
+    this.onNextYear,
   });
 
   final int year;
   final List<WorkoutSession> sessions;
+  final VoidCallback? onPreviousYear;
+  final VoidCallback? onNextYear;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +176,26 @@ class _YearWorkoutCalendar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('$year', style: theme.textTheme.headlineMedium),
+          Row(
+            children: [
+              IconButton(
+                onPressed: onPreviousYear,
+                icon: const Icon(Icons.chevron_left_rounded),
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    '$year',
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: onNextYear,
+                icon: const Icon(Icons.chevron_right_rounded),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
           GridView.count(
             crossAxisCount: MediaQuery.of(context).size.width > 560 ? 3 : 2,
@@ -211,8 +283,9 @@ class _MonthTrainingCard extends StatelessWidget {
                       '$day',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: isActive ? Colors.white : null,
-                        fontSize: 11,
-                        fontWeight: isActive ? FontWeight.w800 : FontWeight.w500,
+                        fontSize: 12,
+                        fontWeight:
+                            isActive ? FontWeight.w800 : FontWeight.w500,
                       ),
                     ),
                   );
@@ -267,6 +340,7 @@ class _WorkoutDaySection extends StatelessWidget {
   const _WorkoutDaySection({
     required this.day,
     required this.authorName,
+    this.authorAvatarUrl,
     required this.bodyWeightKg,
     required this.highlightColor,
     required this.appState,
@@ -274,6 +348,7 @@ class _WorkoutDaySection extends StatelessWidget {
 
   final _WorkoutDay day;
   final String authorName;
+  final String? authorAvatarUrl;
   final double bodyWeightKg;
   final Color highlightColor;
   final AppState appState;
@@ -308,9 +383,14 @@ class _WorkoutDaySection extends StatelessWidget {
               session: session,
               authorName: authorName,
               authorHandle: authorName.toLowerCase(),
+              authorAvatarUrl: authorAvatarUrl,
               highlightColor: highlightColor,
               estimatedCalories: CalorieEstimator.estimateWorkoutCalories(
                 session: session,
+                bodyWeightKg: bodyWeightKg,
+              ),
+              auraPoints: appState.auraPointsForSession(
+                session,
                 bodyWeightKg: bodyWeightKg,
               ),
               onTap: () async {

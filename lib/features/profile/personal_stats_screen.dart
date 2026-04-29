@@ -73,7 +73,8 @@ class PersonalStatsScreen extends StatelessWidget {
                     const SizedBox(height: 14),
                     _StatsGrid(stats: stats),
                     const SizedBox(height: 20),
-                    Text(strings.topExercise, style: theme.textTheme.titleLarge),
+                    Text(strings.topExercise,
+                        style: theme.textTheme.titleLarge),
                     const SizedBox(height: 12),
                     _ExerciseHighlightCard(
                       title: strings.topExercise,
