@@ -24,10 +24,13 @@ class HeartRateSample {
   }
 
   factory HeartRateSample.fromMap(Map<String, dynamic> map) {
+    final fallbackTime = DateTime.now().toUtc();
+    final parsedBpm = (map['bpm'] as num?)?.toInt() ?? 0;
     return HeartRateSample(
-      id: map['id'] as String,
-      bpm: map['bpm'] as int,
-      timestamp: DateTime.parse(map['timestamp'] as String),
+      id: (map['id'] as String?) ?? '',
+      bpm: parsedBpm.clamp(0, 250),
+      timestamp: DateTime.tryParse((map['timestamp'] as String?) ?? '') ??
+          fallbackTime,
       exerciseId: map['exerciseId'] as String?,
       source: map['source'] as String? ?? 'manual',
     );

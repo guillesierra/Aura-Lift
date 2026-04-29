@@ -5,6 +5,7 @@ class SocialProfile {
     required this.handle,
     this.avatarUrl,
     this.bio,
+    this.bodyWeightKg,
     this.followsMe = false,
   });
 
@@ -13,6 +14,7 @@ class SocialProfile {
   final String handle;
   final String? avatarUrl;
   final String? bio;
+  final double? bodyWeightKg;
   final bool followsMe;
 
   SocialProfile copyWith({
@@ -22,6 +24,8 @@ class SocialProfile {
     bool keepAvatarUrl = true,
     String? bio,
     bool keepBio = true,
+    double? bodyWeightKg,
+    bool keepBodyWeightKg = true,
     bool? followsMe,
   }) {
     return SocialProfile(
@@ -30,6 +34,8 @@ class SocialProfile {
       handle: handle ?? this.handle,
       avatarUrl: keepAvatarUrl ? (avatarUrl ?? this.avatarUrl) : null,
       bio: keepBio ? (bio ?? this.bio) : null,
+      bodyWeightKg:
+          keepBodyWeightKg ? (bodyWeightKg ?? this.bodyWeightKg) : null,
       followsMe: followsMe ?? this.followsMe,
     );
   }

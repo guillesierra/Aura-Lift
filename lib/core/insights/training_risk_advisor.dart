@@ -1,4 +1,5 @@
 import '../models/workout_session.dart';
+import '../localization/app_strings.dart';
 
 enum RecommendationSeverity {
   high,
@@ -24,7 +25,7 @@ class TrainingRiskAdvisor {
     required String languageCode,
     DateTime? now,
   }) {
-    final isEnglish = languageCode == 'en';
+    final strings = AppStrings.of(languageCode);
     final anchor = (now ?? DateTime.now()).toUtc();
     final recent = sessions
         .where((session) => !session.isActive)
@@ -39,9 +40,7 @@ class TrainingRiskAdvisor {
       return [
         TrainingRecommendation(
           severity: RecommendationSeverity.low,
-          message: isEnglish
-              ? 'Log at least three workouts to unlock personalized recommendations.'
-              : 'Registra al menos tres entrenos para desbloquear recomendaciones personalizadas.',
+          message: strings.minimumWorkoutsForRecommendations,
         ),
       ];
     }
@@ -81,9 +80,10 @@ class TrainingRiskAdvisor {
         recommendations.add(
           TrainingRecommendation(
             severity: RecommendationSeverity.high,
-            message: isEnglish
-                ? 'You are concentrating too much load on ${top.key} (${(ratio * 100).round()}% of recent sets). Add 1-2 sessions for antagonist muscles to reduce overuse risk.'
-                : 'Estas concentrando demasiada carga en ${top.key} (${(ratio * 100).round()}% de tus series recientes). Añade 1-2 sesiones de grupos antagonistas para reducir riesgo de sobreuso.',
+            message: strings.muscleLoadConcentrationWarning(
+              top.key,
+              (ratio * 100).round(),
+            ),
           ),
         );
       }
@@ -95,9 +95,9 @@ class TrainingRiskAdvisor {
       recommendations.add(
         TrainingRecommendation(
           severity: RecommendationSeverity.high,
-          message: isEnglish
-              ? 'High repeated stress detected on ${_jointName(topJoint.first.key, isEnglish)}. Consider reducing heavy volume 20-30% this week and prioritize mobility and technique work.'
-              : 'Se detecta estrés repetido alto en ${_jointName(topJoint.first.key, isEnglish)}. Considera bajar 20-30% el volumen pesado esta semana y priorizar movilidad y tecnica.',
+          message: strings.highJointStressWarning(
+            strings.jointName(topJoint.first.key),
+          ),
         ),
       );
     }
@@ -116,9 +116,7 @@ class TrainingRiskAdvisor {
       recommendations.add(
         TrainingRecommendation(
           severity: RecommendationSeverity.medium,
-          message: isEnglish
-              ? 'You are training on many consecutive days. Plan at least one full recovery day to improve adaptation and lower injury probability.'
-              : 'Estas entrenando muchos dias consecutivos. Programa al menos un dia completo de recuperacion para mejorar adaptacion y bajar probabilidad de lesion.',
+          message: strings.consecutiveDaysTrainingWarning,
         ),
       );
     }
@@ -127,9 +125,7 @@ class TrainingRiskAdvisor {
       recommendations.add(
         TrainingRecommendation(
           severity: RecommendationSeverity.low,
-          message: isEnglish
-              ? 'Your recent load looks balanced. Keep progressive overload moderate and include mobility before heavy compounds.'
-              : 'Tu carga reciente se ve equilibrada. Mantén una sobrecarga progresiva moderada e incluye movilidad antes de compuestos pesados.',
+          message: strings.balancedLoadMessage,
         ),
       );
     }
@@ -194,21 +190,6 @@ class TrainingRiskAdvisor {
       }
     }
     return false;
-  }
-
-  static String _jointName(String key, bool isEnglish) {
-    switch (key) {
-      case 'rodilla':
-        return isEnglish ? 'knee joint' : 'la rodilla';
-      case 'hombro':
-        return isEnglish ? 'shoulder joint' : 'el hombro';
-      case 'codo':
-        return isEnglish ? 'elbow joint' : 'el codo';
-      case 'lumbar':
-        return isEnglish ? 'lumbar zone' : 'la zona lumbar';
-      default:
-        return isEnglish ? 'a joint' : 'una articulacion';
-    }
   }
 
   static String _normalize(String value) {

@@ -39,7 +39,8 @@ class FriendProfileScreen extends StatelessWidget {
         final comparison = appState.compareWithProfile(profileId);
         final status = appState.connectionStatusFor(profileId);
         final currentYear = DateTime.now().year;
-        const estimatedFriendBodyWeight = 75.0;
+        final resolvedFriendBodyWeight =
+            profile.bodyWeightKg ?? appState.profile?.weightKg;
         final annualSessions = sessions
             .where((session) => session.startedAt.toLocal().year == currentYear)
             .toList(growable: false);
@@ -57,7 +58,7 @@ class FriendProfileScreen extends StatelessWidget {
               sum +
               appState.auraPointsForSession(
                 session,
-                bodyWeightKg: estimatedFriendBodyWeight,
+                bodyWeightKg: resolvedFriendBodyWeight,
               ),
         );
         final league = AuraLeagueSystem.fromAnnualPoints(annualAuraPoints);

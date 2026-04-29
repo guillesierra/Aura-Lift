@@ -133,21 +133,29 @@ class WorkoutSession {
   }
 
   factory WorkoutSession.fromMap(Map<String, dynamic> map) {
+    final fallbackTime = DateTime.now().toUtc();
     final rawExercises = map['exercises'] as List<dynamic>? ?? const [];
     final rawHeartRate = map['heartRateSamples'] as List<dynamic>? ?? const [];
     return WorkoutSession(
-      id: map['id'] as String,
+      id: (map['id'] as String?) ?? '',
       title: map['title'] as String? ?? 'Entrenamiento',
-      startedAt: DateTime.parse(map['startedAt'] as String),
+      startedAt: DateTime.tryParse((map['startedAt'] as String?) ?? '') ??
+          fallbackTime,
       endedAt: map['endedAt'] == null
           ? null
-          : DateTime.parse(map['endedAt'] as String),
+          : DateTime.tryParse((map['endedAt'] as String?) ?? ''),
       selectedExerciseId: map['selectedExerciseId'] as String?,
       exercises: rawExercises
-          .map((item) => SessionExercise.fromMap(item as Map<String, dynamic>))
+          .whereType<Map>()
+          .map(
+            (item) => SessionExercise.fromMap(Map<String, dynamic>.from(item)),
+          )
           .toList(growable: false),
       heartRateSamples: rawHeartRate
-          .map((item) => HeartRateSample.fromMap(item as Map<String, dynamic>))
+          .whereType<Map>()
+          .map(
+            (item) => HeartRateSample.fromMap(Map<String, dynamic>.from(item)),
+          )
           .toList(growable: false),
     );
   }

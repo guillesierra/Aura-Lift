@@ -276,6 +276,7 @@ class SocialSeed {
         handle: '@alexcosta',
         avatarUrl: 'https://i.pravatar.cc/200?img=24',
         bio: 'Push/Pull, progreso constante y tecnica limpia.',
+        bodyWeightKg: 82,
         followsMe: true,
       ),
       const SocialProfile(
@@ -284,6 +285,7 @@ class SocialSeed {
         handle: '@luciaromero',
         avatarUrl: 'https://i.pravatar.cc/200?img=47',
         bio: 'Pierna fuerte, movilidad y constancia semanal.',
+        bodyWeightKg: 61,
         followsMe: true,
       ),
       const SocialProfile(
@@ -292,6 +294,7 @@ class SocialSeed {
         handle: '@marcosvega',
         avatarUrl: 'https://i.pravatar.cc/200?img=31',
         bio: 'Hipertrofia de torso + cardio inteligente.',
+        bodyWeightKg: 76,
         followsMe: false,
       ),
       const SocialProfile(
@@ -300,6 +303,7 @@ class SocialSeed {
         handle: '@irenesolis',
         avatarUrl: 'https://i.pravatar.cc/200?img=63',
         bio: 'Fuerza y resistencia con enfoque en espalda.',
+        bodyWeightKg: 64,
         followsMe: true,
       ),
       const SocialProfile(
@@ -308,6 +312,7 @@ class SocialSeed {
         handle: '@diegomora',
         avatarUrl: 'https://i.pravatar.cc/200?img=58',
         bio: 'Entrenos full body y marcas personales.',
+        bodyWeightKg: 79,
         followsMe: false,
       ),
     ];
@@ -353,6 +358,7 @@ class SocialSeed {
           handle: '@$handle',
           avatarUrl: avatarPresets[(i + 3) % avatarPresets.length],
           bio: bios[i % bios.length],
+          bodyWeightKg: 58 + (i % 8) * 4,
           followsMe: i % 3 != 0,
         ),
       );

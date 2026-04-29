@@ -51,16 +51,21 @@ class SessionExercise {
   }
 
   factory SessionExercise.fromMap(Map<String, dynamic> map) {
+    final fallbackTime = DateTime.now().toUtc();
     final rawSets = map['sets'] as List<dynamic>? ?? const [];
     return SessionExercise(
-      id: map['id'] as String,
-      exerciseId: map['exerciseId'] as String,
-      exerciseName: map['exerciseName'] as String,
-      muscleGroup: map['muscleGroup'] as String,
-      orderIndex: map['orderIndex'] as int,
-      startedAt: DateTime.parse(map['startedAt'] as String),
+      id: (map['id'] as String?) ?? '',
+      exerciseId: (map['exerciseId'] as String?) ?? '',
+      exerciseName: (map['exerciseName'] as String?) ?? '',
+      muscleGroup: (map['muscleGroup'] as String?) ?? '',
+      orderIndex: (map['orderIndex'] as num?)?.toInt() ?? 0,
+      startedAt: DateTime.tryParse((map['startedAt'] as String?) ?? '') ??
+          fallbackTime,
       sets: rawSets
-          .map((item) => ExerciseSet.fromMap(item as Map<String, dynamic>))
+          .whereType<Map>()
+          .map(
+            (item) => ExerciseSet.fromMap(Map<String, dynamic>.from(item)),
+          )
           .toList(growable: false),
     );
   }

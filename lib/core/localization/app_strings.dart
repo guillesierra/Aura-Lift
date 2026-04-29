@@ -342,6 +342,10 @@ class AppStrings {
   String get exerciseName =>
       isEnglish ? 'Exercise name' : 'Nombre del ejercicio';
   String get muscleGroup => isEnglish ? 'Muscle group' : 'Grupo muscular';
+  String get allMuscleGroups =>
+      isEnglish ? 'All muscle groups' : 'Todos los grupos';
+  String get equipment => isEnglish ? 'Equipment' : 'Equipamiento';
+  String get allEquipment => isEnglish ? 'All equipment' : 'Todo';
   String get createExercise =>
       isEnglish ? 'Create exercise' : 'Crear ejercicio';
   String get measurementsTitle => isEnglish ? 'Measurements' : 'Medidas';
@@ -417,6 +421,93 @@ class AppStrings {
       : 'Aun no hay ejercicios compartidos.';
   String get youLabel => isEnglish ? 'You' : 'Tu';
   String get heSheLabel => isEnglish ? 'They' : 'El/Ella';
+
+  String get minimumWorkoutsForRecommendations => isEnglish
+      ? 'Log at least three workouts to unlock personalized recommendations.'
+      : 'Registra al menos tres entrenos para desbloquear recomendaciones personalizadas.';
+
+  String muscleLoadConcentrationWarning(String muscleGroup, int percentage) => isEnglish
+      ? 'You are concentrating too much load on $muscleGroup ($percentage% of recent sets). Add 1-2 sessions for antagonist muscles to reduce overuse risk.'
+      : 'Estas concentrando demasiada carga en $muscleGroup ($percentage% de tus series recientes). Añade 1-2 sesiones de grupos antagonistas para reducir riesgo de sobreuso.';
+
+  String highJointStressWarning(String localizedJointName) => isEnglish
+      ? 'High repeated stress detected on $localizedJointName. Consider reducing heavy volume 20-30% this week and prioritize mobility and technique work.'
+      : 'Se detecta estres repetido alto en $localizedJointName. Considera bajar 20-30% el volumen pesado esta semana y priorizar movilidad y tecnica.';
+
+  String get consecutiveDaysTrainingWarning => isEnglish
+      ? 'You are training on many consecutive days. Plan at least one full recovery day to improve adaptation and lower injury probability.'
+      : 'Estas entrenando muchos dias consecutivos. Programa al menos un dia completo de recuperacion para mejorar adaptacion y bajar probabilidad de lesion.';
+
+  String get balancedLoadMessage => isEnglish
+      ? 'Your recent load looks balanced. Keep progressive overload moderate and include mobility before heavy compounds.'
+      : 'Tu carga reciente se ve equilibrada. Manten una sobrecarga progresiva moderada e incluye movilidad antes de compuestos pesados.';
+
+  String get tipSquat => isEnglish
+      ? 'Keep your chest proud, brace your core, and track knees in line with your toes.'
+      : 'Pecho arriba, abdomen firme y rodillas siguiendo la linea de los pies.';
+  String get tipDeadlift => isEnglish
+      ? 'Start by bracing your core, keep the bar close, and drive with hips and legs together.'
+      : 'Activa el core, barra pegada al cuerpo y empuja con cadera y piernas a la vez.';
+  String get tipBenchPress => isEnglish
+      ? 'Retract your shoulder blades, keep feet planted, and lower the bar with control to mid chest.'
+      : 'Escapulas atras, pies firmes y baja la barra con control al centro del pecho.';
+  String get tipPulldown => isEnglish
+      ? 'Initiate with scapular depression, pull elbows down, and avoid swinging your torso.'
+      : 'Inicia bajando escapulas, lleva codos hacia abajo y evita balancear el torso.';
+  String get tipRow => isEnglish
+      ? 'Keep a neutral spine, pull with elbows, and pause briefly with shoulder blades squeezed.'
+      : 'Manten columna neutra, tira con codos y aprieta escapulas un instante al final.';
+  String get tipCurl => isEnglish
+      ? 'Keep elbows fixed near the torso, avoid momentum, and control the negative phase.'
+      : 'Codos pegados al torso, sin impulso y controla bien la fase de bajada.';
+  String get tipTriceps => isEnglish
+      ? 'Lock your upper arm position, extend fully without snapping, and return under control.'
+      : 'Fija el brazo, extiende completo sin bloquear brusco y vuelve con control.';
+  String get tipShoulders => isEnglish
+      ? 'Ribs down, glutes tight, and raise with control without shrugging your shoulders.'
+      : 'Costillas abajo, gluteo firme y eleva con control sin encoger los hombros.';
+  String get tipCore => isEnglish
+      ? 'Keep your pelvis neutral, breathe steadily, and prioritize tension over speed.'
+      : 'Manten pelvis neutra, respiracion estable y prioriza tension antes que velocidad.';
+  String get tipCardio => isEnglish
+      ? 'Stay tall, keep breathing rhythmically, and maintain a pace you can sustain with technique.'
+      : 'Postura alta, respiracion ritmica y un ritmo sostenible sin perder tecnica.';
+  String get tipFallbackChest => isEnglish
+      ? 'Control the eccentric phase and keep your shoulders packed to protect the joint.'
+      : 'Controla la bajada y manten hombros estables para proteger la articulacion.';
+  String get tipFallbackBack => isEnglish
+      ? 'Lead with elbows and keep your chest open to engage your back properly.'
+      : 'Guia con codos y manten el pecho abierto para activar bien la espalda.';
+  String get tipFallbackLegs => isEnglish
+      ? 'Use full range of motion and keep pressure balanced across your feet.'
+      : 'Usa rango completo y reparte la presion de forma equilibrada en los pies.';
+  String get tipFallbackShoulders => isEnglish
+      ? 'Stabilize the trunk first, then move with smooth, controlled repetitions.'
+      : 'Primero estabiliza el tronco y luego mueve con repeticiones fluidas y controladas.';
+  String get tipFallbackArms => isEnglish
+      ? 'Keep strict form and avoid compensating with your hips or lower back.'
+      : 'Tecnica estricta y evita compensar con cadera o zona lumbar.';
+  String get tipFallbackCore => isEnglish
+      ? 'Brace your midline and maintain diaphragmatic breathing through the set.'
+      : 'Activa la zona media y respira con control diafragmatico durante toda la serie.';
+  String get tipFallbackGeneric => isEnglish
+      ? 'Move with control, keep your posture aligned, and prioritize clean technique.'
+      : 'Mueve con control, postura alineada y prioriza una tecnica limpia.';
+
+  String jointName(String key) {
+    switch (key) {
+      case 'rodilla':
+        return isEnglish ? 'knee joint' : 'la rodilla';
+      case 'hombro':
+        return isEnglish ? 'shoulder joint' : 'el hombro';
+      case 'codo':
+        return isEnglish ? 'elbow joint' : 'el codo';
+      case 'lumbar':
+        return isEnglish ? 'lumbar zone' : 'la zona lumbar';
+      default:
+        return isEnglish ? 'a joint' : 'una articulacion';
+    }
+  }
 }
 
 extension ThemeModeLabel on ThemeMode {

@@ -46,11 +46,14 @@ class UserProfile {
   }
 
   factory UserProfile.fromMap(Map<String, dynamic> map) {
+    final now = DateTime.now().toUtc();
+    final createdAt = DateTime.tryParse((map['createdAt'] as String?) ?? '');
+    final updatedAt = DateTime.tryParse((map['updatedAt'] as String?) ?? '');
     return UserProfile(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      heightCm: (map['heightCm'] as num).toDouble(),
-      weightKg: (map['weightKg'] as num).toDouble(),
+      id: (map['id'] as String?) ?? '',
+      name: (map['name'] as String?) ?? '',
+      heightCm: (map['heightCm'] as num?)?.toDouble() ?? 170,
+      weightKg: (map['weightKg'] as num?)?.toDouble() ?? 70,
       bodyType: BodyType.values.firstWhere(
         (element) => element.name == map['bodyType'],
         orElse: () => BodyType.undefined,
@@ -59,8 +62,8 @@ class UserProfile {
       presentation: (map['presentation'] as String?) ?? '',
       city: (map['city'] as String?) ?? '',
       gym: (map['gym'] as String?) ?? '',
-      createdAt: DateTime.parse(map['createdAt'] as String),
-      updatedAt: DateTime.parse(map['updatedAt'] as String),
+      createdAt: createdAt ?? now,
+      updatedAt: updatedAt ?? now,
     );
   }
 

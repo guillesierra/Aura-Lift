@@ -21,11 +21,13 @@ class ExerciseSet {
   }
 
   factory ExerciseSet.fromMap(Map<String, dynamic> map) {
+    final fallbackTime = DateTime.now().toUtc();
     return ExerciseSet(
-      id: map['id'] as String,
-      reps: map['reps'] as int,
-      weightKg: (map['weightKg'] as num).toDouble(),
-      completedAt: DateTime.parse(map['completedAt'] as String),
+      id: (map['id'] as String?) ?? '',
+      reps: (map['reps'] as num?)?.toInt() ?? 0,
+      weightKg: (map['weightKg'] as num?)?.toDouble() ?? 0,
+      completedAt: DateTime.tryParse((map['completedAt'] as String?) ?? '') ??
+          fallbackTime,
     );
   }
 }
